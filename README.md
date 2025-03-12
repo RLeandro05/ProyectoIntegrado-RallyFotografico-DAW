@@ -20,7 +20,7 @@ Cabe destacar que toda decisión técnica realizada, deberá ser documentada dur
 
 ## Requisitos de implementación
 Para realizar de manera correcta el proyecto, se tendrán en cuenta los siguientes requisitos:
-  - <b>Tencologías</b>
+  - <b>Tecologías</b>
     - <b><i>Backend</i></b>: Tales como Node.js, Python, Java, PHP, etc.
     - <b><i>Frontend</i></b>: Tales como HTML, CSS, JavaScript y cualquier framework tanto de JS como de CSS. Queda excluído cualquier CMS o generadores automáticos de código.
     - <b><i>Bases de datos</i></b>: Tales como MySQL, PostgreSQL o MariaDB.
