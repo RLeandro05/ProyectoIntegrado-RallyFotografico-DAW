@@ -14,4 +14,4 @@ Para ello, se deberá realizar los siguientes puntos clave en la aplicación web
   - <b><i>Permitir la votación pública</i></b>
   - <b><i>Permitir la visualización de resultados</i></b>
 
-Además, para completar el proyecto, se necesitará el uso combinado de los conocimientos de "Programción", "Bases de Datos", "Diseño de Interfaces", "Desarrolllo Cliente-Servidor" y "Despliegue de Aplicaciones".
+Además, para completar el proyecto, se necesitará el uso combinado de los conocimientos de "<u>Programación</u>", "<u>Bases de Datos</u>", "<u>Diseño de Interfaces</u>", "<u>Desarrolllo Cliente-Servidor</u>" y "<u>Despliegue de Aplicaciones</u>".
