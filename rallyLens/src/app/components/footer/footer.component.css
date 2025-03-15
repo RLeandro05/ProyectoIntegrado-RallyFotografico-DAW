@@ -1,0 +1,38 @@
+/* Estilo global del footer */
+footer {
+    margin-top: 80px; /* Evitar solapamiento con el contenido anterior */
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* Títulos de las columnas */
+footer h5 {
+    font-family: 'Poppins', sans-serif;
+    color: #FE7058; /* Color temático */
+    font-weight: bold;
+}
+
+/* Enlaces útiles */
+footer a {
+    color: white;
+    transition: color 0.3s ease-in-out;
+}
+
+footer a:hover {
+    color: #FE7058; /* Cambiar al color temático al pasar el mouse */
+}
+
+/* Iconos de redes sociales */
+.social-icons i {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease-in-out;
+}
+
+.social-icons i:hover {
+    transform: scale(1.2); /* Efecto de escala al pasar el mouse */
+}
+
+/* Texto del copyright */
+footer p {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8); /* Color más suave para el texto */
+}

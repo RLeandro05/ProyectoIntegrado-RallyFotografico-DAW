@@ -1,0 +1,131 @@
+/* Margen superior para evitar solapamiento con el header */
+.hero-section {
+    margin-top: 80px; /* Altura de la cabecera */
+    position: relative;
+    width: 100%;
+    height: 400px; /* Altura de la sección */
+    overflow: hidden;
+}
+
+/* Imagen de fondo (paisaje) */
+.hero-background {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Asegura que la imagen cubra todo el espacio sin deformarse */
+}
+
+/* Estilo del carrusel */
+.carousel-item img {
+    height: 100%; /* Asegura que las imágenes del carrusel ocupen toda la altura */
+    object-fit: cover; /* Mantiene la proporción de las imágenes */
+}
+
+/* Estilo de los botones de navegación */
+.carousel-control-prev,
+.carousel-control-next {
+    margin-top: 170px;
+    width: auto; /* Ancho automático */
+    background-color: darkgray; /* Fondo semitransparente */
+    border-radius: 50%; /* Forma circular */
+    width: 50px; /* Ancho fijo */
+    height: 50px; /* Altura fija */
+    display: flex; /* Centrar el contenido */
+    align-items: center; /* Alineación vertical */
+    justify-content: center; /* Alineación horizontal */
+    color: white; /* Color del texto */
+    font-size: 24px; /* Tamaño del símbolo */
+    text-shadow: none; /* Eliminar sombra de texto */
+    transition: background-color 0.3s ease; /* Transición suave */
+}
+
+/* Hover en los botones */
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    background-color: black; /* Fondo más oscuro al pasar el mouse */
+}
+
+/* Posicionamiento de los botones */
+.carousel-control-prev {
+    left: 20px; /* Margen izquierdo */
+}
+
+.carousel-control-next {
+    right: 20px; /* Margen derecho */
+}
+
+/* Título debajo del carrusel */
+.carousel-title {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px 20px;
+    font-size: 1.5rem;
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Descripción de la temática */
+.theme-description {
+    margin-top: 40px;
+}
+
+/* Estilo del título principal */
+.theme-description h2 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Estilo del texto descriptivo */
+.theme-description p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #555;
+}
+
+/* Resaltado de palabras clave */
+.theme-description strong {
+    color: #FE7058; /* Color temático */
+    font-weight: bold;
+}
+
+/* Texto en cursiva */
+.theme-description em {
+    font-style: italic;
+    color: #777;
+}
+
+/* Botón destacado */
+.theme-description .btn-primary {
+    transition: transform 0.3s ease-in-out;
+}
+
+.theme-description .btn-primary:hover {
+    transform: scale(1.1);
+}
+
+/* Sección de reglas */
+.rules-section {
+    margin-top: 40px;
+}
+
+.rules-list {
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.rules-list li {
+    margin-bottom: 10px;
+}
+
+/* Botón de registro */
+.btn-primary {
+    transition: transform 0.3s ease-in-out;
+}
+
+.btn-primary:hover {
+    transform: scale(1.1);
+}
