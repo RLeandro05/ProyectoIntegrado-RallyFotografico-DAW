@@ -1,0 +1,65 @@
+<header class="bg-dark text-white py-3 border-bottom" style="border-color: #FE7058;">
+    <!-- Usamos container-fluid para ocupar todo el ancho -->
+    <div class="container-fluid">
+        <div class="d-flex align-items-center">
+            <!-- Logo a la izquierda con margen izquierdo -->
+            <div class="logo ms-3">
+                <img src="/assets/logoCabecera.png" alt="Logo de la página" height="60" class="logo-hover">
+            </div>
+
+            <!-- Menú centrado (visible en pantallas grandes) -->
+            <nav class="menu flex-grow-1 d-none d-md-flex justify-content-center" style="margin-right: 80px; font-size: 1em;">
+                <ul class="list-unstyled d-flex gap-3 mb-0">
+                    <li>
+                        <a routerLink="/inicio" class="text-white text-decoration-none menu-link border border-danger px-3 py-1 rounded-pill" style="border-color: #FE7058 !important;">
+                            Inicio
+                        </a>
+                    </li>
+                    <li>
+                        <a routerLink="/galeria" class="text-white text-decoration-none menu-link border border-danger px-3 py-1 rounded-pill" style="border-color: #FE7058 !important;">
+                            Galería
+                        </a>
+                    </li>
+                    <li>
+                        <a routerLink="/ranking" class="text-white text-decoration-none menu-link border border-danger px-3 py-1 rounded-pill" style="border-color: #FE7058 !important;">
+                            Ranking
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Botón Registrarse a la derecha (visible en pantallas grandes) -->
+            <div class="me-3 d-none d-md-block">
+                <button class="btn btn-register" style="background-color: #FE7058; color: white;">
+                    Registrarse
+                </button>
+            </div>
+
+            <!-- Botón del menú lateral (visible en pantallas pequeñas) -->
+            <button class="btn btn-outline-light d-md-none ms-auto" type="button" (click)="toggleMenu()">
+                ☰
+            </button>
+        </div>
+    </div>
+
+    <!-- Menú lateral -->
+    <div class="sidebar bg-dark text-white" [class.open]="isMenuOpen">
+        <button class="btn-close-menu btn btn-outline-light" (click)="toggleMenu()">×</button>
+        <ul class="list-unstyled p-3">
+            <li class="mb-2">
+                <a routerLink="/inicio" class="text-white text-decoration-none">Inicio</a>
+            </li>
+            <li class="mb-2">
+                <a routerLink="/galeria" class="text-white text-decoration-none">Galería</a>
+            </li>
+            <li class="mb-2">
+                <a routerLink="/ranking" class="text-white text-decoration-none">Ranking</a>
+            </li>
+            <li>
+                <button class="btn btn-register w-100 mt-3" style="background-color: #FE7058; color: white;">
+                    Registrarse
+                </button>
+            </li>
+        </ul>
+    </div>
+</header>

@@ -1,0 +1,70 @@
+/* Estilo del botón del menú */
+.btn-outline-light {
+    font-size: 1.5rem;
+    padding: 0.25rem 0.5rem;
+}
+
+/* Estilo del menú lateral */
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: -300px; /* Ocultar el menú fuera de la pantalla */
+    width: 300px;
+    height: 100%;
+    background-color: #333;
+    transition: right 0.3s ease-in-out;
+    z-index: 1000;
+    box-shadow: -4px 0 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Mostrar el menú lateral cuando está abierto */
+.sidebar.open {
+    right: 0;
+}
+
+/* Botón para cerrar el menú */
+.btn-close-menu {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5rem;
+    padding: 0.25rem 0.5rem;
+}
+
+/* Efecto hover en el logo */
+.logo-hover {
+    transition: transform 0.3s ease-in-out;
+}
+
+.logo-hover:hover {
+    transform: scale(1.1) rotate(5deg); /* Aumenta tamaño y rota 5 grados */
+}
+
+/* Efecto hover en los enlaces del menú */
+.menu-link {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.menu-link:hover {
+    background-color: #FE7058; /* Color temático */
+    color: white !important; /* Texto blanco */
+}
+
+/* Efecto hover en el botón "Registrarse" */
+.btn-register {
+    transition: transform 0.3s ease-in-out;
+}
+
+.btn-register:hover {
+    animation: bounce 0.5s ease; /* Animación de bote */
+}
+
+/* Animación de bote */
+@keyframes bounce {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2); /* Aumenta tamaño temporalmente */
+    }
+}
