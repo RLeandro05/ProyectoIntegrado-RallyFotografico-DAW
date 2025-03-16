@@ -49,6 +49,7 @@ header {
 
 .logo-hover:hover {
     transform: scale(1.1) rotate(5deg); /* Aumenta tamaño y rota 5 grados */
+    cursor: pointer;
 }
 
 /* Efecto hover en los enlaces del menú */
@@ -62,11 +63,11 @@ header {
 }
 
 /* Efecto hover en el botón "Registrarse" */
-.btn-register {
+.btn-register, .btn-login {
     transition: transform 0.3s ease-in-out;
 }
 
-.btn-register:hover {
+.btn-register:hover, .btn-login:hover {
     animation: bounce 0.5s ease; /* Animación de bote */
 }
 
