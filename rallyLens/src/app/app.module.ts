@@ -9,7 +9,6 @@ import { FooterComponent } from './components/footer/footer.component';
 import { RegisterUserComponent } from './components/register-user/register-user.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginUserComponent } from './components/login-user/login-user.component';
-import { LoginAdminComponent } from './components/login-admin/login-admin.component';
 
 @NgModule({
   declarations: [
@@ -18,8 +17,7 @@ import { LoginAdminComponent } from './components/login-admin/login-admin.compon
     HomeComponent,
     FooterComponent,
     RegisterUserComponent,
-    LoginUserComponent,
-    LoginAdminComponent
+    LoginUserComponent
   ],
   imports: [
     BrowserModule,

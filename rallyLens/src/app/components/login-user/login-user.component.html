@@ -1,1 +1,40 @@
-<p>login-user works!</p>
+<div class="container-fluid" style="background-image: url('/assets/fondoRegisterUser.jpg'); background-size: cover; background-position: center; height: 100%;">
+  <div class="row justify-content-center align-items-center" style="min-height: 100vh; margin-top: 50px;">
+    <div class="col-md-6">
+      <div class="card shadow-lg border-0" style="background-color: rgba(255, 255, 255, 0.8);">
+        <div class="card-header text-center text-white" style="background-color: rgba(254, 112, 88, 0.8);">
+          <h2>{{ isAdminLoginVisible ? 'Iniciar Sesión como Admin' : 'Iniciar Sesión' }}</h2>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="isAdminLoginVisible ? adminLoginForm : loginForm" (ngSubmit)="isAdminLoginVisible ? onAdminSubmit() : onSubmit()">
+            <div class="mb-3">
+              <label for="email" class="form-label"><b>Correo Electrónico:</b></label>
+              <input id="email" formControlName="email" type="email" class="form-control" required />
+              <div *ngIf="(isAdminLoginVisible ? adminLoginForm : loginForm).get('email')?.invalid && (isAdminLoginVisible ? adminLoginForm : loginForm).get('email')?.touched" class="text-danger">
+                Ingrese un correo válido.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label"><b>Contraseña:</b></label>
+              <input id="password" formControlName="password" type="password" class="form-control" required />
+              <div *ngIf="(isAdminLoginVisible ? adminLoginForm : loginForm).get('password')?.invalid && (isAdminLoginVisible ? adminLoginForm : loginForm).get('password')?.touched" class="text-danger">
+                La contraseña debe tener al menos 6 caracteres.
+              </div>
+            </div>
+
+            <button type="submit" class="btn w-100 text-white" style="background-color: #FE7058;" [disabled]="(isAdminLoginVisible ? adminLoginForm : loginForm).invalid">
+              Iniciar Sesión
+            </button>
+          </form>
+
+          <div class="text-center mt-3">
+            <button (click)="toggleLoginType()" class="btn text-white" style="background-color: #FE7058;">
+              {{ isAdminLoginVisible ? 'Iniciar Sesión como Participante' : 'Iniciar Sesión como Admin' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
