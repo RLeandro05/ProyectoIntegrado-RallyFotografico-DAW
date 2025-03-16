@@ -1,14 +1,14 @@
-<div class="container mt-5">
-    <div class="row justify-content-center">
+<div class="container-fluid" style="background-image: url('/assets/fondoRegisterUser.jpg'); background-size: cover; background-position: center; height: 100%;">
+    <div class="row justify-content-center align-items-center" style="min-height: 100vh;">
       <div class="col-md-6">
-        <div class="card shadow-lg border-0">
-          <div class="card-header text-center text-white" style="background-color: #FE7058;">
-            <h2>Registro de Usuario</h2>
+        <div class="card shadow-lg border-0" style="background-color: rgba(255, 255, 255, 0.8);">
+          <div class="card-header text-center text-white" style="background-color: rgba(254, 112, 88, 0.8);">
+            <h2>Únete como Participante</h2>
           </div>
           <div class="card-body">
             <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
               <div class="mb-3">
-                <label for="name" class="form-label">Nombre:</label>
+                <label for="name" class="form-label"><b>Nombre:</b></label>
                 <input id="name" formControlName="name" type="text" class="form-control" required />
                 <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched" class="text-danger">
                   El nombre es obligatorio.
@@ -16,7 +16,7 @@
               </div>
   
               <div class="mb-3">
-                <label for="lastname" class="form-label">Apellidos:</label>
+                <label for="lastname" class="form-label"><b>Apellidos:</b></label>
                 <input id="lastname" formControlName="lastname" type="text" class="form-control" required />
                 <div *ngIf="registerForm.get('lastname')?.invalid && registerForm.get('lastname')?.touched" class="text-danger">
                   Los apellidos son obligatorios.
@@ -24,7 +24,7 @@
               </div>
   
               <div class="mb-3">
-                <label for="phone" class="form-label">Teléfono:</label>
+                <label for="phone" class="form-label"><b>Teléfono:</b></label>
                 <input id="phone" formControlName="phone" type="tel" class="form-control" required />
                 <div *ngIf="registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched" class="text-danger">
                   Ingrese un número de teléfono válido.
@@ -32,7 +32,7 @@
               </div>
   
               <div class="mb-3">
-                <label for="email" class="form-label">Correo Electrónico:</label>
+                <label for="email" class="form-label"><b>Correo Electrónico:</b></label>
                 <input id="email" formControlName="email" type="email" class="form-control" required />
                 <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="text-danger">
                   Ingrese un correo válido.
@@ -40,7 +40,7 @@
               </div>
   
               <div class="mb-3">
-                <label for="password" class="form-label">Contraseña:</label>
+                <label for="password" class="form-label"><b>Contraseña:</b></label>
                 <input id="password" formControlName="password" type="password" class="form-control" required />
                 <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="text-danger">
                   La contraseña debe tener al menos 6 caracteres.

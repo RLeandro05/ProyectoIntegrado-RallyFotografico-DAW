@@ -1,6 +1,5 @@
 /* Estilo global del footer */
 footer {
-    margin-top: 80px; /* Evitar solapamiento con el contenido anterior */
     font-family: 'Open Sans', sans-serif;
 }
 
