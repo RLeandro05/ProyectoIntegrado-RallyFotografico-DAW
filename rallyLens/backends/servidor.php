@@ -25,6 +25,9 @@ if ($objeto != null) {
 		case "listarParticipantes":
 			print json_encode(listadoParticipantes());
 			break;
+		case "registrarParticipante":
+			registrarParticipante($objeto);
+			break;
 	}
 }
 
@@ -70,23 +73,25 @@ function listadoParticipantes()
 	}
 }
 
-
-
-
-
-
-function insertarPersona($objeto)
+//Función para registrar un nuevo participante
+function registrarParticipante($objeto)
 {
 	global $conn;
 	try {
-		$sql = "INSERT INTO personas(DNI, NOMBRE, APELLIDOS) VALUES (?, ?, ?)";
+		$listadoParticipante =  listadoParticipantes();
+
+		foreach ($listadoParticipante as $participante) {
+			echo $participante;
+		}
+
+		/*$sql = "INSERT INTO personas(DNI, NOMBRE, APELLIDOS) VALUES (?, ?, ?)";
 		$conn->prepare($sql)->execute(
 			array(
 				$objeto->dni,
 				$objeto->nombre,
 				$objeto->apellidos
 			)
-		);
+		);*/
 		return true;
 	} catch (Exception $e) {
 		die($e->getMessage());
