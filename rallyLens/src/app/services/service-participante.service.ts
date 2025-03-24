@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
+import { Participante } from '../modules/participante';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,6 @@ export class ServiceParticipanteService {
     let cuerpo = {
       servicio: "listarParticipantes"
     };
-    return this.http.post<any>(this.url, cuerpo);
+    return this.http.post<Participante>(this.url, cuerpo);
   }
 }

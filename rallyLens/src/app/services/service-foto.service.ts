@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
+import { Foto } from '../modules/foto';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,6 @@ export class ServiceFotoService {
     let cuerpo = {
       servicio: "listarFotos"
     };
-    return this.http.post<any>(this.url, cuerpo);
+    return this.http.post<Foto>(this.url, cuerpo);
   }
 }
