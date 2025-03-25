@@ -1,188 +1,185 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-header('Access-Control-Allow-Credentials: true');
+header("Access-Control-Allow-Credentials: true");
 header("Access-Control-Allow-Methods: GET,HEAD,OPTIONS,POST,PUT");
 header("Access-Control-Allow-Headers: Access-Control-Allow-Headers, Origin, X-Requested-With, Content-Type, Accept, Authorization");
+header("Content-Type: application/json; charset=utf-8");
 
-header('Content-Type: application/json');
-//include("conexion.php");
-$conn = Conectar2("rallyfotografico", "root", "");
+// Configuración de errores (solo para desarrollo)
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
+// Conexión a la base de datos
+$conn = conectar2("rallyfotografico", "root", "");
+
+// Manejo de preflight request (CORS)
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+
+// Obtener y decodificar los datos de entrada
 $datos = file_get_contents('php://input');
 $objeto = json_decode($datos);
 
-//$objeto = new stdClass();
-//$objeto->servicio = "listarParticipantes";
-
-if ($objeto != null) {
-	switch ($objeto->servicio) {
-		case "listarAdmins":
-			print json_encode(listadoAdmins());
-			break;
-		case "listarFotos":
-			print json_encode(listadoFotos());
-			break;
-		case "listarParticipantes":
-			print json_encode(listadoParticipantes());
-			break;
-		case "registrarParticipante":
-			registrarParticipante($objeto);
-			break;
-	}
+// Verificar si hay datos y si el servicio está especificado
+if ($objeto !== null && isset($objeto->servicio)) {
+    switch ($objeto->servicio) {
+        case "listarAdmins":
+            echo json_encode(listadoAdmins());
+            break;
+        case "listarFotos":
+            echo json_encode(listadoFotos());
+            break;
+        case "listarParticipantes":
+            echo json_encode(listadoParticipantes());
+            break;
+        case "registrarParticipante":
+            echo json_encode(registrarParticipante($objeto));
+            break;
+        default:
+            echo json_encode(["error" => "Servicio no válido", "servicios_validos" => [
+                "listarAdmins", "listarFotos", "listarParticipantes", "registrarParticipante"
+            ]]);
+            break;
+    }
+} else {
+    echo json_encode([
+        "error" => "Solicitud incorrecta",
+        "detalle" => "Debe incluir el campo 'servicio' en el JSON",
+        "ejemplo" => [
+            "servicio" => "registrarParticipante",
+            "participante" => [
+                "nombre" => "Ejemplo",
+                "apellidos" => "Apellido",
+                "correo" => "ejemplo@mail.com",
+                "password" => "contraseña"
+            ]
+        ]
+    ]);
 }
 
-//Función para listar administradores
-function listadoAdmins()
-{
-	global $conn;
-	try {
-		$sc = "Select id, nombre, apellidos, telefono, correo, password From administrador Order By id";
-		$stm = $conn->prepare($sc);
-		$stm->execute();
-		return ($stm->fetchAll(PDO::FETCH_ASSOC));
-	} catch (Exception $e) {
-		die($e->getMessage());
-	}
+// Función para listar administradores
+function listadoAdmins() {
+    global $conn;
+    try {
+        $sc = "SELECT id, nombre, apellidos, telefono, correo FROM administrador ORDER BY id";
+        $stm = $conn->prepare($sc);
+        $stm->execute();
+        return ["success" => true, "data" => $stm->fetchAll(PDO::FETCH_ASSOC)];
+    } catch (Exception $e) {
+        return ["error" => $e->getMessage(), "codigo" => $e->getCode()];
+    }
 }
 
-//Función para listar fotografías
-function listadoFotos()
-{
-	global $conn;
-	try {
-		$sc = "select id, id_administrador, id_participante, estado, votos, fec_mod From fotografia Order by id";
-		$stm = $conn->prepare($sc);
-		$stm->execute();
-		return ($stm->fetchAll(PDO::FETCH_ASSOC));
-	} catch (Exception $e) {
-		die($e->getMessage());
-	}
+// Función para listar fotografías
+function listadoFotos() {
+    global $conn;
+    try {
+        $sc = "SELECT id, id_administrador, id_participante, estado, votos, fec_mod FROM fotografia ORDER BY id";
+        $stm = $conn->prepare($sc);
+        $stm->execute();
+        return ["success" => true, "data" => $stm->fetchAll(PDO::FETCH_ASSOC)];
+    } catch (Exception $e) {
+        return ["error" => $e->getMessage(), "codigo" => $e->getCode()];
+    }
 }
 
-//Función para listar participantes
-function listadoParticipantes()
-{
-	global $conn;
-	try {
-		$sc = "Select id, nombre, apellidos, telefono, correo, password From participante Order By id";
-		$stm = $conn->prepare($sc);
-		$stm->execute();
-		return ($stm->fetchAll(PDO::FETCH_ASSOC));
-	} catch (Exception $e) {
-		die($e->getMessage());
-	}
+// Función para listar participantes
+function listadoParticipantes() {
+    global $conn;
+    try {
+        $sc = "SELECT id, nombre, apellidos, telefono, correo FROM participante ORDER BY id";
+        $stm = $conn->prepare($sc);
+        $stm->execute();
+        return ["success" => true, "data" => $stm->fetchAll(PDO::FETCH_ASSOC)];
+    } catch (Exception $e) {
+        return ["error" => $e->getMessage(), "codigo" => $e->getCode()];
+    }
 }
 
-//Función para registrar un nuevo participante
-function registrarParticipante($objeto)
-{
-	global $conn;
-	try {
-		$listadoParticipante =  listadoParticipantes();
-
-		foreach ($listadoParticipante as $participante) {
-			echo $participante;
-		}
-
-		/*$sql = "INSERT INTO personas(DNI, NOMBRE, APELLIDOS) VALUES (?, ?, ?)";
-		$conn->prepare($sql)->execute(
-			array(
-				$objeto->dni,
-				$objeto->nombre,
-				$objeto->apellidos
-			)
-		);*/
-		return true;
-	} catch (Exception $e) {
-		die($e->getMessage());
-		return false;
-	}
+// Función para registrar un nuevo participante
+function registrarParticipante($objeto) {
+    global $conn;
+    
+    // Validar estructura básica
+    if (!isset($objeto->participante)) {
+        return ["error" => "Estructura incorrecta", "detalle" => "Falta el objeto 'participante'"];
+    }
+    
+    $p = $objeto->participante;
+    
+    // Validar campos obligatorios
+    $camposRequeridos = ['nombre', 'apellidos', 'correo', 'password'];
+    $faltantes = [];
+    
+    foreach ($camposRequeridos as $campo) {
+        if (!isset($p->$campo) || empty(trim($p->$campo))) {
+            $faltantes[] = $campo;
+        }
+    }
+    
+    if (!empty($faltantes)) {
+        return ["error" => "Campos requeridos faltantes", "campos_faltantes" => $faltantes];
+    }
+    
+    try {
+        // Verificar si el correo ya existe
+        $stmt = $conn->prepare("SELECT id FROM participante WHERE correo = ?");
+        $stmt->execute([$p->correo]);
+        
+        if ($stmt->fetch()) {
+            return ["error" => "El correo electrónico ya está registrado"];
+        }
+        
+        // Insertar nuevo participante
+        $sql = "INSERT INTO participante (nombre, apellidos, telefono, correo, password) 
+                VALUES (?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        
+        $telefono = isset($p->telefono) ? $p->telefono : null;
+        
+        $stmt->execute([
+            htmlspecialchars(strip_tags($p->nombre)),
+            htmlspecialchars(strip_tags($p->apellidos)),
+            htmlspecialchars(strip_tags($telefono)),
+            $p->correo,
+            password_hash($p->password, PASSWORD_BCRYPT)
+        ]);
+        
+        // Obtener ID del nuevo participante
+        $nuevoId = $conn->lastInsertId();
+        
+        return [
+            "success" => true,
+            "message" => "Participante registrado exitosamente",
+            "id" => $nuevoId
+        ];
+        
+    } catch (PDOException $e) {
+        return ["error" => "Error en la base de datos", "detalle" => $e->getMessage()];
+    }
 }
 
-function borrarPersona($id)
-{
-	global $conn;
-	try {
-		$sql = "Delete From personas Where ID = ?";
-		$conn->prepare($sql)->execute(array($id));
-		return true;
-	} catch (Exception $e) {
-		die($e->getMessage());
-		return false;
-	}
-}
-
-function modificarPersona($objeto)
-{
-	global $conn;
-	try {
-		$sql = "UPDATE personas SET 
-							dni				= ?,
-							nombre		= ?, 
-							apellidos	= ?
-						WHERE ID = ?";
-		$conn->prepare($sql)->execute(
-			array(
-				$objeto->dni,
-				$objeto->nombre,
-				$objeto->apellidos,
-				$objeto->id
-			)
-		);
-		return true;
-	} catch (Exception $e) {
-		die($e->getMessage());
-		return false;
-	}
-}
-
-function selPersonaID($id)
-{
-	global $conn;
-	try {
-		$sc = "Select dni, nombre, apellidos From personas Where ID = ?";
-		$stm = $conn->prepare($sc);
-		$stm->execute(array($id));
-		return ($stm->fetch(PDO::FETCH_ASSOC));
-	} catch (Exception $e) {
-		die($e->getMessage());
-	}
-}
-
-function Conectar($bd, $usuario, $clave)
-{
-	$conn = null;
-	try {
-		//  NOS CONECTAMOS (y seleccionamos la bd):
-		$conn = new PDO('mysql:host=localhost;dbname=' . $bd, $usuario, $clave);
-	} catch (PDOException $e) {
-		print "¡Error!: " . $e->getMessage() . "<br/>";
-	}
-	return $conn;
-}
-
-
-function conectar2($bd, $usuario, $clave)
-{
-	try {
-		$opciones = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8");
-		@$bd = new PDO('mysql:host=localhost;dbname=' . $bd, $usuario, $clave, $opciones);
-		$bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); //aquí le digo que voy a utilizar excepciones
-		return $bd;
-	} catch (PDOException $e) {
-		echo ("No se ha podido conectar a la base de datos. Código de error: " . $e->getMessage());
-	}
-}
-
-
-/*funciones de conexión*/
-function Consulta($conn, $sc)
-{
-	$rs = null;
-	try {
-		$rs = $conn->query($sc);
-	} catch (PDOException $e) {
-		print "¡Error!: " . $e->getMessage() . "<br/>";
-	}
-	return $rs;
+// Función para conectar a la base de datos
+function conectar2($bd, $usuario, $clave) {
+    try {
+        $opciones = [
+            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+        ];
+        
+        $dsn = 'mysql:host=localhost;dbname=' . $bd . ';charset=utf8';
+        $conexion = new PDO($dsn, $usuario, $clave, $opciones);
+        
+        return $conexion;
+    } catch (PDOException $e) {
+        http_response_code(500);
+        die(json_encode([
+            "error" => "Error de conexión a la base de datos",
+            "detalle" => $e->getMessage()
+        ]));
+    }
 }
