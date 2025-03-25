@@ -1,0 +1,71 @@
+<!-- Perfil de Usuario -->
+<section class="profile-section bg-light py-5">
+    <div class="container">
+        <!-- Contenedor principal del perfil -->
+        <div class="profile-container bg-white p-4 rounded shadow-sm">
+            <div class="row align-items-center">
+                <!-- Foto de perfil -->
+                <div class="col-md-4 text-center">
+                    <div class="profile-picture-container mb-3">
+                        <img src="/assets/imagenPrincipal2.jpeg" alt="Foto de perfil" class="img-fluid rounded-circle profile-picture" style="width: 150px; height: 150px; object-fit: cover;">
+                    </div>
+                    <button class="btn btn-sm btn-outline-secondary" style="border-color: #FE7058; color: #FE7058;">
+                        <i class="bi bi-gear-fill"></i> Editar perfil
+                    </button>
+                </div>
+                
+                <!-- Información del usuario -->
+                <div class="col-md-8">
+                    <div class="user-info">
+                        <div class="mb-3">
+                            <h4 class="mb-1" style="color: #333;">Nombre y Apellidos</h4>
+                            <p class="text-muted mb-0">Ejemplo con Apellidos</p>
+                        </div>
+                        <div class="mb-3">
+                            <h4 class="mb-1" style="color: #333;">Correo Electrónico</h4>
+                            <p class="text-muted mb-0">ejemplo.correo&#64;example.com</p>
+                        </div>
+                        <div class="mb-3">
+                            <h4 class="mb-1" style="color: #333;">Teléfono</h4>
+                            <p class="text-muted mb-0">+34 612 345 678</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sección de fotografías subidas -->
+        <div class="mt-5">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="mb-0" style="color: #333;">Fotografías subidas</h2>
+            </div>
+            
+            <!-- Línea divisoria -->
+            <hr class="mt-0 mb-4" style="border-top: 2px solid #FE7058; opacity: 0.7;">
+            
+            <!-- Galería de fotos -->
+            <div class="row g-4">
+                <!-- Ejemplo de foto subida -->
+                <div class="col-md-4 col-sm-6">
+                    <div class="photo-card position-relative">
+                        <img src="/assets/imagenPrincipal2.jpeg" alt="Foto subida" class="img-fluid rounded">
+                        <div class="photo-actions mt-2 d-flex justify-content-between">
+                            <button class="btn btn-sm btn-outline-secondary">Editar</button>
+                            <button class="btn btn-sm btn-outline-danger">Eliminar</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Botón circular para añadir foto -->
+                <div class="col-md-4 col-sm-6">
+                    <div class="add-photo-container position-relative" style="min-height: 200px;">
+                        <button class="btn btn-primary rounded-circle add-photo-btn" 
+                                style="width: 60px; height: 60px; position: absolute; top: 65%; left: 50%; transform: translate(-50%, -50%); background-color: #FE7058; border: none;">
+                            <i class="bi bi-plus fs-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,104 @@
+/* Estilos para la sección de perfil */
+.profile-container {
+    border: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+    margin-top: 80px;
+}
+
+.profile-container:hover {
+    box-shadow: 0 5px 15px rgba(254, 112, 88, 0.1);
+}
+
+.profile-picture {
+    border: 3px solid #FE7058;
+    transition: transform 0.3s ease;
+}
+
+.profile-picture:hover {
+    transform: scale(1.05);
+}
+
+.user-info h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* Botón Editar Perfil (bajo la foto) */
+.profile-picture-container + .btn-outline-secondary {
+    border-color: #FE7058;
+    color: #FE7058;
+    transition: all 0.3s ease;
+}
+
+.profile-picture-container + .btn-outline-secondary:hover {
+    background-color: #FE7058;
+    color: white !important;
+    border-color: #FE7058;
+}
+
+/* Botones en las tarjetas de foto */
+.photo-actions .btn-outline-secondary {
+    border-color: #6c757d;
+    color: #6c757d;
+}
+
+.photo-actions .btn-outline-secondary:hover {
+    background-color: #212529;
+    color: white !important;
+    border-color: #212529;
+}
+
+.photo-actions .btn-outline-danger {
+    border-color: #dc3545;
+    color: #dc3545;
+}
+
+.photo-actions .btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+.photo-card {
+    transition: transform 0.3s ease;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    height: 100%;
+}
+
+.photo-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.add-photo-container {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.add-photo-btn {
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(254, 112, 88, 0.3);
+}
+
+.add-photo-btn:hover {
+    transform: scale(1.1) translate(-50%, -50%);
+    box-shadow: 0 6px 12px rgba(254, 112, 88, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .profile-container .row {
+        flex-direction: column;
+    }
+    
+    .user-info {
+        margin-top: 20px;
+        text-align: center;
+    }
+    
+    .add-photo-container {
+        min-height: 150px;
+    }
+}

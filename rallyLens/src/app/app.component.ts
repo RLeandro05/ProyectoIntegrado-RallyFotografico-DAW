@@ -15,17 +15,15 @@ export class AppComponent {
     this.scrollTopBtn = document.getElementById('scrollTopBtn');
   }
 
-  // Mostrar u ocultar el botón al hacer scroll
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
-    if (window.scrollY > 200 && this.scrollTopBtn) {
+    if (window.scrollY > 50 && this.scrollTopBtn) {
       this.scrollTopBtn.style.display = 'block';
     } else if (this.scrollTopBtn) {
       this.scrollTopBtn.style.display = 'none';
     }
   }
 
-  // Función para hacer scroll hacia arriba
   scrollToTop(): void {
     window.scrollTo({
       top: 0,

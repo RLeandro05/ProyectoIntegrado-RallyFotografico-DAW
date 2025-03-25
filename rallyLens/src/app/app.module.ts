@@ -11,6 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoginUserComponent } from './components/login-user/login-user.component';
 
 import { HttpClientModule } from '@angular/common/http';
+import { PerfilParticipanteComponent } from './components/perfil-participante/perfil-participante.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { HttpClientModule } from '@angular/common/http';
     HomeComponent,
     FooterComponent,
     RegisterUserComponent,
-    LoginUserComponent
+    LoginUserComponent,
+    PerfilParticipanteComponent
   ],
   imports: [
     BrowserModule,
