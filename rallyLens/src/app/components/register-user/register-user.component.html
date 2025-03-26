@@ -8,33 +8,33 @@
           <div class="card-body">
             <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
               <div class="mb-3">
-                <label for="name" class="form-label"><b>Nombre:</b></label>
-                <input id="name" formControlName="name" type="text" class="form-control" required />
-                <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched" class="text-danger">
+                <label for="nombre" class="form-label"><b>Nombre:</b></label>
+                <input id="nombre" formControlName="nombre" type="text" class="form-control" required />
+                <div *ngIf="registerForm.get('nombre')?.invalid && registerForm.get('nombre')?.touched" class="text-danger">
                   El nombre es obligatorio.
                 </div>
               </div>
   
               <div class="mb-3">
-                <label for="lastname" class="form-label"><b>Apellidos:</b></label>
-                <input id="lastname" formControlName="lastname" type="text" class="form-control" required />
-                <div *ngIf="registerForm.get('lastname')?.invalid && registerForm.get('lastname')?.touched" class="text-danger">
+                <label for="apellidos" class="form-label"><b>Apellidos:</b></label>
+                <input id="lastnapellidosame" formControlName="apellidos" type="text" class="form-control" required />
+                <div *ngIf="registerForm.get('apellidos')?.invalid && registerForm.get('apellidos')?.touched" class="text-danger">
                   Los apellidos son obligatorios.
                 </div>
               </div>
   
               <div class="mb-3">
-                <label for="phone" class="form-label"><b>Teléfono:</b></label>
-                <input id="phone" formControlName="phone" type="tel" class="form-control" required />
-                <div *ngIf="registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched" class="text-danger">
+                <label for="telefono" class="form-label"><b>Teléfono:</b></label>
+                <input id="telefono" formControlName="telefono" type="tel" class="form-control" required />
+                <div *ngIf="registerForm.get('telefono')?.invalid && registerForm.get('telefono')?.touched" class="text-danger">
                   Ingrese un número de teléfono válido.
                 </div>
               </div>
   
               <div class="mb-3">
-                <label for="email" class="form-label"><b>Correo Electrónico:</b></label>
-                <input id="email" formControlName="email" type="email" class="form-control" required />
-                <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="text-danger">
+                <label for="correo" class="form-label"><b>Correo Electrónico:</b></label>
+                <input id="correo" formControlName="correo" type="email" class="form-control" required />
+                <div *ngIf="registerForm.get('correo')?.invalid && registerForm.get('correo')?.touched" class="text-danger">
                   Ingrese un correo válido.
                 </div>
               </div>

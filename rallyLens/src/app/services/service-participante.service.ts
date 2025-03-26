@@ -17,4 +17,14 @@ export class ServiceParticipanteService {
     };
     return this.http.post<Participante>(this.url, cuerpo);
   }
+
+  registrarParticipante(participante: Participante) {
+    let cuerpo = {
+      servicio: "registrarParticipante",
+      participante: participante
+    };
+    console.log("Cuerpo :>> ", cuerpo);
+    
+    return this.http.post<Participante>(this.url, cuerpo);
+  }
 }
