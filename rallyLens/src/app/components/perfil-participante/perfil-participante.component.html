@@ -1,5 +1,10 @@
-<!-- Perfil de Usuario -->
-<section class="profile-section bg-light py-5">
+<div class="profile-section bg-light py-5">
+    <!-- Modal para la foto ampliada -->
+    <div class="profile-modal" [class.show]="showModal" (click)="closeModal()">
+        <span class="close-modal" (click)="closeModal($event)">&times;</span>
+        <img class="modal-content" [src]="modalImageSrc">
+    </div>
+
     <div class="container">
         <!-- Contenedor principal del perfil -->
         <div class="profile-container bg-white p-4 rounded shadow-sm">
@@ -7,7 +12,10 @@
                 <!-- Foto de perfil -->
                 <div class="col-md-4 text-center">
                     <div class="profile-picture-container mb-3">
-                        <img src="/assets/imagenPrincipal2.jpeg" alt="Foto de perfil" class="img-fluid rounded-circle profile-picture" style="width: 150px; height: 150px; object-fit: cover;">
+                        <img [src]="profileImage" alt="Foto de perfil" 
+                             class="img-fluid rounded-circle profile-picture" 
+                             (click)="openModal(profileImage)"
+                             style="width: 150px; height: 150px; object-fit: cover;">
                     </div>
                     <button class="btn btn-sm btn-outline-secondary" style="border-color: #FE7058; color: #FE7058;">
                         <i class="bi bi-gear-fill"></i> Editar perfil
@@ -19,7 +27,7 @@
                     <div class="user-info">
                         <div class="mb-3">
                             <h4 class="mb-1" style="color: #333;">Nombre y Apellidos</h4>
-                            <p class="text-muted mb-0">Ejemplo con Apellidos</p>
+                            <p class="text-muted mb-0">Nombre completo imaginario</p>
                         </div>
                         <div class="mb-3">
                             <h4 class="mb-1" style="color: #333;">Correo Electrónico</h4>
@@ -27,7 +35,7 @@
                         </div>
                         <div class="mb-3">
                             <h4 class="mb-1" style="color: #333;">Teléfono</h4>
-                            <p class="text-muted mb-0">+34 612 345 678</p>
+                            <p class="text-muted mb-0">612 34 56 78</p>
                         </div>
                     </div>
                 </div>
@@ -46,9 +54,9 @@
             <!-- Galería de fotos -->
             <div class="row g-4">
                 <!-- Ejemplo de foto subida -->
-                <div class="col-md-4 col-sm-6">
+                <div class="col-md-4 col-sm-6" *ngFor="let photo of userPhotos">
                     <div class="photo-card position-relative">
-                        <img src="/assets/imagenPrincipal2.jpeg" alt="Foto subida" class="img-fluid rounded">
+                        <img [src]="photo.url" alt="Foto subida" class="img-fluid rounded">
                         <div class="photo-actions mt-2 d-flex justify-content-between">
                             <button class="btn btn-sm btn-outline-secondary">Editar</button>
                             <button class="btn btn-sm btn-outline-danger">Eliminar</button>
@@ -59,7 +67,7 @@
                 <!-- Botón circular para añadir foto -->
                 <div class="col-md-4 col-sm-6">
                     <div class="add-photo-container position-relative" style="min-height: 200px;">
-                        <button class="btn btn-primary rounded-circle add-photo-btn" 
+                        <button class="btn btn-primary rounded-circle add-photo-btn floating-btn" 
                                 style="width: 60px; height: 60px; position: absolute; top: 65%; left: 50%; transform: translate(-50%, -50%); background-color: #FE7058; border: none;">
                             <i class="bi bi-plus fs-4"></i>
                         </button>
@@ -68,4 +76,4 @@
             </div>
         </div>
     </div>
-</section>
+</div>

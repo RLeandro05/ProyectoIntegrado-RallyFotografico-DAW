@@ -12,6 +12,7 @@
 .profile-picture {
     border: 3px solid #FE7058;
     transition: transform 0.3s ease;
+    cursor: pointer;
 }
 
 .profile-picture:hover {
@@ -85,6 +86,86 @@
 .add-photo-btn:hover {
     transform: scale(1.1) translate(-50%, -50%);
     box-shadow: 0 6px 12px rgba(254, 112, 88, 0.4);
+    animation: none; /* Detiene la animación al hacer hover */
+}
+
+/* Animación de levitación */
+@keyframes floating {
+    0% {
+        transform: translate(-50%, -50%) translateY(0px);
+    }
+    50% {
+        transform: translate(-50%, -50%) translateY(-8px);
+    }
+    100% {
+        transform: translate(-50%, -50%) translateY(0px);
+    }
+}
+
+.floating-btn {
+    animation: floating 3s ease-in-out infinite;
+}
+
+/* Estilos para el modal de la foto */
+.profile-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    transition: all 0.3s ease;
+}
+
+.profile-modal.show {
+    display: block;
+}
+
+.modal-content {
+    display: block;
+    width: 550px;
+    height: 550px;
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 5px solid #FE7058;
+    border-radius: 50%;
+    animation: zoomIn 0.3s ease;
+    object-fit: cover;
+    box-shadow: 0 0 20px rgba(254, 112, 88, 0.6);
+}
+
+@keyframes zoomIn {
+    from {
+        transform: translate(-50%, -50%) scale(0.7);
+        opacity: 0;
+        border-radius: 50%;
+    }
+    to {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+        border-radius: 50%;
+    }
+}
+
+.close-modal {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.close-modal:hover {
+    color: #FE7058;
 }
 
 /* Responsive */
@@ -100,5 +181,18 @@
     
     .add-photo-container {
         min-height: 150px;
+    }
+    
+    .modal-content {
+        width: 250px;
+        height: 250px;
+        max-width: 80vw;
+        max-height: 80vw;
+    }
+    
+    .close-modal {
+        top: 15px;
+        right: 25px;
+        font-size: 30px;
     }
 }
