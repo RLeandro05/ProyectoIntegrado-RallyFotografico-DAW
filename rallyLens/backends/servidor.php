@@ -38,26 +38,7 @@ if ($objeto !== null && isset($objeto->servicio)) {
         case "registrarParticipante":
             echo json_encode(registrarParticipante($objeto));
             break;
-        default:
-            echo json_encode(["error" => "Servicio no válido", "servicios_validos" => [
-                "listarAdmins", "listarFotos", "listarParticipantes", "registrarParticipante"
-            ]]);
-            break;
     }
-} else {
-    echo json_encode([
-        "error" => "Solicitud incorrecta",
-        "detalle" => "Debe incluir el campo 'servicio' en el JSON",
-        "ejemplo" => [
-            "servicio" => "registrarParticipante",
-            "participante" => [
-                "nombre" => "Ejemplo",
-                "apellidos" => "Apellido",
-                "correo" => "ejemplo@mail.com",
-                "password" => "contraseña"
-            ]
-        ]
-    ]);
 }
 
 // Función para listar administradores
@@ -103,14 +84,14 @@ function listadoParticipantes() {
 function registrarParticipante($objeto) {
     global $conn;
     
-    // Validar estructura básica
+    //Validar que el participante exista
     if (!isset($objeto->participante)) {
         return ["error" => "Estructura incorrecta", "detalle" => "Falta el objeto 'participante'"];
     }
     
     $p = $objeto->participante;
     
-    // Validar campos obligatorios
+    //Validar campos obligatorios
     $camposRequeridos = ['nombre', 'apellidos', 'correo', 'password'];
     $faltantes = [];
     
@@ -120,20 +101,22 @@ function registrarParticipante($objeto) {
         }
     }
     
+    //Si falta algún campo, mostrar cuáles faltan
     if (!empty($faltantes)) {
         return ["error" => "Campos requeridos faltantes", "campos_faltantes" => $faltantes];
     }
     
     try {
-        // Verificar si el correo ya existe
+        //Verificar si el correo ya existe en el registro de participantes
         $stmt = $conn->prepare("SELECT id FROM participante WHERE correo = ?");
         $stmt->execute([$p->correo]);
         
+        //Si ya existe, dar error
         if ($stmt->fetch()) {
-            return ["error" => "El correo electrónico ya está registrado"];
+            return false;
         }
         
-        // Insertar nuevo participante
+        //Insertar nuevo participante
         $sql = "INSERT INTO participante (nombre, apellidos, telefono, correo, password) 
                 VALUES (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
@@ -148,14 +131,7 @@ function registrarParticipante($objeto) {
             password_hash($p->password, PASSWORD_BCRYPT)
         ]);
         
-        // Obtener ID del nuevo participante
-        $nuevoId = $conn->lastInsertId();
-        
-        return [
-            "success" => true,
-            "message" => "Participante registrado exitosamente",
-            "id" => $nuevoId
-        ];
+        return true;
         
     } catch (PDOException $e) {
         return ["error" => "Error en la base de datos", "detalle" => $e->getMessage()];
