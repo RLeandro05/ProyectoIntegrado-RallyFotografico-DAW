@@ -38,11 +38,15 @@ if ($objeto !== null && isset($objeto->servicio)) {
         case "registrarParticipante":
             echo json_encode(registrarParticipante($objeto));
             break;
+        case "loginParticipante":
+            echo json_encode(loginParticipante($objeto));
+            break;
     }
 }
 
 // Función para listar administradores
-function listadoAdmins() {
+function listadoAdmins()
+{
     global $conn;
     try {
         $sc = "SELECT id, nombre, apellidos, telefono, correo FROM administrador ORDER BY id";
@@ -55,7 +59,8 @@ function listadoAdmins() {
 }
 
 // Función para listar fotografías
-function listadoFotos() {
+function listadoFotos()
+{
     global $conn;
     try {
         $sc = "SELECT id, id_administrador, id_participante, estado, votos, fec_mod FROM fotografia ORDER BY id";
@@ -68,7 +73,8 @@ function listadoFotos() {
 }
 
 // Función para listar participantes
-function listadoParticipantes() {
+function listadoParticipantes()
+{
     global $conn;
     try {
         $sc = "SELECT id, nombre, apellidos, telefono, correo FROM participante ORDER BY id";
@@ -80,49 +86,50 @@ function listadoParticipantes() {
     }
 }
 
-// Función para registrar un nuevo participante
-function registrarParticipante($objeto) {
+//Función para registrar un nuevo participante
+function registrarParticipante($objeto)
+{
     global $conn;
-    
+
     //Validar que el participante exista
     if (!isset($objeto->participante)) {
         return ["error" => "Estructura incorrecta", "detalle" => "Falta el objeto 'participante'"];
     }
-    
+
     $p = $objeto->participante;
-    
+
     //Validar campos obligatorios
     $camposRequeridos = ['nombre', 'apellidos', 'correo', 'password'];
     $faltantes = [];
-    
+
     foreach ($camposRequeridos as $campo) {
         if (!isset($p->$campo) || empty(trim($p->$campo))) {
             $faltantes[] = $campo;
         }
     }
-    
+
     //Si falta algún campo, mostrar cuáles faltan
     if (!empty($faltantes)) {
         return ["error" => "Campos requeridos faltantes", "campos_faltantes" => $faltantes];
     }
-    
+
     try {
         //Verificar si el correo ya existe en el registro de participantes
         $stmt = $conn->prepare("SELECT id FROM participante WHERE correo = ?");
         $stmt->execute([$p->correo]);
-        
+
         //Si ya existe, dar error
         if ($stmt->fetch()) {
             return false;
         }
-        
+
         //Insertar nuevo participante
         $sql = "INSERT INTO participante (nombre, apellidos, telefono, correo, password) 
                 VALUES (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        
+
         $telefono = isset($p->telefono) ? $p->telefono : null;
-        
+
         $stmt->execute([
             htmlspecialchars(strip_tags($p->nombre)),
             htmlspecialchars(strip_tags($p->apellidos)),
@@ -130,26 +137,78 @@ function registrarParticipante($objeto) {
             $p->correo,
             password_hash($p->password, PASSWORD_BCRYPT)
         ]);
-        
+
         return true;
-        
     } catch (PDOException $e) {
         return ["error" => "Error en la base de datos", "detalle" => $e->getMessage()];
     }
 }
 
-// Función para conectar a la base de datos
-function conectar2($bd, $usuario, $clave) {
+//Función para loguear un participante ya registrado
+function loginParticipante($objeto)
+{
+    global $conn;
+
+    //Validar que el participante exista
+    if (!isset($objeto->participante)) {
+        return ["error" => "Estructura incorrecta", "detalle" => "Falta el objeto 'participante'"];
+    }
+
+    $p = $objeto->participante;
+
+    //Validar campos obligatorios
+    $camposRequeridos = ['correo', 'password'];
+    $faltantes = [];
+
+    foreach ($camposRequeridos as $campo) {
+        if (!isset($p->$campo) || empty(trim($p->$campo))) {
+            $faltantes[] = $campo;
+        }
+    }
+
+    //Si falta algún campo, mostrar cuáles faltan
+    if (!empty($faltantes)) {
+        return ["error" => "Campos requeridos faltantes", "campos_faltantes" => $faltantes];
+    }
+
+    try {
+        //Buscar el participante por correo y obtener la contraseña
+        $stmt = $conn->prepare("SELECT password FROM participante WHERE correo = ?");
+
+        $stmt->execute([$p->correo]);
+
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        //Si no se encuentra el usuario, retornar error
+        if (!$usuario) {
+            return false;
+        }
+
+        //Verificar la contraseña
+        if (password_verify($p->password, $usuario['password'])) {
+            return ["success" => true, "message" => "Inicio de sesión exitoso"];
+        } else {
+            return false;
+        }
+    } catch (PDOException $e) {
+        return ["error" => "Error en la base de datos", "detalle" => $e->getMessage()];
+    }
+}
+
+
+//Función para conectar a la base de datos
+function conectar2($bd, $usuario, $clave)
+{
     try {
         $opciones = [
             PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
         ];
-        
+
         $dsn = 'mysql:host=localhost;dbname=' . $bd . ';charset=utf8';
         $conexion = new PDO($dsn, $usuario, $clave, $opciones);
-        
+
         return $conexion;
     } catch (PDOException $e) {
         http_response_code(500);
