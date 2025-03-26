@@ -23,12 +23,12 @@
 /* Estilo de los botones de navegación */
 .carousel-control-prev,
 .carousel-control-next {
-    margin-top: 250px;
+    margin-top: 255px;
     width: auto; /* Ancho automático */
     background-color: darkgray; /* Fondo semitransparente */
     border-radius: 50%; /* Forma circular */
-    width: 50px; /* Ancho fijo */
-    height: 50px; /* Altura fija */
+    width: 70px; /* Ancho fijo */
+    height: 70px; /* Altura fija */
     display: flex; /* Centrar el contenido */
     align-items: center; /* Alineación vertical */
     justify-content: center; /* Alineación horizontal */
@@ -51,20 +51,6 @@
 
 .carousel-control-next {
     right: 20px; /* Margen derecho */
-}
-
-/* Título debajo del carrusel */
-.carousel-title {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 10px 20px;
-    font-size: 1.5rem;
-    border-radius: 5px;
-    font-family: 'Poppins', sans-serif;
 }
 
 /* Descripción de la temática */
