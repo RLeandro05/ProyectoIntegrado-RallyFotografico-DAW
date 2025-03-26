@@ -3,7 +3,7 @@
     margin-top: 80px; /* Altura de la cabecera */
     position: relative;
     width: 100%;
-    height: 400px; /* Altura de la sección */
+    height: 550px; /* Altura de la sección */
     overflow: hidden;
 }
 
@@ -23,7 +23,7 @@
 /* Estilo de los botones de navegación */
 .carousel-control-prev,
 .carousel-control-next {
-    margin-top: 170px;
+    margin-top: 250px;
     width: auto; /* Ancho automático */
     background-color: darkgray; /* Fondo semitransparente */
     border-radius: 50%; /* Forma circular */
