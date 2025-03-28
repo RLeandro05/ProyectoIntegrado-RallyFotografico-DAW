@@ -92,6 +92,14 @@
     text-align: justify;
 }
 
+.img-fluid {
+    transition: transform ease .3s;
+}
+
+.img-fluid:hover {
+    transform: scale(1.025);
+}
+
 /* Resaltado de palabras clave */
 .theme-description strong, .rules-list strong {
     color: #FE7058; /* Color temático */
