@@ -8,9 +8,9 @@
         <div class="card-body">
           <form [formGroup]="isAdminLoginVisible ? adminLoginForm : loginForm" (ngSubmit)="isAdminLoginVisible ? onAdminSubmit() : onSubmit()">
             <div class="mb-3">
-              <label for="email" class="form-label"><b>Correo Electrónico:</b></label>
-              <input id="email" formControlName="email" type="email" class="form-control" required />
-              <div *ngIf="(isAdminLoginVisible ? adminLoginForm : loginForm).get('email')?.invalid && (isAdminLoginVisible ? adminLoginForm : loginForm).get('email')?.touched" class="text-danger">
+              <label for="correo" class="form-label"><b>Correo Electrónico:</b></label>
+              <input id="correo" formControlName="correo" type="email" class="form-control" required />
+              <div *ngIf="(isAdminLoginVisible ? adminLoginForm : loginForm).get('correo')?.invalid && (isAdminLoginVisible ? adminLoginForm : loginForm).get('correo')?.touched" class="text-danger">
                 Ingrese un correo válido.
               </div>
             </div>

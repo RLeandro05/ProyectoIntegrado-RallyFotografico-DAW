@@ -27,4 +27,12 @@ export class ServiceParticipanteService {
     
     return this.http.post<Participante>(this.url, cuerpo);
   }
+
+  loguearParticipante(participante: Participante) {
+    let cuerpo = {
+      servicio: "loginParticipante",
+      participante: participante
+    };
+    return this.http.post<Participante>(this.url, cuerpo);
+  }
 }
