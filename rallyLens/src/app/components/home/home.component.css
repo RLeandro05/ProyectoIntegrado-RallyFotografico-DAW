@@ -147,7 +147,7 @@
     transform: scale(1.2);
 }
 
-/* ===== NUEVOS ESTILOS PARA LA SECCIÓN "¿CÓMO PARTICIPAR?" ===== */
+/* ===== ESTILOS MEJORADOS PARA LA SECCIÓN "¿CÓMO PARTICIPAR?" ===== */
 .section-title {
     color: #333;
     font-weight: 900;
@@ -169,27 +169,42 @@
     transform: scaleX(0.8);
 }
 
+/* Contenedor del listado con fondo moderno */
+.rules-list-container {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(5px);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 8px 20px rgba(254, 112, 88, 0.15);
+    border: 1px solid rgba(254, 112, 88, 0.2);
+}
+
 .rules-list {
     font-size: 1.1rem;
     line-height: 1.8;
-    padding-left: 1.5rem;
     color: #555;
+    padding: 0;
+    margin: 0;
 }
 
 .rules-list li {
     margin-bottom: 0.8rem;
-    position: relative;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    list-style-type: none; /* Eliminamos los puntos */
+    display: flex;
+    align-items: flex-start;
 }
 
-.rules-list li:before {
-    content: '';
-    position: absolute;
-    left: -1.5rem;
-    top: 0.7rem;
-    width: 8px;
-    height: 8px;
-    background-color: #FE7058;
-    border-radius: 50%;
+.rules-list li:hover {
+    background: rgba(254, 112, 88, 0.1);
+    transform: translateX(5px);
+}
+
+.rules-list li strong {
+    margin-right: 0.5rem;
+    color: #FE7058;
 }
 
 .btn-challenge {
@@ -204,6 +219,8 @@
     color: white;
     border-radius: 50px;
     font-family: 'Poppins', sans-serif;
+    margin-top: 1.5rem;
+    display: inline-block;
 }
 
 .btn-challenge:hover {
@@ -291,14 +308,25 @@
 
 @media (max-width: 768px) {
     .rules-list {
-        padding-left: 1rem;
-    }
-    
-    .rules-list li:before {
-        left: -1rem;
+        padding-left: 0;
     }
     
     .image-gallery {
         flex-direction: column;
     }
+    
+    .rules-list-container {
+        padding: 1.5rem;
+    }
+}
+
+.rules-list-container {
+    min-width: 300px; /* Asegura un ancho mínimo */
+    padding: 1.5rem;
+}
+
+.rules-list li {
+    white-space: normal;
+    word-wrap: break-word;
+    margin-bottom: 0.8rem;
 }
