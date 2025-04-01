@@ -335,3 +335,23 @@
     word-wrap: break-word;
     margin-bottom: 0.8rem;
 }
+
+/* Estilo específico para el título "¿Cómo Participar?" */
+.rules-section h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem; /* Tamaño base para escritorios */
+    font-weight: bold;
+    color: #333; /* Color original */
+    text-decoration: underline;
+    text-shadow: 1px 1px 1px darkgray; /* Sombra original */
+    margin-bottom: 1.5rem; /* Espaciado adecuado */
+    word-wrap: break-word; /* Asegura que el texto se ajuste */
+    overflow-wrap: break-word; /* Maneja palabras largas */
+}
+
+/* Responsividad del título */
+@media (max-width: 768px) {
+    .rules-section h2 {
+        font-size: 1.5rem; /* Reduce el tamaño en pantallas pequeñas */
+    }
+}
