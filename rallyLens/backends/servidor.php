@@ -173,7 +173,7 @@ function loginParticipante($objeto)
 
     try {
         //Buscar el participante por correo y obtener la contraseña
-        $stmt = $conn->prepare("SELECT password FROM participante WHERE correo = ?");
+        $stmt = $conn->prepare("SELECT id, nombre, apellidos, telefono, correo, password FROM participante WHERE correo = ?");
 
         $stmt->execute([$p->correo]);
 
@@ -186,7 +186,7 @@ function loginParticipante($objeto)
 
         //Verificar la contraseña
         if (password_verify($p->password, $usuario['password'])) {
-            return ["success" => true, "message" => "Inicio de sesión exitoso"];
+            return $usuario;
         } else {
             return false;
         }

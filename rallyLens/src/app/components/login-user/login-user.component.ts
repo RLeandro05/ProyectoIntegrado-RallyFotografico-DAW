@@ -49,25 +49,24 @@ export class LoginUserComponent {
 
     //Ejecutar servicio de login para participantes
     this.serviceParticipante.loguearParticipante(this.participante).subscribe(
-      datos => {
-        this.participante = datos;
+      participante => {
 
-        //Si no existen los datos, mostrar alerta de credenciales incorrectas
-        if(!datos) {
+        if(!participante) {
           alert("Los datos introducidos son incorrectos. Debe escribrir un correo y contraseña válidos.");
-        } else { //Si existen en la base de datos, mostra mensaje de satisfacción y redirigir a Home
-          console.log("Participante logueado correctamente :>> ", this.participante);
+        } else {
+          //localStorage.setItem("participanteLogueado", JSON.stringify(participante));
+
+          //console.log("Participante logueado en LocalStorage :>> ", localStorage.getItem("participanteLogueado"));
 
           alert("Has iniciado sesión correctamente.");
 
           this.route.navigate(['/']);
         }
-        
-      }, error => console.error("Error al iniciar sesión como participante :>> ", error)
-    )
+      }, error => console.error("Error al loguear participante :>> ", error)
+    );
   }
 
-  //Lógica para iniciar sesión como admin
+  //Lógica para iniciar sesión como admin 
   onAdminSubmit() {
     console.log(this.adminLoginForm.value);
   }
