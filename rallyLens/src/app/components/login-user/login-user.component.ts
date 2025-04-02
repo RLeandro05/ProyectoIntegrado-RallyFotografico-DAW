@@ -54,7 +54,7 @@ export class LoginUserComponent {
         if(!participante) {
           alert("Los datos introducidos son incorrectos. Debe escribrir un correo y contraseña válidos.");
         } else {
-          //localStorage.setItem("participanteLogueado", JSON.stringify(participante));
+          localStorage.setItem("participanteLogueado", JSON.stringify(participante));
 
           //console.log("Participante logueado en LocalStorage :>> ", localStorage.getItem("participanteLogueado"));
 

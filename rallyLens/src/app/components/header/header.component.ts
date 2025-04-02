@@ -7,7 +7,22 @@ import { Component } from '@angular/core';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-  isMenuOpen = false;
+  public isMenuOpen: boolean = false;
+  public isLoged: boolean = false;
+  public participanteLogueado: any = null;
+
+  constructor() {
+    // Intentar obtener el participante logueado del localStorage
+    let participanteLogueado = localStorage.getItem("participanteLogueado");
+
+    if (participanteLogueado != null) {
+      // Parsear el JSON para obtener el objeto participante
+      this.participanteLogueado = JSON.parse(participanteLogueado);
+      this.isLoged = true;
+    } else {
+      this.isLoged = false;
+    }
+  }
 
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;

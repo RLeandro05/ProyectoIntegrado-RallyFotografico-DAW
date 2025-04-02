@@ -1,45 +1,33 @@
 <header class="bg-dark text-white py-3" style="border-color: #FE7058;">
-    <!-- Usamos container-fluid para ocupar todo el ancho -->
     <div class="container-fluid">
         <div class="d-flex align-items-center">
-            <!-- Logo a la izquierda con margen izquierdo -->
             <div class="logo ms-3">
                 <a routerLink="/"><img src="/assets/logoCabecera.png" alt="Logo de la página" height="60" class="logo-hover"></a>
             </div>
 
-            <!-- Menú centrado (visible en pantallas grandes) -->
             <nav class="menu flex-grow-1 d-none d-md-flex justify-content-center" style="font-size: 1em;">
                 <ul class="list-unstyled d-flex gap-3 mb-0">
-                    <li>
-                        <a routerLink="/" class="text-white text-decoration-none menu-link border border-danger px-3 py-1 rounded-pill" style="border-color: #FE7058 !important;">
-                            Inicio
-                        </a>
-                    </li>
-                    <li>
-                        <a routerLink="/galeria" class="text-white text-decoration-none menu-link border border-danger px-3 py-1 rounded-pill" style="border-color: #FE7058 !important;">
-                            Galería
-                        </a>
-                    </li>
-                    <li>
-                        <a routerLink="/ranking" class="text-white text-decoration-none menu-link border border-danger px-3 py-1 rounded-pill" style="border-color: #FE7058 !important;">
-                            Ranking
-                        </a>
-                    </li>
+                    <li><a routerLink="/" class="text-white text-decoration-none menu-link border border-danger px-3 py-1 rounded-pill" style="border-color: #FE7058 !important;">Inicio</a></li>
+                    <li><a routerLink="/galeria" class="text-white text-decoration-none menu-link border border-danger px-3 py-1 rounded-pill" style="border-color: #FE7058 !important;">Galería</a></li>
+                    <li><a routerLink="/ranking" class="text-white text-decoration-none menu-link border border-danger px-3 py-1 rounded-pill" style="border-color: #FE7058 !important;">Ranking</a></li>
                 </ul>
             </nav>
 
-            <!-- Botón Registrarse a la derecha (visible en pantallas grandes) -->
+            <!-- Si el usuario está logueado, mostrar el saludo y ocultar botones -->
             <div class="me-3 d-none d-md-block">
-                <button class="btn btn-register" style="background-color: #FE7058; color: white;" routerLink="/register-user">
-                    Registrarse
+                <button *ngIf="isLoged; else showButtons" class="btn btn-outline-light" style="background-color: #FE7058; color: white;">
+                    Bienvenido, {{ participanteLogueado?.nombre }}
                 </button>
-            </div>
 
-            <!-- Botón Login a la derecha (visible en pantallas grandes) -->
-            <div class="me-3 d-none d-md-block">
-                <button class="btn btn-login" style="background-color: #FE7058; color: white;" routerLink="/login-user">
-                    Iniciar Sesión
-                </button>
+                <!-- Si no está logueado, mostrar los botones -->
+                <ng-template #showButtons>
+                    <button class="btn btn-register" style="background-color: #FE7058; color: white;" routerLink="/register-user">
+                        Registrarse
+                    </button>
+                    <button class="btn btn-login" style="background-color: #FE7058; color: white;" routerLink="/login-user">
+                        Iniciar Sesión
+                    </button>
+                </ng-template>
             </div>
 
             <!-- Botón del menú lateral (visible en pantallas pequeñas) -->
@@ -53,15 +41,9 @@
     <div class="sidebar bg-dark text-white" [class.open]="isMenuOpen">
         <button class="btn-close-menu btn btn-outline-light" (click)="toggleMenu()">×</button>
         <ul class="list-unstyled p-3">
-            <li class="mb-2">
-                <a routerLink="/" class="text-white text-decoration-none">Inicio</a>
-            </li>
-            <li class="mb-2">
-                <a routerLink="/galeria" class="text-white text-decoration-none">Galería</a>
-            </li>
-            <li class="mb-2">
-                <a routerLink="/ranking" class="text-white text-decoration-none">Ranking</a>
-            </li>
+            <li class="mb-2"><a routerLink="/" class="text-white text-decoration-none">Inicio</a></li>
+            <li class="mb-2"><a routerLink="/galeria" class="text-white text-decoration-none">Galería</a></li>
+            <li class="mb-2"><a routerLink="/ranking" class="text-white text-decoration-none">Ranking</a></li>
             <li>
                 <button class="btn btn-register w-100 mt-3" style="background-color: #FE7058; color: white;" routerLink="/register-user">
                     Registrarse
