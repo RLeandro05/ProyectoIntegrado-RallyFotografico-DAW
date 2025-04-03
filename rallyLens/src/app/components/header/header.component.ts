@@ -38,5 +38,7 @@ export class HeaderComponent {
     this.isLoged = false;
     this.participanteLogueado = null;
     this.route.navigate(['/']);
+
+    setTimeout(() => alert("Has cerrado sesión exitosamente."), 800);
   }
 }
