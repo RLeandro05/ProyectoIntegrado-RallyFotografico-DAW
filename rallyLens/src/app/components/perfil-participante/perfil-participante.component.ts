@@ -11,6 +11,7 @@ export class PerfilParticipanteComponent {
   showModal = false;
   modalImageSrc = '';
   profileImage = '/assets/imagenPrincipal2.jpeg';
+  public participanteLogueado: any = null;
 
   constructor(private route: Router) { }
 
@@ -18,12 +19,16 @@ export class PerfilParticipanteComponent {
     const participanteLogueado = localStorage.getItem("participanteLogueado");
     if (participanteLogueado == null) {
       this.route.navigate(['/login-user']);
+    } else {
+      this.participanteLogueado = JSON.parse(participanteLogueado);
+
+      console.log("participanteLogueado :>> ", participanteLogueado);
+      
     }
   }
 
   userPhotos = [
     { url: '/assets/imagenPrincipal2.jpeg' }
-    // Agrega más fotos si es necesario
   ];
 
   openModal(imageSrc: string) {
