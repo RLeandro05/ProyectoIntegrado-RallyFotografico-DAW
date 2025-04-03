@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-perfil-participante',
@@ -10,6 +11,15 @@ export class PerfilParticipanteComponent {
   showModal = false;
   modalImageSrc = '';
   profileImage = '/assets/imagenPrincipal2.jpeg';
+
+  constructor(private route: Router) { }
+
+  ngOnInit() {
+    const participanteLogueado = localStorage.getItem("participanteLogueado");
+    if (participanteLogueado == null) {
+      this.route.navigate(['/login-user']);
+    }
+  }
 
   userPhotos = [
     { url: '/assets/imagenPrincipal2.jpeg' }
