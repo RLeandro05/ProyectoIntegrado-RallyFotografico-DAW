@@ -1,4 +1,4 @@
-/* Estilos para la sección de perfil */
+/* Estilos generales del perfil */
 .profile-container {
     border: 1px solid #e0e0e0;
     transition: all 0.3s ease;
@@ -37,7 +37,7 @@
     border-color: #FE7058;
 }
 
-/* Botones en las tarjetas de foto */
+/* Estilos para la sección de fotos subidas */
 .photo-actions .btn-outline-secondary {
     border-color: #6c757d;
     color: #6c757d;
@@ -65,11 +65,12 @@
     border-radius: 8px;
     background-color: #f8f9fa;
     height: 100%;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1); /* Más notoriedad en el box-shadow */
 }
 
 .photo-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15); /* Aumentar la sombra al hacer hover */
 }
 
 .add-photo-container {
@@ -173,26 +174,56 @@
     .profile-container .row {
         flex-direction: column;
     }
-    
+
     .user-info {
         margin-top: 20px;
         text-align: center;
     }
-    
+
     .add-photo-container {
-        min-height: 150px;
+        background-color: white; /* Fondo blanco */
+        border-radius: 8px;
+        transition: all 0.3s ease;
     }
-    
+
     .modal-content {
         width: 250px;
         height: 250px;
         max-width: 80vw;
         max-height: 80vw;
     }
-    
+
     .close-modal {
         top: 15px;
         right: 25px;
         font-size: 30px;
     }
+
+    /* Ajustes para la galería de fotos en móviles */
+    .photo-card {
+        transition: transform 0.3s ease;
+        padding: 10px;
+        border-radius: 8px;
+        background-color: white; /* Fondo blanco */
+        height: 100%;
+    }
+
+    .add-photo-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+    }
+}
+
+/* Centrado del título */
+h2 {
+    color: #333;
+    text-align: center;
+}
+
+/* Alineación centrada de las imágenes */
+.photo-card img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
