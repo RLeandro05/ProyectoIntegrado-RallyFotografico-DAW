@@ -41,7 +41,8 @@ export class LoginUserComponent {
       apellidos: "",
       telefono: "",
       correo: this.loginForm.value.correo,
-      password: this.loginForm.value.password
+      password: this.loginForm.value.password,
+      foto_perfil: null
     }
 
     //console.log("Participante a loguear :>> ", this.participante);

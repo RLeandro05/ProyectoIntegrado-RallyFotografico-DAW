@@ -34,7 +34,8 @@ export class RegisterUserComponent {
         apellidos: this.registerForm.value.apellidos,
         telefono: this.registerForm.value.telefono,
         correo: this.registerForm.value.correo,
-        password: this.registerForm.value.password
+        password: this.registerForm.value.password,
+        foto_perfil: null
       };
 
       this.serviceParticipante.registrarParticipante(this.participante).subscribe(

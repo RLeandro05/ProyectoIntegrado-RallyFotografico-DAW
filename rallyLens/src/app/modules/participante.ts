@@ -4,5 +4,6 @@ export interface Participante {
     apellidos: string,
     telefono: string,
     correo: string,
-    password: string
+    password: string,
+    foto_perfil: Blob | null
 }

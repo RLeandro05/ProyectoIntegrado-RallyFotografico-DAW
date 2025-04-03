@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class PerfilParticipanteComponent {
   showModal = false;
   modalImageSrc = '';
-  profileImage = '/assets/imagenPrincipal2.jpeg';
+  profileImage = '/assets/perfilDefecto.png';
   public participanteLogueado: any = null;
 
   constructor(private route: Router) { }
@@ -23,7 +23,6 @@ export class PerfilParticipanteComponent {
       this.participanteLogueado = JSON.parse(participanteLogueado);
 
       console.log("participanteLogueado :>> ", participanteLogueado);
-      
     }
   }
 
