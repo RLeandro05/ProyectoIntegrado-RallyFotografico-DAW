@@ -60,7 +60,8 @@ export class LoginUserComponent {
 
           alert("Has iniciado sesión correctamente.");
 
-          this.route.navigate(['/']);
+          window.location.href = "/";
+          //this.route.navigate(['/']);
         }
       }, error => console.error("Error al loguear participante :>> ", error)
     );

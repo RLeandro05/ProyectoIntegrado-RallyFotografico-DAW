@@ -1,47 +1,59 @@
-<div class="container-fluid position-relative" style="background-image: url('/assets/fondoRegisterUser.jpg'); background-size: cover; background-position: center; min-height: 100vh;">
-  <!-- Overlay oscuro semitransparente -->
-  <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(0, 0, 0, 0.3);"></div>
-  
-  <div class="row justify-content-center align-items-center py-5 position-relative" style="z-index: 1;">
-      <div class="col-lg-5 col-md-8 col-sm-10" style="margin-top: 150px;">
-          <div class="card border-0 rounded-4 overflow-hidden shadow-lg" style="background-color: rgba(255, 255, 255, 0.95); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);">
-              <div class="card-header py-4 text-center text-white" style="background-color: rgba(254, 112, 88, 0.9);">
-                  <h2 class="m-0">{{ isAdminLoginVisible ? 'Acceso Administrador' : 'Inicia Sesión' }}</h2>
-              </div>
-              <div class="card-body p-4 p-md-5">
-                  <form [formGroup]="isAdminLoginVisible ? adminLoginForm : loginForm" (ngSubmit)="isAdminLoginVisible ? onAdminSubmit() : onSubmit()">
-                      <div class="mb-4">
-                          <label for="correo" class="form-label"><b>Correo Electrónico</b></label>
-                          <input id="correo" formControlName="correo" type="email" class="form-control rounded-3" placeholder="Ej: ejemplo@dominio.com" required />
-                          <div *ngIf="(isAdminLoginVisible ? adminLoginForm : loginForm).get('correo')?.invalid && (isAdminLoginVisible ? adminLoginForm : loginForm).get('correo')?.touched" class="text-danger small mt-1">
-                              Ingrese un correo válido
-                          </div>
-                      </div>
+<div class="container-fluid position-relative"
+    style="background-image: url('/assets/fondoRegisterUser.jpg'); background-size: cover; background-position: center; min-height: 100vh;">
+    <!-- Overlay oscuro semitransparente -->
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(0, 0, 0, 0.3);"></div>
 
-                      <div class="mb-4">
-                          <label for="password" class="form-label"><b>Contraseña</b></label>
-                          <input id="password" formControlName="password" type="password" class="form-control rounded-3" placeholder="Mínimo 6 caracteres" required />
-                          <div *ngIf="(isAdminLoginVisible ? adminLoginForm : loginForm).get('password')?.invalid && (isAdminLoginVisible ? adminLoginForm : loginForm).get('password')?.touched" class="text-danger small mt-1">
-                              La contraseña debe tener al menos 6 caracteres
-                          </div>
-                      </div>
+    <div class="row justify-content-center align-items-center py-5 position-relative" style="z-index: 1;">
+        <div class="col-lg-5 col-md-8 col-sm-10" style="margin-top: 150px;">
+            <div class="card border-0 rounded-4 overflow-hidden shadow-lg"
+                style="background-color: rgba(255, 255, 255, 0.95); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);">
+                <div class="card-header py-4 text-center text-white" style="background-color: rgba(254, 112, 88, 0.9);">
+                    <h2 class="m-0">{{ isAdminLoginVisible ? 'Acceso Administrador' : 'Acceso Participante' }}</h2>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    <form [formGroup]="isAdminLoginVisible ? adminLoginForm : loginForm"
+                        (ngSubmit)="isAdminLoginVisible ? onAdminSubmit() : onSubmit()">
+                        <div class="mb-4">
+                            <label for="correo" class="form-label"><b>Correo Electrónico</b></label>
+                            <input id="correo" formControlName="correo" type="email" class="form-control rounded-3"
+                                placeholder="Ej: ejemplo@dominio.com" required />
+                            <div *ngIf="(isAdminLoginVisible ? adminLoginForm : loginForm).get('correo')?.invalid && (isAdminLoginVisible ? adminLoginForm : loginForm).get('correo')?.touched"
+                                class="text-danger small mt-1">
+                                Ingrese un correo válido
+                            </div>
+                        </div>
 
-                      <button type="submit" class="btn w-100 py-2 text-white rounded-3 fw-bold mb-3" style="background-color: #FE7058;" [disabled]="(isAdminLoginVisible ? adminLoginForm : loginForm).invalid">
-                          {{ isAdminLoginVisible ? 'Acceder como Admin' : 'Iniciar Sesión' }}
-                      </button>
+                        <div class="mb-4">
+                            <label for="password" class="form-label"><b>Contraseña</b></label>
+                            <input id="password" formControlName="password" type="password"
+                                class="form-control rounded-3" placeholder="Mínimo 6 caracteres" required />
+                            <div *ngIf="(isAdminLoginVisible ? adminLoginForm : loginForm).get('password')?.invalid && (isAdminLoginVisible ? adminLoginForm : loginForm).get('password')?.touched"
+                                class="text-danger small mt-1">
+                                La contraseña debe tener al menos 6 caracteres
+                            </div>
+                        </div>
 
-                      <div class="text-center">
-                          <button (click)="toggleLoginType()" class="btn btn-link p-0 text-decoration-none" style="color: #FE7058;">
-                              <small>{{ isAdminLoginVisible ? '¿Eres participante? Inicia sesión aquí' : '¿Eres administrador? Accede aquí' }}</small>
-                          </button>
-                      </div>
+                        <button type="submit" class="btn w-100 py-2 text-white rounded-3 fw-bold mb-3"
+                            style="background-color: #FE7058;"
+                            [disabled]="(isAdminLoginVisible ? adminLoginForm : loginForm).invalid">
+                            {{ isAdminLoginVisible ? 'Acceder como Admin' : 'Iniciar Sesión' }}
+                        </button>
+                    </form>
 
-                      <div class="text-center mt-4">
-                          <small class="text-muted">¿No tienes cuenta? <a href="/register-user" class="text-decoration-none" style="color: #FE7058;">Regístrate</a></small>
-                      </div>
-                  </form>
-              </div>
-          </div>
-      </div>
-  </div>
-</div> 
+                    <div class="text-center">
+                        <button (click)="toggleLoginType()" class="btn btn-link p-0 text-decoration-none"
+                            style="color: #FE7058;">
+                            <small>{{ isAdminLoginVisible ? '¿Eres participante? Inicia sesión aquí' : '¿Eres
+                                administrador? Accede aquí' }}</small>
+                        </button>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <small class="text-muted">¿No tienes cuenta? <a href="/register-user"
+                                class="text-decoration-none" style="color: #FE7058;">Regístrate</a></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

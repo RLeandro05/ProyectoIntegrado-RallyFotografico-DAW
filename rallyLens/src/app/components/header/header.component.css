@@ -63,12 +63,20 @@ header {
 }
 
 /* Efecto hover en el botón "Registrarse" */
-.btn-register, .btn-login {
+.btn-register, .btn-login, .btn-welcome {
     transition: transform 0.3s ease-in-out;
 }
 
-.btn-register:hover, .btn-login:hover {
+.btn-register:hover, .btn-login:hover, .btn-welcome:hover {
     animation: bounce 0.5s ease; /* Animación de bote */
+}
+
+.btn-logout {
+    transition: background-color .3s ease;
+}
+
+.btn-logout:hover {
+    background-color: #dc3545;
 }
 
 /* Animación de bote */
