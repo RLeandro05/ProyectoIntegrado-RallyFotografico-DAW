@@ -13,6 +13,8 @@ import { LoginUserComponent } from './components/login-user/login-user.component
 import { HttpClientModule } from '@angular/common/http';
 import { PerfilParticipanteComponent } from './components/perfil-participante/perfil-participante.component';
 
+import { FormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,7 +29,8 @@ import { PerfilParticipanteComponent } from './components/perfil-participante/pe
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

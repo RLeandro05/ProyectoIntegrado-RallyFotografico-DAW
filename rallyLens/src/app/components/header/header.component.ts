@@ -22,7 +22,7 @@ export class HeaderComponent {
       if (participanteGuardado) {
         this.participanteLogueado = JSON.parse(participanteGuardado);
         this.isLoged = true;
-        console.log("Usuario logueado:", this.participanteLogueado);
+        //console.log("Usuario logueado:", this.participanteLogueado);
       } else {
         this.isLoged = false;
       }
