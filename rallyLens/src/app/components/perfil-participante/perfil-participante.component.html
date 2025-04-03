@@ -1,81 +1,95 @@
 <form [formGroup]="perfilForm" (ngSubmit)="onSubmit()">
-  <div class="profile-section bg-light py-5">
-    <!-- Modal para la foto ampliada -->
-    <div class="profile-modal" [class.show]="showModal" (click)="closeModal()">
-      <span class="close-modal" (click)="closeModal($event)">&times;</span>
-      <img class="modal-content" [src]="modalImageSrc">
-    </div>
-
-    <div class="container">
-      <!-- Contenedor principal del perfil -->
-      <div class="profile-container bg-white p-4 rounded shadow-sm">
-        <div class="row align-items-center">
-          <!-- Foto de perfil -->
-          <div class="col-md-4 text-center">
-            <div class="profile-picture-container mb-3">
-              <img [src]="profileImage" alt="Foto de perfil"
-                   class="img-fluid rounded-circle profile-picture" (click)="openModal(profileImage)"
-                   style="width: 150px; height: 150px; object-fit: cover;">
-            </div>
-            <button type="button" class="btn btn-sm btn-outline-secondary"
-                    style="border-color: #FE7058; color: #FE7058;"
-                    (click)="toggleEditMode()">
-              <i class="bi bi-gear-fill"></i> {{ editMode ? 'Cancelar' : 'Editar perfil' }}
-            </button>
-          </div>
-
-          <!-- Información del usuario -->
-          <div class="col-md-8">
-            <div class="user-info">
-              <div class="mb-3">
-                <h4 class="mb-1" style="color: #333;">Nombre y Apellidos</h4>
-                <p *ngIf="!editMode" class="text-muted mb-0">
-                  {{ participanteLogueado.nombre }} {{ participanteLogueado.apellidos }}
-                </p>
-                <div *ngIf="editMode">
-                  <input type="text" class="form-control" formControlName="nombre" [value]="perfilForm.get('nombre')?.value">
-                  <input type="text" class="form-control mt-2" formControlName="apellidos" [value]="perfilForm.get('apellidos')?.value">
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <h4 class="mb-1" style="color: #333;">Correo Electrónico</h4>
-                <p *ngIf="!editMode" class="text-muted mb-0">{{ participanteLogueado.correo }}</p>
-                <input *ngIf="editMode" type="email" class="form-control" formControlName="correo">
-              </div>
-
-              <div class="mb-3">
-                <h4 class="mb-1" style="color: #333;">Teléfono</h4>
-                <p *ngIf="!editMode" class="text-muted mb-0">{{ participanteLogueado.telefono }}</p>
-                <input *ngIf="editMode" type="tel" class="form-control" formControlName="telefono">
-              </div>
-
-              <button *ngIf="editMode" class="btn btn-sm btn-primary"
-                      style="background-color: #FE7058; border: none;"
-                      type="submit">
-                Actualizar
-              </button>
-            </div>
-          </div>
+    <div class="profile-section bg-light py-5">
+        <!-- Modal para la foto ampliada -->
+        <div class="profile-modal" [class.show]="showModal" (click)="closeModal()">
+            <span class="close-modal" (click)="closeModal($event)">&times;</span>
+            <img class="modal-content" [src]="modalImageSrc">
         </div>
-      </div>
+
+        <div class="container">
+            <!-- Contenedor principal del perfil -->
+            <div class="profile-container bg-white p-4 rounded shadow-sm">
+                <div class="row align-items-center">
+                    <!-- Foto de perfil -->
+                    <div class="col-md-4 text-center">
+                        <div class="profile-picture-container mb-3">
+                            <!-- Imagen de perfil actual o vista previa -->
+                            <img [src]="selectedImage || profileImage" alt="Foto de perfil"
+                                 class="img-fluid rounded-circle profile-picture" (click)="openModal(profileImage)"
+                                 style="width: 150px; height: 150px; object-fit: cover;">
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-secondary"
+                            style="border-color: #FE7058; color: #FE7058;" (click)="toggleEditMode()">
+                            <i class="bi bi-gear-fill"></i> {{ editMode ? 'Cancelar' : 'Editar perfil' }}
+                        </button>
+                    </div>
+
+                    <!-- Información del usuario -->
+                    <div class="col-md-8">
+                        <div class="user-info">
+                            <div class="mb-3">
+                                <h4 class="mb-1" style="color: #333;">Nombre y Apellidos</h4>
+
+                                <p *ngIf="!editMode" class="text-muted mb-0">
+                                    {{ participanteLogueado.nombre }} {{ participanteLogueado.apellidos }}
+                                </p>
+                                <!-- Campos para modificar el nombre y apellidos -->
+                                <div *ngIf="editMode">
+                                    <input type="text" class="form-control" formControlName="nombre"
+                                        [value]="perfilForm.get('nombre')?.value">
+                                    <input type="text" class="form-control mt-2" formControlName="apellidos"
+                                        [value]="perfilForm.get('apellidos')?.value">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <h4 class="mb-1" style="color: #333;">Correo Electrónico</h4>
+
+                                <p *ngIf="!editMode" class="text-muted mb-0">{{ participanteLogueado.correo }}</p>
+
+                                <!-- Campo para modificar el correo -->
+                                <input *ngIf="editMode" type="email" class="form-control" formControlName="correo">
+                            </div>
+
+                            <div class="mb-3">
+                                <h4 class="mb-1" style="color: #333;">Teléfono</h4>
+
+                                <p *ngIf="!editMode" class="text-muted mb-0">{{ participanteLogueado.telefono }}</p>
+
+                                <!-- Campo para modificar el teléfono -->
+                                <input *ngIf="editMode" type="tel" class="form-control" formControlName="telefono">
+                            </div>
+
+                            <div *ngIf="editMode" class="mb-3">
+                                <h4 class="mb-1" style="color: #333;">Foto de Perfil</h4>
+
+                                <!-- Campo para modificar la foto de perfil -->
+                                <input type="file" (change)="onFileSelect($event)" class="form-control">
+                            </div>
+
+                            <button *ngIf="editMode" class="btn btn-sm btn-primary"
+                                style="background-color: #FE7058; border: none;" type="submit">
+                                Actualizar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </form>
-  
-  
+
 <!-- Sección de fotografías subidas -->
 <div style="background-color: white;">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 style="margin: 0 auto;">Fotografías Subidas</h2>
     </div>
-    
+
     <!-- Línea divisoria -->
     <hr class="mt-0 mb-4" style="border-top: 2px solid #FE7058; opacity: 0.7; margin: 0 auto; width: 90%;">
-    
-    <!-- Galería de fotos -->
+
+
     <div class="row g-4" style="margin: 0px 50px 0px 50px;">
-        <!-- Ejemplo de foto subida -->
         <div class="col-md-4 col-sm-6" *ngFor="let photo of userPhotos">
             <div class="photo-card position-relative">
                 <img [src]="photo.url" alt="Foto subida" class="img-fluid rounded">
@@ -85,12 +99,12 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Botón circular para añadir foto -->
         <div class="col-md-4 col-sm-6">
             <div class="add-photo-container position-relative" style="min-height: 200px;">
-                <button class="btn btn-primary rounded-circle add-photo-btn floating-btn" 
-                        style="width: 60px; height: 60px; position: absolute; top: 65%; left: 50%; transform: translate(-50%, -50%); background-color: #FE7058; border: none;">
+                <button class="btn btn-primary rounded-circle add-photo-btn floating-btn"
+                    style="width: 60px; height: 60px; position: absolute; top: 65%; left: 50%; transform: translate(-50%, -50%); background-color: #FE7058; border: none;">
                     <i class="bi bi-plus fs-4"></i>
                 </button>
             </div>

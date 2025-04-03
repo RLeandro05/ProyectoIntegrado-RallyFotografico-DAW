@@ -13,9 +13,11 @@ export class PerfilParticipanteComponent {
   modalImageSrc = '';
   profileImage = '/assets/perfilDefecto.png';
   editMode = false;
-  perfilForm!: FormGroup; // Formulario Reactivo
-  public participanteLogueado: any = null;
+  perfilForm!: FormGroup;
+  
+  selectedImage: string | ArrayBuffer | null = null; //Para vista previa de la imagen
 
+  public participanteLogueado: any = null;
   userPhotos = [
     { url: "/assets/imagenPrincipal1.jpeg" }
   ];
@@ -33,44 +35,65 @@ export class PerfilParticipanteComponent {
         nombre: [this.participanteLogueado.nombre],
         apellidos: [this.participanteLogueado.apellidos],
         correo: [this.participanteLogueado.correo],
-        telefono: [this.participanteLogueado.telefono]
+        telefono: [this.participanteLogueado.telefono],
+        foto_perfil: [null] // Campo para la foto de perfil
       });
     }
   }
 
-  // Función para abrir el modal de la foto
+  //Función para abrir el modal de la foto
   openModal(imageSrc: string) {
     this.modalImageSrc = imageSrc;
     this.showModal = true;
     document.body.style.overflow = 'hidden';
   }
 
-  // Función para cerrar el modal
+  //Función para cerrar el modal
   closeModal(event?: Event) {
     if (event) event.stopPropagation();
     this.showModal = false;
     document.body.style.overflow = '';
   }
 
-  // Función para activar/desactivar el modo edición
+  //Función para activar/desactivar el modo edición
   toggleEditMode() {
     this.editMode = !this.editMode;
-    if (!this.editMode) {
-      // Al salir del modo edición, actualizamos los valores del formulario
-      this.perfilForm.patchValue({
-        nombre: this.participanteLogueado.nombre,
-        apellidos: this.participanteLogueado.apellidos,
-        correo: this.participanteLogueado.correo,
-        telefono: this.participanteLogueado.telefono
-      });
+  }
+
+  //Función para manejar la imagen seleccionada
+  onFileSelect(event: any) {
+    //Guardar el archivo traído
+    const file = event.target.files[0];
+
+    //Si existe, ejecutar la funcion para convertirlo en base64
+    if (file) {
+      this.convertToBase64(file);
     }
+  }
+
+  //Función para convertirlo en base64
+  convertToBase64(file: File) {
+    //Crear un nuevo FilerReader
+    const reader = new FileReader();
+
+    //Al ser leído, mostrar una vista previa de la imagen seleccionada y luego almacenarlo como Blob
+    reader.onload = () => {
+      this.selectedImage = reader.result;
+
+      this.perfilForm.patchValue({
+        foto_perfil: file
+      });
+    };
+    reader.readAsDataURL(file); //Convertir el archivo a Base64
   }
 
   // Función para guardar cambios al enviar el formulario
   onSubmit() {
     if (this.perfilForm.valid) {
-      this.participanteLogueado = { ...this.perfilForm.value }; // Guarda los cambios
-      console.log('Participante actualizado:', this.participanteLogueado);
+      // Aquí podemos hacer lo que necesitemos con el Blob, por ejemplo,
+      // enviarlo al backend, o guardarlo localmente.
+      console.log('Participante actualizado:', this.perfilForm.value);
+      this.participanteLogueado = { ...this.perfilForm.value };
       this.editMode = false; // Salir del modo edición
     }
   }
