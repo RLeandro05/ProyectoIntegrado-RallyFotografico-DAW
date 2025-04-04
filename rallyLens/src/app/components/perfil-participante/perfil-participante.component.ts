@@ -57,6 +57,19 @@ export class PerfilParticipanteComponent {
 
   //Función para activar/desactivar el modo edición
   toggleEditMode() {
+
+    if(this.editMode) {
+      this.perfilForm = this.fb.group({
+        nombre: [this.participanteLogueado.nombre],
+        apellidos: [this.participanteLogueado.apellidos],
+        correo: [this.participanteLogueado.correo],
+        telefono: [this.participanteLogueado.telefono],
+        foto_perfil: [null] // Campo para la foto de perfil
+      });
+
+      this.selectedImage = null;
+    }
+
     this.editMode = !this.editMode;
   }
 
