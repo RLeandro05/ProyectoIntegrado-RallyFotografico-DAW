@@ -46,6 +46,10 @@ if ($objeto !== null && isset($objeto->servicio)) {
             break;
         case "obtenerIDParticipante":
             echo json_encode(obtenerIDParticipante($objeto->correo));
+            break;
+        case "obtenerParticipanteID":
+            echo json_encode(obtenerParticipanteID($objeto->id));
+            break;
     }
 }
 
@@ -267,7 +271,7 @@ function modificarParticipante($objeto) {
         }
 
         if (!$changed) {
-            return ["success" => true, "message" => "No se detectaron cambios"];
+            return ["error" => false, "message" => "No se detectaron cambios"];
         }
 
         $params[] = $p->id;
@@ -282,6 +286,7 @@ function modificarParticipante($objeto) {
     }
 }
 //Función para obtener el id del participante
+
 function obtenerIDParticipante($correo)
 {
     global $conn;
@@ -305,6 +310,34 @@ function obtenerIDParticipante($correo)
         }
 
         return $p["id"];
+    } catch (PDOException $e) {
+        return ["error" => "Error en la base de datos", "detalle" => $e->getMessage()];
+    }
+}
+
+//Función para obtener el participante a través de su ID
+function obtenerParticipanteID($id) {
+    global $conn;
+
+    //Validar que el participante exista
+    if (!isset($id)) {
+        return ["error" => "Estructura incorrecta", "detalle" => "Falta el valor 'id'"];
+    }
+
+    try {
+        //Buscar el participante
+        $stmt = $conn->prepare("SELECT id, nombre, apellidos, telefono, correo, password, foto_perfil FROM participante WHERE id = ?");
+
+        $stmt->execute([$id]);
+
+        $p = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        //Si no se encuentra el participante retornar error
+        if (!$p) {
+            return false;
+        }
+
+        return $p;
     } catch (PDOException $e) {
         return ["error" => "Error en la base de datos", "detalle" => $e->getMessage()];
     }
