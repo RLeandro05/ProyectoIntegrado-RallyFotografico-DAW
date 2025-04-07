@@ -35,4 +35,20 @@ export class ServiceParticipanteService {
     };
     return this.http.post<Participante>(this.url, cuerpo);
   }
+
+  modificarParticipante(participante: Participante) {
+    let cuerpo = {
+      servicio: "modificarParticipante",
+      participante: participante
+    };
+    return this.http.post<any>(this.url, cuerpo);
+  }
+
+  obtenerIDParticipante(correo: string) {
+    let cuerpo = {
+      servicio: "obtenerIDParticipante",
+      correo: correo
+    };
+    return this.http.post<number>(this.url, cuerpo);
+    }
 }

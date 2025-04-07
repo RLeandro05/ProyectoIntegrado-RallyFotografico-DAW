@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ServiceParticipanteService } from '../../services/service-participante.service';
 
 @Component({
   selector: 'app-perfil-participante',
@@ -14,7 +15,7 @@ export class PerfilParticipanteComponent {
   profileImage = '/assets/perfilDefecto.png';
   editMode = false;
   perfilForm!: FormGroup;
-  
+
   selectedImage: string | ArrayBuffer | null = null; //Para vista previa de la imagen
 
   public participanteLogueado: any = null;
@@ -22,7 +23,7 @@ export class PerfilParticipanteComponent {
     { url: "/assets/imagenPrincipal1.jpeg" }
   ];
 
-  constructor(private route: Router, private fb: FormBuilder) {}
+  constructor(private route: Router, private fb: FormBuilder, private serviceParticipante: ServiceParticipanteService) { }
 
   ngOnInit() {
     const participanteLogueado = localStorage.getItem("participanteLogueado");
@@ -36,8 +37,12 @@ export class PerfilParticipanteComponent {
         apellidos: [this.participanteLogueado.apellidos],
         correo: [this.participanteLogueado.correo],
         telefono: [this.participanteLogueado.telefono],
-        foto_perfil: [null] // Campo para la foto de perfil
+        foto_perfil: [this.participanteLogueado.foto_perfil]
       });
+
+      if(this.participanteLogueado.foto_perfil) {
+        this.profileImage = this.participanteLogueado.foto_perfil;
+      }
     }
   }
 
@@ -58,7 +63,7 @@ export class PerfilParticipanteComponent {
   //Función para activar/desactivar el modo edición
   toggleEditMode() {
 
-    if(this.editMode) {
+    if (this.editMode) {
       this.perfilForm = this.fb.group({
         nombre: [this.participanteLogueado.nombre],
         apellidos: [this.participanteLogueado.apellidos],
@@ -100,14 +105,37 @@ export class PerfilParticipanteComponent {
     reader.readAsDataURL(file); //Convertir el archivo a Base64
   }
 
-  // Función para guardar cambios al enviar el formulario
+  //Función para guardar cambios al enviar el formulario
   onSubmit() {
     if (this.perfilForm.valid) {
-      // Aquí podemos hacer lo que necesitemos con el Blob, por ejemplo,
-      // enviarlo al backend, o guardarlo localmente.
-      console.log('Participante actualizado:', this.perfilForm.value);
       this.participanteLogueado = { ...this.perfilForm.value };
-      this.editMode = false; // Salir del modo edición
+
+      //Obtener el id del participante
+      this.serviceParticipante.obtenerIDParticipante(this.participanteLogueado.correo).subscribe(
+        idObtenido => {
+          const idParticipante = idObtenido;
+
+          //Participante completo
+          const participanteCompleto = {
+            ...this.perfilForm.value,
+            foto_perfil: this.selectedImage ? this.selectedImage.toString() : null,
+            id: idParticipante
+          };
+
+          console.log('Participante actualizado:', participanteCompleto);
+
+          localStorage.setItem("participanteLogueado", JSON.stringify(participanteCompleto));
+
+          //Modificar los campos del participante
+          this.serviceParticipante.modificarParticipante(participanteCompleto).subscribe(
+            confirmacion => {
+              console.log("Confirmación de Modificación :>> ", confirmacion);
+            }, error => console.error("Error al modificar el participante :>> ", error)
+          )
+        }, error => console.error("Error al obtener el id del participante :>> ", error)
+      )
+
+      this.editMode = false; //Salir del modo edición
     }
   }
 }

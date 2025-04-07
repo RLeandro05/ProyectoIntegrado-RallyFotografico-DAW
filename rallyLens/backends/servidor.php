@@ -41,6 +41,9 @@ if ($objeto !== null && isset($objeto->servicio)) {
         case "loginParticipante":
             echo json_encode(loginParticipante($objeto));
             break;
+        case "modificarParticipante":
+            echo json_encode(modificarParticipante($objeto));
+            break;
     }
 }
 
@@ -193,6 +196,11 @@ function loginParticipante($objeto)
     } catch (PDOException $e) {
         return ["error" => "Error en la base de datos", "detalle" => $e->getMessage()];
     }
+}
+
+//Función para modificar las credenciales del participante
+function modificarParticipante($objeto) {
+
 }
 
 
