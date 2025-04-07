@@ -44,6 +44,8 @@ if ($objeto !== null && isset($objeto->servicio)) {
         case "modificarParticipante":
             echo json_encode(modificarParticipante($objeto));
             break;
+        case "obtenerIDParticipante":
+            echo json_encode(obtenerIDParticipante($objeto->correo));
     }
 }
 
@@ -198,9 +200,114 @@ function loginParticipante($objeto)
     }
 }
 
-//Función para modificar las credenciales del participante
+//Función para modificar el participante
 function modificarParticipante($objeto) {
+    global $conn;
 
+    if (!isset($objeto->participante)) {
+        return ["error" => "Estructura incorrecta", "detalle" => "Falta el objeto 'participante'"];
+    }
+
+    $p = $objeto->participante;
+
+    try {
+        //Obtener datos actuales incluyendo la foto actual
+        $stmt = $conn->prepare("SELECT nombre, apellidos, telefono, correo, foto_perfil FROM participante WHERE id = ?");
+        $stmt->execute([$p->id]);
+        $actual = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$actual) {
+            return ["error" => "Participante no encontrado"];
+        }
+
+        $updates = [];
+        $params = [];
+        $changed = false;
+
+        if (isset($p->nombre) && $p->nombre !== $actual['nombre']) {
+            $updates[] = "nombre = ?";
+            $params[] = htmlspecialchars(strip_tags($p->nombre));
+            $changed = true;
+        }
+
+        if (isset($p->apellidos) && $p->apellidos !== $actual['apellidos']) {
+            $updates[] = "apellidos = ?";
+            $params[] = htmlspecialchars(strip_tags($p->apellidos));
+            $changed = true;
+        }
+
+        if (isset($p->telefono) && $p->telefono !== $actual['telefono']) {
+            $updates[] = "telefono = ?";
+            $params[] = htmlspecialchars(strip_tags($p->telefono));
+            $changed = true;
+        }
+
+        if (isset($p->correo) && $p->correo !== $actual['correo']) {
+            $stmt = $conn->prepare("SELECT id FROM participante WHERE correo = ? AND id != ?");
+            $stmt->execute([$p->correo, $p->id]);
+            
+            if ($stmt->fetch()) {
+                return ["error" => "El correo electrónico ya está en uso"];
+            }
+            
+            $updates[] = "correo = ?";
+            $params[] = $p->correo;
+            $changed = true;
+        }
+
+        //Manejo especial para la foto de perfil
+        if (property_exists($p, 'foto_perfil')) {
+            //Solo actualizamos si realmente hay una nueva foto (no es null y es diferente)
+            if ($p->foto_perfil !== null && $p->foto_perfil !== $actual['foto_perfil']) {
+                $updates[] = "foto_perfil = ?";
+                $params[] = $p->foto_perfil;
+                $changed = true;
+            }
+            //Si foto_perfil es null en el objeto, no hacemos nada (mantenemos la actual)
+        }
+
+        if (!$changed) {
+            return ["success" => true, "message" => "No se detectaron cambios"];
+        }
+
+        $params[] = $p->id;
+        $sql = "UPDATE participante SET " . implode(", ", $updates) . " WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute($params);
+
+        return ["success" => true, "message" => "Datos actualizados correctamente"];
+
+    } catch (PDOException $e) {
+        return ["error" => "Error en la base de datos", "detalle" => $e->getMessage()];
+    }
+}
+//Función para obtener el id del participante
+function obtenerIDParticipante($correo)
+{
+    global $conn;
+
+    //Validar que el participante exista
+    if (!isset($correo)) {
+        return ["error" => "Estructura incorrecta", "detalle" => "Falta el valor 'correo'"];
+    }
+
+    try {
+        //Buscar el id del participante
+        $stmt = $conn->prepare("SELECT id FROM participante WHERE correo = ?");
+
+        $stmt->execute([$correo]);
+
+        $p = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        //Si no se encuentra el participante retornar error
+        if (!$p) {
+            return false;
+        }
+
+        return $p["id"];
+    } catch (PDOException $e) {
+        return ["error" => "Error en la base de datos", "detalle" => $e->getMessage()];
+    }
 }
 
 
