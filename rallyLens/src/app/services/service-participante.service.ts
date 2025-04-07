@@ -50,5 +50,13 @@ export class ServiceParticipanteService {
       correo: correo
     };
     return this.http.post<number>(this.url, cuerpo);
-    }
+  }
+
+  obtenerParticipanteID(id: number) {
+    let cuerpo = {
+      servicio: "obtenerParticipanteID",
+      id: id
+    };
+    return this.http.post<Participante>(this.url, cuerpo);
+  }
 }

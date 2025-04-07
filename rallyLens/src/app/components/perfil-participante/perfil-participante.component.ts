@@ -122,13 +122,27 @@ export class PerfilParticipanteComponent {
             id: idParticipante
           };
 
-          console.log('Participante actualizado:', participanteCompleto);
-
-          localStorage.setItem("participanteLogueado", JSON.stringify(participanteCompleto));
-
           //Modificar los campos del participante
           this.serviceParticipante.modificarParticipante(participanteCompleto).subscribe(
             confirmacion => {
+              if(confirmacion["success"]) {
+                console.log("Entra en true");
+                
+                //Obtener el nuevo participante actualizado para mostrar en localStorage
+                this.serviceParticipante.obtenerParticipanteID(participanteCompleto.id).subscribe(
+                  datos => {
+                    console.log("Participante sacado a través de su id :>> ", datos);
+
+                    localStorage.setItem("participanteLogueado", JSON.stringify(datos));
+                  }, error => console.error("Error al sacar el participante a través de su id :>> ", error)
+                )
+                
+
+
+                localStorage.setItem("participanteLogueado", JSON.stringify(participanteCompleto));
+              } else {
+                console.log("Entra en false");
+              }
               console.log("Confirmación de Modificación :>> ", confirmacion);
             }, error => console.error("Error al modificar el participante :>> ", error)
           )
