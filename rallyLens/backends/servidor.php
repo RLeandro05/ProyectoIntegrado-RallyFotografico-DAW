@@ -205,11 +205,12 @@ function loginParticipante($objeto)
 }
 
 //Función para modificar el participante
-function modificarParticipante($objeto) {
+function modificarParticipante($objeto)
+{
     global $conn;
 
     if (!isset($objeto->participante)) {
-        return ["error" => "Estructura incorrecta", "detalle" => "Falta el objeto 'participante'"];
+        return ["faltaParticipante" => "Estructura incorrecta", "detalle" => "Falta el objeto 'participante'"];
     }
 
     $p = $objeto->participante;
@@ -221,7 +222,7 @@ function modificarParticipante($objeto) {
         $actual = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$actual) {
-            return ["error" => "Participante no encontrado"];
+            return ["noEncuentra" => "Participante no encontrado"];
         }
 
         $updates = [];
@@ -246,17 +247,24 @@ function modificarParticipante($objeto) {
             $changed = true;
         }
 
-        if (isset($p->correo) && $p->correo !== $actual['correo']) {
-            $stmt = $conn->prepare("SELECT id FROM participante WHERE correo = ? AND id != ?");
-            $stmt->execute([$p->correo, $p->id]);
-            
-            if ($stmt->fetch()) {
-                return ["error" => "El correo electrónico ya está en uso"];
+        //Verificar que la propiedad correo existe
+        if (property_exists($p, 'correo')) {
+            //Asegurarse de que el correo nuevo es distinto al actual
+            if ($p->correo !== $actual['correo']) {
+                //Verificar si el nuevo correo ya existe (excluyendo al usuario actual)
+                $stmt = $conn->prepare("SELECT COUNT(*) as count FROM participante WHERE correo = ? AND id != ?");
+                $stmt->execute([$p->correo, $p->id]);
+                $result = $stmt->fetch();
+
+                //Si hay al menos 1, mandar mensaje de error de correoExiste
+                if ($result['count'] > 0) {
+                    return ["correoExiste" => "El correo electrónico ya está en uso por otro participante. Ingrese otro."];
+                }
+
+                $updates[] = "correo = ?";
+                $params[] = $p->correo;
+                $changed = true;
             }
-            
-            $updates[] = "correo = ?";
-            $params[] = $p->correo;
-            $changed = true;
         }
 
         //Manejo especial para la foto de perfil
@@ -271,7 +279,7 @@ function modificarParticipante($objeto) {
         }
 
         if (!$changed) {
-            return ["error" => false, "message" => "No se detectaron cambios"];
+            return ["noCambia" => "No se detectaron cambios"];
         }
 
         $params[] = $p->id;
@@ -280,7 +288,6 @@ function modificarParticipante($objeto) {
         $stmt->execute($params);
 
         return ["success" => true, "message" => "Datos actualizados correctamente"];
-
     } catch (PDOException $e) {
         return ["error" => "Error en la base de datos", "detalle" => $e->getMessage()];
     }
@@ -316,7 +323,8 @@ function obtenerIDParticipante($correo)
 }
 
 //Función para obtener el participante a través de su ID
-function obtenerParticipanteID($id) {
+function obtenerParticipanteID($id)
+{
     global $conn;
 
     //Validar que el participante exista
