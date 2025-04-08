@@ -374,3 +374,4 @@ function conectar2($bd, $usuario, $clave)
         ]));
     }
 }
+
