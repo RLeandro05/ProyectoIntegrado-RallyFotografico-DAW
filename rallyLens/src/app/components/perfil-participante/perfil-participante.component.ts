@@ -40,7 +40,7 @@ export class PerfilParticipanteComponent {
         foto_perfil: [this.participanteLogueado.foto_perfil]
       });
 
-      if(this.participanteLogueado.foto_perfil) {
+      if (this.participanteLogueado.foto_perfil) {
         this.profileImage = this.participanteLogueado.foto_perfil;
       }
     }
@@ -105,51 +105,44 @@ export class PerfilParticipanteComponent {
     reader.readAsDataURL(file); //Convertir el archivo a Base64
   }
 
-  //Función para guardar cambios al enviar el formulario
+  //Función para realizar la modificación completa de las credenciales
   onSubmit() {
+    //Confirmar que es válido el formulario
     if (this.perfilForm.valid) {
-      this.participanteLogueado = { ...this.perfilForm.value };
+      //Crear un el participante actualizado a partir del ya modificado en el formulario
+      const participanteActualizado = {
+        ...this.perfilForm.value,
+        //La foto de perfil será el de la seleccionada (si se escogió alguna), o la que tiene ya por defecto puesta
+        foto_perfil: this.selectedImage ? this.selectedImage.toString() : this.participanteLogueado.foto_perfil,
+        id: this.participanteLogueado.id
+      };
 
-      //Obtener el id del participante
-      this.serviceParticipante.obtenerIDParticipante(this.participanteLogueado.correo).subscribe(
-        idObtenido => {
-          const idParticipante = idObtenido;
-
-          //Participante completo
-          const participanteCompleto = {
-            ...this.perfilForm.value,
-            foto_perfil: this.selectedImage ? this.selectedImage.toString() : null,
-            id: idParticipante
-          };
-
-          //Modificar los campos del participante
-          this.serviceParticipante.modificarParticipante(participanteCompleto).subscribe(
-            confirmacion => {
-              if(confirmacion["success"]) {
-                console.log("Entra en true");
-                
-                //Obtener el nuevo participante actualizado para mostrar en localStorage
-                this.serviceParticipante.obtenerParticipanteID(participanteCompleto.id).subscribe(
-                  datos => {
-                    console.log("Participante sacado a través de su id :>> ", datos);
-
-                    localStorage.setItem("participanteLogueado", JSON.stringify(datos));
-                  }, error => console.error("Error al sacar el participante a través de su id :>> ", error)
-                )
-                
-
-
-                localStorage.setItem("participanteLogueado", JSON.stringify(participanteCompleto));
-              } else {
-                console.log("Entra en false");
+      //Llamar a la función para modificar el participante recién creado para actualizarlo
+      this.serviceParticipante.modificarParticipante(participanteActualizado).subscribe(
+        respuesta => {
+          //Si todo está en orden y se actualizó correctamente, llamar a la función para obtener el id del participante actual a modificar
+          if (respuesta.success) {
+            this.serviceParticipante.obtenerParticipanteID(this.participanteLogueado.id).subscribe(
+              datosActualizados => {
+                //Actualizar el localStorage del participante modificado
+                localStorage.setItem("participanteLogueado", JSON.stringify(datosActualizados));
+                this.participanteLogueado = datosActualizados; //Sobreescribir datos
+                this.editMode = false;
               }
-              console.log("Confirmación de Modificación :>> ", confirmacion);
-            }, error => console.error("Error al modificar el participante :>> ", error)
-          )
-        }, error => console.error("Error al obtener el id del participante :>> ", error)
-      )
+            );
 
-      this.editMode = false; //Salir del modo edición
+            alert(respuesta.message);
+          }
+          //Si no se actualiza correctamente, probar entre las diversas opciones sobre el por qué, para darle mayor interactividad al usuario 
+          else {
+            const mensaje = 
+            respuesta.faltaParticipante || respuesta.noEncuentra ||
+            respuesta.correoExiste || respuesta.noCambia || null;
+
+            mensaje ? alert(mensaje) : console.log(respuesta.error);
+          }
+        }
+      );
     }
   }
 }
