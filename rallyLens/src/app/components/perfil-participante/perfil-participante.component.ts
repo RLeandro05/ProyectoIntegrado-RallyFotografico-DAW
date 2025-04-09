@@ -16,12 +16,13 @@ export class PerfilParticipanteComponent {
   editMode = false;
   perfilForm!: FormGroup;
 
-  selectedImage: string | ArrayBuffer | null = null; //Para vista previa de la imagen
+  selectedImage: string | ArrayBuffer | null = null;
+  showPhotoForm = false;
+  newPhotoPreview: string | ArrayBuffer | null = null;
 
   public participanteLogueado: any = null;
-  userPhotos = [
-    { url: "/assets/imagenPrincipal1.jpeg" }
-  ];
+  userPhotos: any[] = [];
+  maxPhotos = 3;
 
   constructor(private route: Router, private fb: FormBuilder, private serviceParticipante: ServiceParticipanteService) { }
 
@@ -43,7 +44,23 @@ export class PerfilParticipanteComponent {
       if (this.participanteLogueado.foto_perfil) {
         this.profileImage = this.participanteLogueado.foto_perfil;
       }
+
+      this.loadUserPhotos();
     }
+  }
+
+  // En tu función loadUserPhotos:
+  loadUserPhotos() {
+    this.serviceParticipante.listarFotosParticipante(this.participanteLogueado.id).subscribe(
+      (response: any) => {
+        // Asegúrate de que siempre sea un array
+        this.userPhotos = response.data || [];
+      },
+      error => {
+        console.error('Error al cargar fotos:', error);
+        this.userPhotos = []; // Asegura que sea array incluso en error
+      }
+    );
   }
 
   //Función para abrir el modal de la foto
@@ -135,14 +152,65 @@ export class PerfilParticipanteComponent {
           }
           //Si no se actualiza correctamente, probar entre las diversas opciones sobre el por qué, para darle mayor interactividad al usuario 
           else {
-            const mensaje = 
-            respuesta.faltaParticipante || respuesta.noEncuentra ||
-            respuesta.correoExiste || respuesta.noCambia || null;
+            const mensaje =
+              respuesta.faltaParticipante || respuesta.noEncuentra ||
+              respuesta.correoExiste || respuesta.noCambia || null;
 
             mensaje ? alert(mensaje) : console.log(respuesta.error);
           }
         }
       );
     }
+  }
+
+  togglePhotoForm() {
+    if (this.userPhotos.length >= this.maxPhotos) return;
+    this.showPhotoForm = !this.showPhotoForm;
+    if (!this.showPhotoForm) {
+      this.newPhotoPreview = null;
+    }
+  }
+
+  onPhotoSelect(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.newPhotoPreview = reader.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  cancelPhotoUpload() {
+    this.showPhotoForm = false;
+    this.newPhotoPreview = null;
+  }
+
+  uploadPhoto(event: any) {
+    event.preventDefault();
+    if (!this.newPhotoPreview) return;
+
+    const fotoData = {
+      id_participante: this.participanteLogueado.id,
+      imagen: this.newPhotoPreview
+    };
+
+    this.serviceParticipante.subirFoto({ foto: fotoData }).subscribe(
+      response => {
+        if (response) {
+          this.loadUserPhotos();
+          this.showPhotoForm = false;
+          this.newPhotoPreview = null;
+          alert('Foto subida correctamente');
+        } else {
+          alert('Error al subir la foto');
+        }
+      },
+      error => {
+        console.error('Error:', error);
+        alert('Error al subir la foto');
+      }
+    );
   }
 }

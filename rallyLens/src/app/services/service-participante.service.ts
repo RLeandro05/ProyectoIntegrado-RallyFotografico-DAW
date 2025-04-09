@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
 import { Participante } from '../modules/participante';
+import { Foto } from '../modules/foto';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -59,4 +61,20 @@ export class ServiceParticipanteService {
     };
     return this.http.post<Participante>(this.url, cuerpo);
   }
+
+  // Añade estos métodos a tu servicio existente
+
+listarFotosParticipante(idParticipante: number): Observable<any> {
+  return this.http.post<any>(this.url, {
+    servicio: "listarFotosParticipante",
+    id: idParticipante
+  });
+}
+
+subirFoto(data: any): Observable<any> {
+  return this.http.post<any>(this.url, {
+    servicio: "subirFoto",
+    foto: data.foto
+  });
+}
 }
