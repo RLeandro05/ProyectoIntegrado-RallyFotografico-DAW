@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
 import { Participante } from '../modules/participante';
 import { Foto } from '../modules/foto';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +10,7 @@ import { Observable } from 'rxjs';
 export class ServiceParticipanteService {
   public url: string = environment.API_URL;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   listarParticipantes() {
     let cuerpo = {
@@ -26,7 +25,7 @@ export class ServiceParticipanteService {
       participante: participante
     };
     console.log("Cuerpo :>> ", cuerpo);
-    
+
     return this.http.post<Participante>(this.url, cuerpo);
   }
 
@@ -62,19 +61,19 @@ export class ServiceParticipanteService {
     return this.http.post<Participante>(this.url, cuerpo);
   }
 
-  // Añade estos métodos a tu servicio existente
+  listarFotosParticipante(idParticipante: number) {
+    let cuerpo = {
+      servicio: "listarFotosParticipante",
+      id: idParticipante
+    };
+    return this.http.post<any>(this.url, cuerpo);
+  }
 
-listarFotosParticipante(idParticipante: number): Observable<any> {
-  return this.http.post<any>(this.url, {
-    servicio: "listarFotosParticipante",
-    id: idParticipante
-  });
-}
-
-subirFoto(data: any): Observable<any> {
-  return this.http.post<any>(this.url, {
-    servicio: "subirFoto",
-    foto: data.foto
-  });
-}
+  subirFoto(foto: Foto) {
+    let cuerpo = {
+      servicio: "subirFoto",
+      foto: foto
+    };
+    return this.http.post<any>(this.url, cuerpo);
+  }
 }

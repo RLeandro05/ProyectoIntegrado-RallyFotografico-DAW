@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ServiceParticipanteService } from '../../services/service-participante.service';
+import { Foto } from '../../modules/foto';
 
 @Component({
   selector: 'app-perfil-participante',
@@ -23,6 +24,8 @@ export class PerfilParticipanteComponent {
   public participanteLogueado: any = null;
   userPhotos: any[] = [];
   maxPhotos = 3;
+
+  public foto: Foto = <Foto> {};
 
   constructor(private route: Router, private fb: FormBuilder, private serviceParticipante: ServiceParticipanteService) { }
 
@@ -49,16 +52,17 @@ export class PerfilParticipanteComponent {
     }
   }
 
-  // En tu función loadUserPhotos:
+  //Función para listar todas las fotos subidas por el participante
   loadUserPhotos() {
     this.serviceParticipante.listarFotosParticipante(this.participanteLogueado.id).subscribe(
-      (response: any) => {
-        // Asegúrate de que siempre sea un array
-        this.userPhotos = response.data || [];
+      datos => {
+        this.userPhotos = datos;
+
+        console.log("Listado de fotos del participante :>> ", this.userPhotos);
       },
       error => {
         console.error('Error al cargar fotos:', error);
-        this.userPhotos = []; // Asegura que sea array incluso en error
+        this.userPhotos = [];
       }
     );
   }
@@ -86,7 +90,7 @@ export class PerfilParticipanteComponent {
         apellidos: [this.participanteLogueado.apellidos],
         correo: [this.participanteLogueado.correo],
         telefono: [this.participanteLogueado.telefono],
-        foto_perfil: [null] // Campo para la foto de perfil
+        foto_perfil: [null]
       });
 
       this.selectedImage = null;
@@ -163,15 +167,20 @@ export class PerfilParticipanteComponent {
     }
   }
 
+  //Función para abrir o cerrar el formulario de la foto a subir
   togglePhotoForm() {
     if (this.userPhotos.length >= this.maxPhotos) return;
     this.showPhotoForm = !this.showPhotoForm;
+    //Si no se muestra el formulario, poner la preview como nula para no mostrar nada estando cerrado
     if (!this.showPhotoForm) {
       this.newPhotoPreview = null;
     }
   }
 
+  //Función para que, al igual que con la foto de perfil, muestre una preview de la foto
   onPhotoSelect(event: any) {
+    console.log("Entra en onPhotoSelect");
+    
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -182,21 +191,27 @@ export class PerfilParticipanteComponent {
     }
   }
 
+  //Función para que, al pinchar en Cancelar, cierre el formulario y ponga la preview como nula
   cancelPhotoUpload() {
     this.showPhotoForm = false;
     this.newPhotoPreview = null;
   }
 
+  //Función para cargar o subir la foto
   uploadPhoto(event: any) {
     event.preventDefault();
     if (!this.newPhotoPreview) return;
 
-    const fotoData = {
+    this.foto = {
+      id: -1,
       id_participante: this.participanteLogueado.id,
-      imagen: this.newPhotoPreview
+      imagen: null,
+      estado: "pendiente",
+      votos: 0,
+      fec_mod: null
     };
 
-    this.serviceParticipante.subirFoto({ foto: fotoData }).subscribe(
+    this.serviceParticipante.subirFoto(this.foto).subscribe(
       response => {
         if (response) {
           this.loadUserPhotos();
