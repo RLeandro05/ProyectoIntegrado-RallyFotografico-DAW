@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ServiceParticipanteService } from '../../services/service-participante.service';
 import { Foto } from '../../modules/foto';
+import { ServiceFotoService } from '../../services/service-foto.service';
 
 @Component({
   selector: 'app-perfil-participante',
@@ -27,7 +28,7 @@ export class PerfilParticipanteComponent {
 
   public foto: Foto = <Foto> {};
 
-  constructor(private route: Router, private fb: FormBuilder, private serviceParticipante: ServiceParticipanteService) { }
+  constructor(private route: Router, private fb: FormBuilder, private serviceParticipante: ServiceParticipanteService, private serviceFoto: ServiceFotoService) { }
 
   ngOnInit() {
     const participanteLogueado = localStorage.getItem("participanteLogueado");
@@ -54,7 +55,7 @@ export class PerfilParticipanteComponent {
 
   //Función para listar todas las fotos subidas por el participante
   loadUserPhotos() {
-    this.serviceParticipante.listarFotosParticipante(this.participanteLogueado.id).subscribe(
+    this.serviceFoto.listarFotosParticipante(this.participanteLogueado.id).subscribe(
       datos => {
         this.userPhotos = datos;
 
@@ -205,13 +206,16 @@ export class PerfilParticipanteComponent {
     this.foto = {
       id: -1,
       id_participante: this.participanteLogueado.id,
-      imagen: null,
+      imagen: this.newPhotoPreview.toString(),
       estado: "pendiente",
       votos: 0,
       fec_mod: null
     };
 
-    this.serviceParticipante.subirFoto(this.foto).subscribe(
+    console.log("Foto a subir :>> ", this.foto);
+    
+
+    this.serviceFoto.subirFoto(this.foto).subscribe(
       response => {
         if (response) {
           this.loadUserPhotos();

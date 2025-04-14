@@ -11,10 +11,19 @@ export class ServiceFotoService {
 
   constructor(private http: HttpClient) {}
 
-  listarFotos() {
+  listarFotosParticipante(idParticipante: number) {
     let cuerpo = {
-      servicio: "listarFotos"
+      servicio: "listarFotosParticipante",
+      id: idParticipante
     };
-    return this.http.post<Foto>(this.url, cuerpo);
+    return this.http.post<any>(this.url, cuerpo);
+  }
+
+  subirFoto(foto: Foto) {
+    let cuerpo = {
+      servicio: "subirFoto",
+      foto: foto
+    };
+    return this.http.post<any>(this.url, cuerpo);
   }
 }

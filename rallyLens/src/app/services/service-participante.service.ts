@@ -60,20 +60,4 @@ export class ServiceParticipanteService {
     };
     return this.http.post<Participante>(this.url, cuerpo);
   }
-
-  listarFotosParticipante(idParticipante: number) {
-    let cuerpo = {
-      servicio: "listarFotosParticipante",
-      id: idParticipante
-    };
-    return this.http.post<any>(this.url, cuerpo);
-  }
-
-  subirFoto(foto: Foto) {
-    let cuerpo = {
-      servicio: "subirFoto",
-      foto: foto
-    };
-    return this.http.post<any>(this.url, cuerpo);
-  }
 }
