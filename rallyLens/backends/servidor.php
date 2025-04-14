@@ -50,6 +50,12 @@ if ($objeto !== null && isset($objeto->servicio)) {
         case "obtenerParticipanteID":
             echo json_encode(obtenerParticipanteID($objeto->id));
             break;
+        case "subirFoto":
+            echo json_encode(subirFoto($objeto));
+            break;
+        case "listarFotosParticipante":
+            echo json_encode(listarFotosParticipante($objeto->id));
+            break;
     }
 }
 
@@ -292,8 +298,8 @@ function modificarParticipante($objeto)
         return ["error" => "Error en la base de datos", "detalle" => $e->getMessage()];
     }
 }
-//Función para obtener el id del participante
 
+//Función para obtener el id del participante
 function obtenerIDParticipante($correo)
 {
     global $conn;
@@ -351,6 +357,49 @@ function obtenerParticipanteID($id)
     }
 }
 
+//Función para subir una nueva fotografía
+function subirFoto($objeto)
+{
+    global $conn;
+
+    //Validar que la foto subida exista
+    if (!isset($objeto)) {
+        return ["error" => "Estructura incorrecta", "detalle" => "Falta el objeto 'foto'"];
+    }
+
+    $foto = $objeto;
+    $fecha_subida = date("Y-m-d");
+
+    try {
+        //Buscar el participante
+        $stmt = $conn->prepare("INSERT INTO fotografia (id_participante, imagen, estado, votos, fec_mod) VALUES (?, ?, ?, ?, ?)");
+
+        $stmt->execute([$foto->id_participante, $foto->imagen, $foto->estado, $foto->votos, $fecha_subida]);
+
+        return true;
+    } catch (PDOException $e) {
+        return ["error" => "Error en la base de datos", "detalle" => $e->getMessage()];
+    }
+}
+
+//Función para listar las fotos del participante
+function listarFotosParticipante($idParticipante)
+{
+    global $conn;
+    try {
+        $sc = "SELECT id, id_participante, imagen, estado, votos, fec_mod FROM fotografia WHERE id_participante = ? ORDER BY id";
+
+        $stm = $conn->prepare($sc);
+
+        $stm->execute([$idParticipante]);
+
+        $fotos = $stm->fetchAll(PDO::FETCH_ASSOC);
+
+        return $fotos;
+    } catch (Exception $e) {
+        return ["error" => $e->getMessage(), "codigo" => $e->getCode()];
+    }
+}
 
 //Función para conectar a la base de datos
 function conectar2($bd, $usuario, $clave)
@@ -374,4 +423,3 @@ function conectar2($bd, $usuario, $clave)
         ]));
     }
 }
-
