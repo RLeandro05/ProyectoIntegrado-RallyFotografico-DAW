@@ -56,6 +56,9 @@ if ($objeto !== null && isset($objeto->servicio)) {
         case "listarFotosParticipante":
             echo json_encode(listarFotosParticipante($objeto->id));
             break;
+        case "borrarFotoParticipante":
+            echo json_encode(borrarFotoParticipante($objeto->idFoto));
+            break;
     }
 }
 
@@ -367,7 +370,7 @@ function subirFoto($objeto)
         return ["error" => "Estructura incorrecta", "detalle" => "Falta el objeto 'foto'"];
     }
 
-    $foto = $objeto;
+    $foto = $objeto->foto;
     $fecha_subida = date("Y-m-d");
 
     try {
@@ -396,6 +399,29 @@ function listarFotosParticipante($idParticipante)
         $fotos = $stm->fetchAll(PDO::FETCH_ASSOC);
 
         return $fotos;
+    } catch (Exception $e) {
+        return ["error" => $e->getMessage(), "codigo" => $e->getCode()];
+    }
+}
+
+//Función para eliminar una foto subida por el participante
+function borrarFotoParticipante($idFoto)
+{
+    global $conn;
+
+    try {
+        //Validar que el id de la foto exista
+        if (!isset($idFoto)) {
+            return ["error" => "Estructura incorrecta", "detalle" => "Falta el id de la foto"];
+        }
+
+        $sc = "DELETE FROM fotografia WHERE id = ?";
+
+        $stm = $conn->prepare($sc);
+
+        $stm->execute([$idFoto]);
+
+        return ["fotoBorrada" => "La foto ha sido borrada exitosamente."];
     } catch (Exception $e) {
         return ["error" => $e->getMessage(), "codigo" => $e->getCode()];
     }

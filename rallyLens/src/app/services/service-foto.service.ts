@@ -26,4 +26,12 @@ export class ServiceFotoService {
     };
     return this.http.post<any>(this.url, cuerpo);
   }
+
+  borrarFoto(idFoto: number) {
+    let cuerpo = {
+      servicio: "borrarFotoParticipante",
+      idFoto: idFoto
+    };
+    return this.http.post<any>(this.url, cuerpo);
+  }
 }

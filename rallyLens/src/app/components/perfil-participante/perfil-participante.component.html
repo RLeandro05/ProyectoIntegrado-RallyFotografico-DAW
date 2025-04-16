@@ -95,7 +95,7 @@
                 <img [src]="photo.url || photo.imagen" alt="Foto subida" class="img-fluid rounded" style="height: 200px; width: 100%; object-fit: cover;">
                 <div class="photo-actions mt-2 d-flex justify-content-between">
                     <button class="btn btn-sm btn-outline-secondary">Editar</button>
-                    <button class="btn btn-sm btn-outline-danger">Eliminar</button>
+                    <button class="btn btn-sm btn-outline-danger" (click)="borrarFoto(photo.id)">Eliminar</button>
                 </div>
             </div>
         </div>

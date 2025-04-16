@@ -26,7 +26,7 @@ export class PerfilParticipanteComponent {
   userPhotos: any[] = [];
   maxPhotos = 3;
 
-  public foto: Foto = <Foto> {};
+  public foto: Foto = <Foto>{};
 
   constructor(private route: Router, private fb: FormBuilder, private serviceParticipante: ServiceParticipanteService, private serviceFoto: ServiceFotoService) { }
 
@@ -181,7 +181,7 @@ export class PerfilParticipanteComponent {
   //Función para que, al igual que con la foto de perfil, muestre una preview de la foto
   onPhotoSelect(event: any) {
     console.log("Entra en onPhotoSelect");
-    
+
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -213,7 +213,7 @@ export class PerfilParticipanteComponent {
     };
 
     console.log("Foto a subir :>> ", this.foto);
-    
+
 
     this.serviceFoto.subirFoto(this.foto).subscribe(
       response => {
@@ -231,5 +231,36 @@ export class PerfilParticipanteComponent {
         alert('Error al subir la foto');
       }
     );
+  }
+
+  //Función para borrar una foto seleccionada
+  borrarFoto(idFoto: number) {
+    console.log("idFoto :>> ", idFoto);
+
+    if (confirm("¿Estás seguro de que quieres eliminar la foto? Perderá todos sus votos en el registro.")) {
+      this.serviceFoto.borrarFoto(idFoto).subscribe(
+        resultado => {
+          if (resultado["fotoBorrada"]) {
+            console.log("resultado :>> ", resultado);
+
+            alert(resultado["fotoBorrada"]);
+
+            //Si se ha borrado correctamente, volver a listar la lista de fotos actualizada
+            this.serviceFoto.listarFotosParticipante(this.participanteLogueado.id).subscribe(
+              datos => {
+                this.userPhotos = datos;
+
+                console.log("Listado de fotos del participante :>> ", this.userPhotos);
+              },
+              error => {
+                console.error('Error al cargar fotos:', error);
+                this.userPhotos = [];
+              }
+            )
+          }
+
+        }, error => console.error("Error al eliminar la foto de la galería del participante :>> ", error)
+      )
+    }
   }
 }
