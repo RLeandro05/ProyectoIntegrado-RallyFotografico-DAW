@@ -211,7 +211,7 @@ export class PerfilParticipanteComponent {
     if (!this.newPhotoPreview) return;
 
     if (this.editingPhotoId) {
-      // Modo edición
+      //Modo edición
       this.foto = {
         id: this.editingPhotoId,
         id_participante: this.participanteLogueado.id,
@@ -237,7 +237,7 @@ export class PerfilParticipanteComponent {
         }
       );
     } else {
-      // Modo nueva foto (código existente)
+      //Modo nueva foto (código existente)
       this.foto = {
         id: -1,
         id_participante: this.participanteLogueado.id,
