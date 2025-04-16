@@ -85,56 +85,83 @@
         <h2 style="margin: 0 auto;">Fotografías Subidas</h2>
     </div>
 
-    <!-- Línea divisoria -->
     <hr class="mt-0 mb-4" style="border-top: 2px solid #FE7058; opacity: 0.7; margin: 0 auto; width: 90%;">
 
     <div class="row g-4" style="margin: 0px 50px 0px 50px;">
         <!-- Fotos existentes -->
-        <div class="col-md-4 col-sm-6" *ngFor="let photo of userPhotos">
-            <div class="photo-card position-relative">
-                <img [src]="photo.url || photo.imagen" alt="Foto subida" class="img-fluid rounded" style="height: 200px; width: 100%; object-fit: cover;">
+        <div class="col-md-4 col-sm-6" *ngFor="let photo of userPhotos; let i = index">
+            <div class="photo-card position-relative" *ngIf="editingPhotoId !== photo.id; else editForm">
+                <img [src]="photo.url || photo.imagen" alt="Foto subida" class="img-fluid rounded"
+                    style="height: 200px; width: 100%; object-fit: cover;">
                 <div class="photo-actions mt-2 d-flex justify-content-between">
-                    <button class="btn btn-sm btn-outline-secondary">Editar</button>
+                    <button class="btn btn-sm btn-outline-secondary" (click)="iniciarEdicionFoto(photo)">Editar</button>
                     <button class="btn btn-sm btn-outline-danger" (click)="borrarFoto(photo.id)">Eliminar</button>
                 </div>
             </div>
+
+            <ng-template #editForm>
+                <div class="photo-upload-form p-3 border rounded" style="min-height: 200px;">
+                    <form (submit)="uploadPhoto($event)">
+                        <div class="mb-3">
+                            <h5>Editar Foto</h5>
+                            <input type="file" class="form-control" accept="image/*" (change)="onPhotoSelect($event)"
+                                required>
+                        </div>
+                        <div class="mb-3" *ngIf="newPhotoPreview">
+                            <p>Vista previa:</p>
+                            <img [src]="newPhotoPreview" class="img-fluid rounded" style="max-height: 150px;">
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <button type="button" class="btn btn-sm btn-outline-secondary"
+                                (click)="cancelPhotoUpload()">Cancelar</button>
+                            <button type="submit" class="btn btn-sm btn-primary"
+                                style="background-color: #FE7058; border: none;">Actualizar</button>
+                        </div>
+                    </form>
+                </div>
+            </ng-template>
         </div>
 
-        <!-- Formulario para nueva foto (se muestra cuando showPhotoForm es true) -->
-        <div class="col-md-4 col-sm-6" *ngIf="showPhotoForm">
+        <!-- Formulario para nueva foto -->
+        <div class="col-md-4 col-sm-6" *ngIf="showPhotoForm && !editingPhotoId">
             <div class="photo-upload-form p-3 border rounded" style="min-height: 200px;">
                 <form (submit)="uploadPhoto($event)">
                     <div class="mb-3">
-                        <input type="file" class="form-control" accept="image/*" (change)="onPhotoSelect($event)" required>
+                        <h5>Añadir Nueva Foto</h5>
+                        <input type="file" class="form-control" accept="image/*" (change)="onPhotoSelect($event)"
+                            required>
                     </div>
                     <div class="mb-3" *ngIf="newPhotoPreview">
+                        <p>Vista previa:</p>
                         <img [src]="newPhotoPreview" class="img-fluid rounded" style="max-height: 150px;">
                     </div>
                     <div class="d-flex justify-content-between">
-                        <button type="button" class="btn btn-sm btn-outline-secondary" (click)="cancelPhotoUpload()">Cancelar</button>
-                        <button type="submit" class="btn btn-sm btn-primary" style="background-color: #FE7058; border: none;">Guardar</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary"
+                            (click)="cancelPhotoUpload()">Cancelar</button>
+                        <button type="submit" class="btn btn-sm btn-primary"
+                            style="background-color: #FE7058; border: none;">Guardar</button>
                     </div>
                 </form>
             </div>
         </div>
 
-        <!-- Botón para añadir foto (se muestra si hay menos de 3 fotos) -->
-        <div class="col-md-4 col-sm-6" *ngIf="!showPhotoForm && userPhotos.length < maxPhotos">
+        <!-- Botón para añadir foto -->
+        <div class="col-md-4 col-sm-6" *ngIf="!showPhotoForm && userPhotos.length < maxPhotos && !editingPhotoId">
             <div class="add-photo-container position-relative" style="min-height: 200px;">
                 <button class="btn btn-primary rounded-circle add-photo-btn floating-btn"
                     style="width: 60px; height: 60px; position: absolute; top: 65%; left: 50%; transform: translate(-50%, -50%); background-color: #FE7058; border: none;"
                     (click)="togglePhotoForm()">
                     <i class="bi bi-plus fs-4"></i>
                 </button>
-                <p class="text-center" style="position: absolute; top: 85%; left: 50%; transform: translate(-50%, -50%); width: 100%;">
+                <p class="text-center"
+                    style="position: absolute; top: 85%; left: 50%; transform: translate(-50%, -50%); width: 100%;">
                     Añadir foto
                 </p>
             </div>
         </div>
     </div>
 
-    <!-- Mensaje cuando se alcanza el límite de fotos -->
-    <div *ngIf="userPhotos.length >= maxPhotos" class="text-center mt-3">
+    <div *ngIf="userPhotos.length >= maxPhotos && !editingPhotoId" class="text-center mt-3">
         <p class="text-muted">Has alcanzado el límite de {{ maxPhotos }} fotos en tu perfil.</p>
     </div>
 </div>

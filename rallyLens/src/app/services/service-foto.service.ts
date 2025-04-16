@@ -34,4 +34,12 @@ export class ServiceFotoService {
     };
     return this.http.post<any>(this.url, cuerpo);
   }
+
+  editarFoto(foto: Foto) {
+    let cuerpo = {
+      servicio: "editarFotoParticipante",
+      foto: foto
+    };
+    return this.http.post<any>(this.url, cuerpo);
+  }
 }

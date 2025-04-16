@@ -26,9 +26,17 @@ export class PerfilParticipanteComponent {
   userPhotos: any[] = [];
   maxPhotos = 3;
 
+  editingPhotoId: number | null = null;
+  currentEditingPhoto: any = null;
+
   public foto: Foto = <Foto>{};
 
-  constructor(private route: Router, private fb: FormBuilder, private serviceParticipante: ServiceParticipanteService, private serviceFoto: ServiceFotoService) { }
+  constructor(
+    private route: Router, 
+    private fb: FormBuilder, 
+    private serviceParticipante: ServiceParticipanteService, 
+    private serviceFoto: ServiceFotoService
+  ) { }
 
   ngOnInit() {
     const participanteLogueado = localStorage.getItem("participanteLogueado");
@@ -194,8 +202,7 @@ export class PerfilParticipanteComponent {
 
   //Función para que, al pinchar en Cancelar, cierre el formulario y ponga la preview como nula
   cancelPhotoUpload() {
-    this.showPhotoForm = false;
-    this.newPhotoPreview = null;
+    this.resetPhotoForm();
   }
 
   //Función para cargar o subir la foto
@@ -203,34 +210,74 @@ export class PerfilParticipanteComponent {
     event.preventDefault();
     if (!this.newPhotoPreview) return;
 
-    this.foto = {
-      id: -1,
-      id_participante: this.participanteLogueado.id,
-      imagen: this.newPhotoPreview.toString(),
-      estado: "pendiente",
-      votos: 0,
-      fec_mod: null
-    };
+    if (this.editingPhotoId) {
+      // Modo edición
+      this.foto = {
+        id: this.editingPhotoId,
+        id_participante: this.participanteLogueado.id,
+        imagen: this.newPhotoPreview.toString(),
+        estado: this.currentEditingPhoto.estado,
+        votos: this.currentEditingPhoto.votos,
+        fec_mod: new Date()
+      };
 
-    console.log("Foto a subir :>> ", this.foto);
+      this.serviceFoto.editarFoto(this.foto).subscribe(
+        response => {
+          if (response) {
+            this.loadUserPhotos();
+            this.resetPhotoForm();
+            alert('Foto editada correctamente');
+          } else {
+            alert('Error al editar la foto');
+          }
+        },
+        error => {
+          console.error('Error:', error);
+          alert('Error al editar la foto');
+        }
+      );
+    } else {
+      // Modo nueva foto (código existente)
+      this.foto = {
+        id: -1,
+        id_participante: this.participanteLogueado.id,
+        imagen: this.newPhotoPreview.toString(),
+        estado: "pendiente",
+        votos: 0,
+        fec_mod: null
+      };
 
-
-    this.serviceFoto.subirFoto(this.foto).subscribe(
-      response => {
-        if (response) {
-          this.loadUserPhotos();
-          this.showPhotoForm = false;
-          this.newPhotoPreview = null;
-          alert('Foto subida correctamente');
-        } else {
+      this.serviceFoto.subirFoto(this.foto).subscribe(
+        response => {
+          if (response) {
+            this.loadUserPhotos();
+            this.resetPhotoForm();
+            alert('Foto subida correctamente');
+          } else {
+            alert('Error al subir la foto');
+          }
+        },
+        error => {
+          console.error('Error:', error);
           alert('Error al subir la foto');
         }
-      },
-      error => {
-        console.error('Error:', error);
-        alert('Error al subir la foto');
-      }
-    );
+      );
+    }
+  }
+
+  //Función para resetear el formulario de las fotos de la galería
+  resetPhotoForm() {
+    this.showPhotoForm = false;
+    this.newPhotoPreview = null;
+    this.editingPhotoId = null;
+    this.currentEditingPhoto = null;
+  }
+
+  //Función para editar una foto seleccionada
+  iniciarEdicionFoto(photo: any) {
+    this.editingPhotoId = photo.id;
+    this.currentEditingPhoto = photo;
+    this.newPhotoPreview = photo.url || photo.imagen; //Mostramos la foto actual como preview inicial
   }
 
   //Función para borrar una foto seleccionada
