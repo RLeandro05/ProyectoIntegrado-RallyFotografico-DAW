@@ -26,9 +26,13 @@
                     <!-- Si el participante inició sesión, mostrar botón de bienvenida y cierre de sesión. 
                      En caso contrario, buscar el ng-template #showButtons para mostrar el registro e inicio -->
                     <!-- Botón de Bienvenida (más pequeño y minimalista) -->
-                    <button class="btn btn-sm px-3 py-1 me-2 btn-welcome" routerLink="/perfil-participante"
+                    <button *ngIf="participanteLogueado" class="btn btn-sm px-3 py-1 me-2 btn-welcome" routerLink="/perfil-participante"
                         style="background-color: #FE7058; color: white; border: none; border-radius: 10px; font-size: 1.2rem; margin-right: 100px;">
-                        Bienvenido, {{ participanteLogueado?.nombre }}
+                        Bienvenido, {{ participanteLogueado?.nombre}}
+                    </button>
+                    <button *ngIf="adminLogueado" class="btn btn-sm px-3 py-1 me-2 btn-welcome"
+                        style="background-color: #FE7058; color: white; border: none; border-radius: 10px; font-size: 1.2rem; margin-right: 100px;">
+                        Bienvenido, {{ adminLogueado?.nombre}}
                     </button>
 
                     <button class="btn btn-sm px-3 py-1 btn-logout"

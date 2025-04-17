@@ -11,6 +11,7 @@ export class HeaderComponent {
   public isMenuOpen: boolean = false;
   public isLoged: boolean = false;
   public participanteLogueado: any = null;
+  public adminLogueado: any = null;
 
   constructor(private route: Router) {
   }
@@ -24,7 +25,13 @@ export class HeaderComponent {
         this.isLoged = true;
         //console.log("Usuario logueado:", this.participanteLogueado);
       } else {
-        this.isLoged = false;
+        const adminGuardado = localStorage.getItem("adminLogueado");
+        if (adminGuardado) {
+          this.adminLogueado = JSON.parse(adminGuardado);
+          this.isLoged = true;
+        } else {
+          this.isLoged = false;
+        }
       }
     }, 500); // Pequeño retraso para sincronización
   }
@@ -35,8 +42,12 @@ export class HeaderComponent {
 
   logout() {
     localStorage.removeItem("participanteLogueado");
-    this.isLoged = false;
     this.participanteLogueado = null;
+
+    localStorage.removeItem("adminLogueado");
+    this.adminLogueado = null;
+
+    this.isLoged = false;
     this.route.navigate(['/']);
 
     setTimeout(() => alert("Has cerrado sesión exitosamente."), 800);
