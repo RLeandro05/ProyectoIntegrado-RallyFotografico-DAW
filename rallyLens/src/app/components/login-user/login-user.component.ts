@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ServiceParticipanteService } from '../../services/service-participante.service';
 import { Participante } from '../../modules/participante';
 import { Router } from '@angular/router';
+import { Admin } from '../../modules/admin';
+import { ServiceAdminService } from '../../services/service-admin.service';
 
 @Component({
   selector: 'app-login-user',
@@ -15,9 +17,11 @@ export class LoginUserComponent {
   adminLoginForm: FormGroup;
   isAdminLoginVisible = false;
 
-  participante: Participante = <Participante> {};
+  participante: Participante = <Participante>{};
 
-  constructor(private fb: FormBuilder, private serviceParticipante: ServiceParticipanteService, private route: Router) {
+  admin: Admin = <Admin>{};
+
+  constructor(private fb: FormBuilder, private serviceParticipante: ServiceParticipanteService, private serviceAdmin: ServiceAdminService ,private route: Router) {
     //Formulario para login de participante
     this.loginForm = this.fb.group({
       correo: ['', [Validators.required, Validators.email]],
@@ -46,13 +50,13 @@ export class LoginUserComponent {
     }
 
     //console.log("Participante a loguear :>> ", this.participante);
-    
+
 
     //Ejecutar servicio de login para participantes
     this.serviceParticipante.loguearParticipante(this.participante).subscribe(
       participante => {
 
-        if(!participante) {
+        if (!participante) {
           alert("Los datos introducidos son incorrectos. Debe escribrir un correo y contraseña válidos.");
         } else {
           localStorage.setItem("participanteLogueado", JSON.stringify(participante));
@@ -61,6 +65,7 @@ export class LoginUserComponent {
 
           alert("Has iniciado sesión correctamente.");
 
+          //Recarga la página al completo
           window.location.href = "/";
           //this.route.navigate(['/']);
         }
@@ -70,9 +75,40 @@ export class LoginUserComponent {
 
   //Lógica para iniciar sesión como admin 
   onAdminSubmit() {
-    console.log("Admin a loguear :>> ", this.adminLoginForm.value);
 
-    
+    this.admin = {
+      id: -1,
+      nombre: "",
+      apellidos: "",
+      telefono: "",
+      correo: this.adminLoginForm.value.correo,
+      password: this.adminLoginForm.value.password
+    }
+
+    console.log("Admin a loguear :>> ", this.admin);
+
+
+    //Ejecutar servicio de login para admins
+    this.serviceAdmin.loginAdmin(this.admin).subscribe(
+      admin => {
+
+        console.log(admin);
+        
+        if (!admin) {
+          alert("Los datos introducidos son incorrectos. Debe escribrir un correo y contraseña válidos.");
+        } else {
+          localStorage.setItem("adminLogueado", JSON.stringify(admin));
+
+          //console.log("Admin logueado en LocalStorage :>> ", localStorage.getItem("adminLogueado"));
+
+          alert("Has iniciado sesión correctamente.");
+
+          //Recarga la página al completo
+          window.location.href = "/";
+          //this.route.navigate(['/']);
+        }
+      }, error => console.error("Error al loguear admin :>> ", error)
+    );
   }
 
   //Cambia entre los formularios de participante y admin
