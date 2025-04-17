@@ -59,6 +59,12 @@ if ($objeto !== null && isset($objeto->servicio)) {
         case "borrarFotoParticipante":
             echo json_encode(borrarFotoParticipante($objeto->idFoto));
             break;
+        case "editarFotoParticipante":
+            echo json_encode(editarFotoParticipante($objeto->foto));
+            break;
+        case "loginAdmin":
+            echo json_encode(loginAdmin($objeto->admin));
+            break;
     }
 }
 
@@ -424,6 +430,78 @@ function borrarFotoParticipante($idFoto)
         return ["fotoBorrada" => "La foto ha sido borrada exitosamente."];
     } catch (Exception $e) {
         return ["error" => $e->getMessage(), "codigo" => $e->getCode()];
+    }
+}
+
+//Función para editar una foto ya existente en la galería del participante
+function editarFotoParticipante($foto)
+{
+    global $conn;
+
+    try {
+        //Validar que la foto exista
+        if (!isset($foto)) {
+            return ["error" => "Estructura incorrecta", "detalle" => "Falta el objeto 'foto'"];
+        }
+
+        $sc = "UPDATE fotografia SET imagen = ? WHERE id = ?";
+
+        $stm = $conn->prepare($sc);
+
+        $stm->execute([$foto->imagen, $foto->id]);
+
+        return ["fotoEditada" => "La foto ha sido editada exitosamente."];
+    } catch (Exception $e) {
+        return ["error" => $e->getMessage(), "codigo" => $e->getCode()];
+    }
+}
+
+//Función para loguear al Admin
+function loginAdmin($admin)
+{
+    global $conn;
+
+    //Validar que el admin exista
+    if (!isset($admin)) {
+        return ["error" => "Estructura incorrecta", "detalle" => "Falta el objeto 'admin'"];
+    }
+
+    //Validar campos obligatorios
+    $camposRequeridos = ['correo', 'password'];
+    $faltantes = [];
+
+    foreach ($camposRequeridos as $campo) {
+        if (!isset($p->$campo) || empty(trim($admin->$campo))) {
+            $faltantes[] = $campo;
+        }
+    }
+
+    //Si falta algún campo, mostrar cuáles faltan
+    if (!empty($faltantes)) {
+        return ["error" => "Campos requeridos faltantes", "campos_faltantes" => $faltantes];
+    }
+
+    try {
+        //Buscar el admin por correo y obtener la contraseña
+        $stmt = $conn->prepare("SELECT id, nombre, apellidos, telefono, correo, password, foto_perfil FROM administrador WHERE correo = ?");
+
+        $stmt->execute([$admin->correo]);
+
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        //Si no se encuentra el usuario, retornar error
+        if (!$usuario) {
+            return false;
+        }
+
+        //Verificar la contraseña
+        if (password_verify($admin->password, $usuario['password'])) {
+            return $usuario;
+        } else {
+            return false;
+        }
+    } catch (PDOException $e) {
+        return ["error" => "Error en la base de datos", "detalle" => $e->getMessage()];
     }
 }
 

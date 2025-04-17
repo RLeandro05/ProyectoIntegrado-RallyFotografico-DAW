@@ -70,7 +70,9 @@ export class LoginUserComponent {
 
   //Lógica para iniciar sesión como admin 
   onAdminSubmit() {
-    console.log(this.adminLoginForm.value);
+    console.log("Admin a loguear :>> ", this.adminLoginForm.value);
+
+    
   }
 
   //Cambia entre los formularios de participante y admin
