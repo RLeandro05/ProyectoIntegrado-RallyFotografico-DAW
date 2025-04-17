@@ -17,4 +17,12 @@ export class ServiceAdminService {
     };
     return this.http.post<Admin>(this.url, cuerpo);
   }
+
+  loginAdmin(admin: Admin) {
+    let cuerpo = {
+      servicio: "loginAdmin",
+      admin: admin
+    };
+    return this.http.post<Admin>(this.url, cuerpo);
+  }
 }
