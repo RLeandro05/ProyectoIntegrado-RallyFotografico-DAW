@@ -69,7 +69,7 @@
     </div>
 </section>
 
-<!-- Sección de Bases del Concurso - Diseño Mejorado -->
+<!-- Sección de Bases del Concurso -->
 <section class="rules-section bg-light py-5">
     <div class="container">
         <div class="row align-items-center">
@@ -83,23 +83,57 @@
 
                 <div class="rules-list-container" style="margin-bottom: 45px;">
                     <ul class="rules-list" style="font-weight: 800;">
-                        <li><strong>📸 Formatos permitidos:</strong> PNG, JPG, JPEG.</li>
-                        <li><strong>📏 Tamaño máximo:</strong> 20 MB por imagen.</li>
-                        <li><strong>📅 Fecha límite:</strong> 30 de junio de 2025.</li>
-                        <li><strong>📷 Número de fotos:</strong> Hasta 3 imágenes por participante.</li>
+                        <li>
+                            <strong>📸 Formatos permitidos:</strong> 
+                            <span *ngIf="!isEditingRules">{{contestRules.allowedFormats}}</span>
+                            <input *ngIf="isEditingRules" type="text" [(ngModel)]="contestRules.allowedFormats" class="form-control editable-field">
+                        </li>
+                        <li>
+                            <strong>📏 Tamaño máximo:</strong> 
+                            <span *ngIf="!isEditingRules">{{contestRules.maxSize}} MB por imagen.</span>
+                            <span *ngIf="isEditingRules">
+                                <input type="number" [(ngModel)]="contestRules.maxSize" class="form-control editable-field"> MB por imagen
+                            </span>
+                        </li>
+                        <li><strong>📅 Fecha límite:</strong> 30 de junio de 2025</li>
+                        <li>
+                            <strong>📷 Número de fotos:</strong> 
+                            <span *ngIf="!isEditingRules">Hasta {{contestRules.maxPhotos}} imágenes por participante.</span>
+                            <span *ngIf="isEditingRules">
+                                Hasta <input type="number" [(ngModel)]="contestRules.maxPhotos" class="form-control editable-field"> imágenes por participante
+                            </span>
+                        </li>
                         <li><strong>🔍 Revisión previa:</strong> Todas las fotos serán revisadas.</li>
-                        <li><strong>🏆 Votaciones:</strong> Se podrán votar hasta 3 imágenes diferentes</li>
+                        <li>
+                            <strong>🏆 Votaciones:</strong> 
+                            <span *ngIf="!isEditingRules">Se podrán votar hasta {{contestRules.maxVotes}} imágenes diferentes</span>
+                            <span *ngIf="isEditingRules">
+                                Se podrán votar hasta <input type="number" [(ngModel)]="contestRules.maxVotes" class="form-control editable-field"> imágenes diferentes
+                            </span>
+                        </li>
                         <li><strong>📊 Ranking en vivo:</strong> Se actualizará diariamente.</li>
                     </ul>
+                    
                     <div *ngIf="!isAdminLoged" class="text-center mt-4">
                         <a routerLink="/register-user" class="btn btn-challenge">
                             ¡Únete al Desafío!
                         </a>
                     </div>
+                    
                     <div *ngIf="isAdminLoged" class="text-center mt-4">
-                        <button type="button" class="btn btn-challenge">
-                            Cambiar bases del concurso
-                        </button>
+                        <div *ngIf="!isEditingRules">
+                            <button type="button" class="btn btn-challenge" (click)="toggleEditRules()">
+                                Cambiar bases del concurso
+                            </button>
+                        </div>
+                        <div *ngIf="isEditingRules" class="d-flex justify-content-center gap-2">
+                            <button type="button" class="btn btn-success" (click)="saveRules()">
+                                Guardar
+                            </button>
+                            <button type="button" class="btn btn-danger" (click)="cancelEdit()">
+                                Cancelar
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

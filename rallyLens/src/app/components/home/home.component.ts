@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Participante } from '../../modules/participante';
 
 @Component({
   selector: 'app-home',
@@ -10,14 +9,48 @@ import { Participante } from '../../modules/participante';
 export class HomeComponent {
 
   public adminLogueado: any;
-
   public isAdminLoged: boolean = false;
+  public isEditingRules: boolean = false;
+
+  public contestRules = {
+    allowedFormats: 'PNG, JPG, JPEG',
+    maxSize: 20,
+    maxPhotos: 3,
+    maxVotes: 3
+  };
+
+  public originalRules: any;
 
   ngOnInit() {
     this.adminLogueado = localStorage.getItem("adminLogueado");
+    if (this.adminLogueado) this.isAdminLoged = true;
 
-    if(this.adminLogueado) this.isAdminLoged = !this.isAdminLoged;
+    //Cargar reglas desde localStorage si existen
+    const savedRules = localStorage.getItem('contestRules');
+    if (savedRules) {
+      this.contestRules = JSON.parse(savedRules);
+    }
+  }
 
-    //console.log(this.isAdminLoged);
+  toggleEditRules() {
+    this.isEditingRules = !this.isEditingRules;
+    if (this.isEditingRules) {
+
+      //Guardar una copia de las reglas originales para poder cancelar
+      this.originalRules = { ...this.contestRules };
+    }
+  }
+
+  saveRules() {
+    localStorage.setItem('contestRules', JSON.stringify(this.contestRules));
+    this.isEditingRules = false;
+
+    alert("Las bases del concurso han sido actualizadas correctamente.");
+  }
+
+  cancelEdit() {
+    //Restaurar las reglas originales
+    this.contestRules = { ...this.originalRules };
+    this.isEditingRules = false;
   }
 }
