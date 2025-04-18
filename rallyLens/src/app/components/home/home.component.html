@@ -91,10 +91,15 @@
                         <li><strong>🏆 Votaciones:</strong> Se podrán votar hasta 3 imágenes diferentes</li>
                         <li><strong>📊 Ranking en vivo:</strong> Se actualizará diariamente.</li>
                     </ul>
-                    <div class="text-center mt-4">
+                    <div *ngIf="!isAdminLoged" class="text-center mt-4">
                         <a routerLink="/register-user" class="btn btn-challenge">
                             ¡Únete al Desafío!
                         </a>
+                    </div>
+                    <div *ngIf="isAdminLoged" class="text-center mt-4">
+                        <button type="button" class="btn btn-challenge">
+                            Cambiar bases del concurso
+                        </button>
                     </div>
                 </div>
             </div>

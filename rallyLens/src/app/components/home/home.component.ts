@@ -8,4 +8,16 @@ import { Participante } from '../../modules/participante';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
+
+  public adminLogueado: any;
+
+  public isAdminLoged: boolean = false;
+
+  ngOnInit() {
+    this.adminLogueado = localStorage.getItem("adminLogueado");
+
+    if(this.adminLogueado) this.isAdminLoged = !this.isAdminLoged;
+
+    //console.log(this.isAdminLoged);
+  }
 }
