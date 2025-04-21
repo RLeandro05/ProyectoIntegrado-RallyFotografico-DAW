@@ -95,11 +95,19 @@
                     style="height: 200px; width: 100%; object-fit: cover;">
                 <div class="photo-actions mt-2 d-flex justify-content-between">
                     <button class="btn btn-sm btn-outline-secondary" (click)="iniciarEdicionFoto(photo)">Editar</button>
-                    <p id="estado">
-                        <i id="iconoEstado" class="fa fa-hourglass-half" style="margin-right: 6px;">PENDIENTE DE REVISIÓN</i>
-                        
+                    <p *ngIf="photo.estado == 'pendiente'" id="pendiente">
+
+                        <i id="iconoEstado" class="fa fa-hourglass-half" style="margin-right: 6px;">PENDIENTE</i>
                     </p>
-                        <button class="btn btn-sm btn-outline-danger" (click)="borrarFoto(photo.id)">Eliminar</button>
+                    <p *ngIf="photo.estado == 'aceptada'" id="aceptada">
+
+                        <i id="iconoEstado" class="fa fa-hourglass-half" style="margin-right: 6px;">ACEPTADA</i>
+                    </p>
+                    <p *ngIf="photo.estado == 'rechazada'" id="rechazada">
+
+                        <i id="iconoEstado" class="fa fa-hourglass-half" style="margin-right: 6px;">RECHAZADA</i>
+                    </p>
+                    <button class="btn btn-sm btn-outline-danger" (click)="borrarFoto(photo.id)">Eliminar</button>
                 </div>
             </div>
 

@@ -236,7 +236,7 @@ h2 {
     margin-right: auto;
 }
 
-#estado {
+#pendiente {
     position: relative;
     top: 6px;
     display: inline-block;
@@ -250,12 +250,48 @@ h2 {
     animation: pulse 1.5s infinite;
 }
 
+#aceptada {
+    position: relative;
+    top: 6px;
+    display: inline-block;
+    background-color: #22ff00;
+    border-radius: 5px;
+    padding: 8px 12px;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid #42d602;
+    animation: pulse 1.5s infinite;
+}
+
+#rechazada {
+    position: relative;
+    top: 6px;
+    display: inline-block;
+    background-color: #ff0000;
+    border-radius: 5px;
+    padding: 8px 12px;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid #b60000;
+    animation: pulse 1.5s infinite;
+}
+
 #iconoEstado {
     margin-right: 6px;
 }
 
 @keyframes pulse {
-    0% { opacity: 0.9; }
-    50% { opacity: 0.7; }
-    100% { opacity: 0.9; }
+    0% {
+        opacity: 0.9;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+
+    100% {
+        opacity: 0.9;
+    }
 }
