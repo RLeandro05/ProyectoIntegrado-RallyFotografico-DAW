@@ -25,13 +25,13 @@
 }
 
 /* Botón Editar Perfil (bajo la foto) */
-.profile-picture-container + .btn-outline-secondary {
+.profile-picture-container+.btn-outline-secondary {
     border-color: #FE7058;
     color: #FE7058;
     transition: all 0.3s ease;
 }
 
-.profile-picture-container + .btn-outline-secondary:hover {
+.profile-picture-container+.btn-outline-secondary:hover {
     background-color: #FE7058;
     color: white !important;
     border-color: #FE7058;
@@ -65,12 +65,14 @@
     border-radius: 8px;
     background-color: #f8f9fa;
     height: 100%;
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1); /* Más notoriedad en el box-shadow */
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+    /* Más notoriedad en el box-shadow */
 }
 
 .photo-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15); /* Aumentar la sombra al hacer hover */
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+    /* Aumentar la sombra al hacer hover */
 }
 
 .add-photo-container {
@@ -87,7 +89,8 @@
 .add-photo-btn:hover {
     transform: scale(1.1) translate(-50%, -50%);
     box-shadow: 0 6px 12px rgba(254, 112, 88, 0.4);
-    animation: none; /* Detiene la animación al hacer hover */
+    animation: none;
+    /* Detiene la animación al hacer hover */
 }
 
 /* Animación de levitación */
@@ -95,9 +98,11 @@
     0% {
         transform: translate(-50%, -50%) translateY(0px);
     }
+
     50% {
         transform: translate(-50%, -50%) translateY(-8px);
     }
+
     100% {
         transform: translate(-50%, -50%) translateY(0px);
     }
@@ -146,6 +151,7 @@
         opacity: 0;
         border-radius: 50%;
     }
+
     to {
         transform: translate(-50%, -50%) scale(1);
         opacity: 1;
@@ -181,7 +187,8 @@
     }
 
     .add-photo-container {
-        background-color: white; /* Fondo blanco */
+        background-color: white;
+        /* Fondo blanco */
         border-radius: 8px;
         transition: all 0.3s ease;
     }
@@ -204,7 +211,8 @@
         transition: transform 0.3s ease;
         padding: 10px;
         border-radius: 8px;
-        background-color: white; /* Fondo blanco */
+        background-color: white;
+        /* Fondo blanco */
         height: 100%;
     }
 
@@ -226,4 +234,28 @@ h2 {
     display: block;
     margin-left: auto;
     margin-right: auto;
+}
+
+#estado {
+    position: relative;
+    top: 6px;
+    display: inline-block;
+    background-color: #FFA500;
+    border-radius: 5px;
+    padding: 8px 12px;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid #FF8C00;
+    animation: pulse 1.5s infinite;
+}
+
+#iconoEstado {
+    margin-right: 6px;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.9; }
+    50% { opacity: 0.7; }
+    100% { opacity: 0.9; }
 }
