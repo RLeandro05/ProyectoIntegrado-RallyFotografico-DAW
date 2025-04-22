@@ -44,20 +44,19 @@ export class PerfilParticipanteComponent {
   ) { }
 
   ngOnInit() {
-    const participanteLogueado = localStorage.getItem("participanteLogueado");
-
     const contestRules = localStorage.getItem("contestRules");
     
     if (contestRules) {
       const contextRulesParsed = JSON.parse(contestRules);
-      this.imageFormat = "image/"+(contextRulesParsed.allowedFormats).toLowerCase();
+
+      this.imageFormat = "."+(contextRulesParsed.allowedFormats).toLowerCase();
       this.maxFileSize = contextRulesParsed.maxSize;
-      //console.log(imageFormat);
-      console.log(this.maxFileSize);
+      //console.log(this.imageFormat);
+      //console.log(this.maxFileSize);
       
     }
 
-
+    const participanteLogueado = localStorage.getItem("participanteLogueado");
 
     if (!participanteLogueado) {
       this.route.navigate(['/login-user']);
