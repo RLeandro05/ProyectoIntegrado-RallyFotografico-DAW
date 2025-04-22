@@ -31,15 +31,27 @@ export class PerfilParticipanteComponent {
 
   public foto: Foto = <Foto>{};
 
+  imageFormat: string = "";
+
   constructor(
-    private route: Router, 
-    private fb: FormBuilder, 
-    private serviceParticipante: ServiceParticipanteService, 
+    private route: Router,
+    private fb: FormBuilder,
+    private serviceParticipante: ServiceParticipanteService,
     private serviceFoto: ServiceFotoService
   ) { }
 
   ngOnInit() {
     const participanteLogueado = localStorage.getItem("participanteLogueado");
+
+    const contestRules = localStorage.getItem("contestRules");
+    
+    if (contestRules) {
+      const contextRulesParsed = JSON.parse(contestRules);
+      this.imageFormat = "image/"+(contextRulesParsed.allowedFormats).toLowerCase();
+      //console.log(imageFormat);
+    }
+
+
 
     if (!participanteLogueado) {
       this.route.navigate(['/login-user']);

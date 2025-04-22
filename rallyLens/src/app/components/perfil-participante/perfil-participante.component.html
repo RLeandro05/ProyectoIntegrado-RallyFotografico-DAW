@@ -146,7 +146,7 @@
                 <form (submit)="uploadPhoto($event)">
                     <div class="mb-3">
                         <h5>Añadir Nueva Foto</h5>
-                        <input type="file" class="form-control" accept="image/*" (change)="onPhotoSelect($event)"
+                        <input type="file" class="form-control" [accept]="imageFormat" (change)="onPhotoSelect($event)"
                             required>
                     </div>
                     <div class="mb-3" *ngIf="newPhotoPreview">
