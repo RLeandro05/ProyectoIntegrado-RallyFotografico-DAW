@@ -196,7 +196,7 @@
         <div>
             <h5 class="alert-heading mb-1">¡Atención! Límite de fotos superado</h5>
             <p class="mb-0">
-                Ahora solo se permiten <strong>{{ maxPhotos }}</strong> fotos. Por favor, elimina las imágenes
+                Ahora solo se {{ maxPhotos === 1 ? 'permite' : 'permiten' }} <strong>{{ maxPhotos }}</strong> {{ maxPhotos === 1 ? 'foto' : 'fotos' }}. Por favor, elimina las imágenes
                 excedentes para continuar.
             </p>
         </div>
