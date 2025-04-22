@@ -97,7 +97,7 @@
                     <button class="btn btn-sm btn-outline-secondary edit-button" (click)="iniciarEdicionFoto(photo)">
                         <i class="bi bi-pencil-square"></i>
                         <span class="edit-text fs-5"> Editar</span>
-                      </button>
+                    </button>
                     <p *ngIf="photo.estado == 'pendiente'" id="pendiente">
 
                         <i id="iconoEstado" class="fa fa-hourglass-half" style="margin-right: 6px;">PENDIENTE</i>
@@ -113,7 +113,7 @@
                     <button class="btn btn-sm btn-outline-danger delete-button" (click)="borrarFoto(photo.id)">
                         <i class="bi bi-trash3-fill"></i>
                         <span class="delete-text fs-5">Eliminar</span>
-                      </button>
+                    </button>
                 </div>
             </div>
 
@@ -146,8 +146,11 @@
                 <form (submit)="uploadPhoto($event)">
                     <div class="mb-3">
                         <h5>Añadir Nueva Foto</h5>
-                        <input type="file" class="form-control" [accept]="imageFormat" (change)="onPhotoSelect($event)"
+                        <input type="file" class="form-control" (change)="onFileSelected($event)" [accept]="imageFormat" (change)="onPhotoSelect($event)"
                             required>
+                        <div *ngIf="fileSizeError" class="text-danger">
+                            El archivo supera el tamaño máximo permitido de {{ maxFileSize }} MB.
+                        </div>
                     </div>
                     <div class="mb-3" *ngIf="newPhotoPreview">
                         <p>Vista previa:</p>

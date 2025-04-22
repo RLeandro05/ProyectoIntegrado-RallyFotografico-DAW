@@ -33,6 +33,9 @@ export class PerfilParticipanteComponent {
 
   imageFormat: string = "";
 
+  maxFileSize: number = 0;
+  fileSizeError: boolean = false;
+
   constructor(
     private route: Router,
     private fb: FormBuilder,
@@ -48,7 +51,10 @@ export class PerfilParticipanteComponent {
     if (contestRules) {
       const contextRulesParsed = JSON.parse(contestRules);
       this.imageFormat = "image/"+(contextRulesParsed.allowedFormats).toLowerCase();
+      this.maxFileSize = contextRulesParsed.maxSize;
       //console.log(imageFormat);
+      console.log(this.maxFileSize);
+      
     }
 
 
@@ -70,6 +76,23 @@ export class PerfilParticipanteComponent {
       }
 
       this.loadUserPhotos();
+    }
+  }
+
+  //Función para validar que la foto subida no supera la cantidad permitida de la foto
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    if (file) { //Si existe el archivo, calcular la cantidad que pesa de MB
+      const fileSizeInMB = file.size / (1024 * 1024);
+  
+      //Si es mayor al permitido en las bases, dar error
+      if (fileSizeInMB > this.maxFileSize) {
+        this.fileSizeError = true;
+        event.target.value = '';
+      } else { //En caso contrario, aceptarlo
+        this.fileSizeError = false;
+        console.log('Archivo válido:', file);
+      }
     }
   }
 

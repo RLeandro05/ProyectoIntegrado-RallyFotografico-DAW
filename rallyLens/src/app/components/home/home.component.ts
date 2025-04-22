@@ -12,6 +12,9 @@ export class HomeComponent {
   public isAdminLoged: boolean = false;
   public isEditingRules: boolean = false;
 
+  public formatOptions = ['PNG', 'JPG', 'JPEG', 'WEBP', 'SVG'];
+
+
   //Valores por defecto para las bases del concurso por primera vez
   public contestRules = {
     allowedFormats: 'PNG, JPG, JPEG',
@@ -24,6 +27,8 @@ export class HomeComponent {
   public originalRules: any;
 
   ngOnInit() {
+    console.log(this.formatOptions);
+    
     this.adminLogueado = localStorage.getItem("adminLogueado");
     if (this.adminLogueado) this.isAdminLoged = true;
 

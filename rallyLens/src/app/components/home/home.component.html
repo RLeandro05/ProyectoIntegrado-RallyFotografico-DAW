@@ -86,7 +86,10 @@
                         <li>
                             <strong>📸 Formatos permitidos:</strong> 
                             <span *ngIf="!isEditingRules">{{contestRules.allowedFormats}}</span>
-                            <input *ngIf="isEditingRules" type="text" [(ngModel)]="contestRules.allowedFormats" class="form-control editable-field">
+                            <select *ngIf="isEditingRules" [(ngModel)]="contestRules.allowedFormats" class="form-control editable-field">
+                                <option *ngFor="let format of formatOptions" [value]="format">{{ format }}</option>
+                              </select>
+                              
                         </li>
                         <li>
                             <strong>📏 Tamaño máximo:</strong> 
