@@ -94,7 +94,10 @@
                 <img [src]="photo.url || photo.imagen" alt="Foto subida" class="img-fluid rounded"
                     style="height: 200px; width: 100%; object-fit: cover;">
                 <div class="photo-actions mt-2 d-flex justify-content-between">
-                    <button class="btn btn-sm btn-outline-secondary" (click)="iniciarEdicionFoto(photo)">Editar</button>
+                    <button class="btn btn-sm btn-outline-secondary edit-button" (click)="iniciarEdicionFoto(photo)">
+                        <i class="bi bi-pencil-square"></i>
+                        <span class="edit-text fs-5"> Editar</span>
+                      </button>
                     <p *ngIf="photo.estado == 'pendiente'" id="pendiente">
 
                         <i id="iconoEstado" class="fa fa-hourglass-half" style="margin-right: 6px;">PENDIENTE</i>
@@ -107,7 +110,10 @@
 
                         <i id="iconoEstado" class="fa fa-hourglass-half" style="margin-right: 6px;">RECHAZADA</i>
                     </p>
-                    <button class="btn btn-sm btn-outline-danger" (click)="borrarFoto(photo.id)">Eliminar</button>
+                    <button class="btn btn-sm btn-outline-danger delete-button" (click)="borrarFoto(photo.id)">
+                        <i class="bi bi-trash3-fill"></i>
+                        <span class="delete-text fs-5">Eliminar</span>
+                      </button>
                 </div>
             </div>
 

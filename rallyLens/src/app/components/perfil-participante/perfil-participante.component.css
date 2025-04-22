@@ -295,3 +295,62 @@ h2 {
         opacity: 0.9;
     }
 }
+
+.edit-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Oculta el texto inicialmente */
+    white-space: nowrap;
+    transition: all 0.3s ease; /* Transición suave */
+    width: 32px; /* Ancho inicial (solo para el ícono) */
+    transform: scale(2em);
+  }
+  
+  .edit-button .edit-text {
+    opacity: 0; /* Texto invisible al inicio */
+    width: 0;
+    margin-left: 0;
+    transition: all 0.3s ease;
+  }
+  
+  /* Efecto al pasar el cursor (hover) */
+  .edit-button:hover {
+    width: 100px; /* Ancho final (incluye texto) */
+  }
+  
+  .edit-button:hover .edit-text {
+    opacity: 1; /* Texto visible */
+    width: auto;
+    margin-left: 8px; /* Espacio entre ícono y texto */
+  }
+
+  .delete-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+    width: 32px; /* Ancho inicial (solo el ícono) */
+  }
+  
+  .delete-button .delete-text {
+    opacity: 0;
+    width: 0;
+    margin-left: 0;
+    transition: all 0.3s ease;
+  }
+  
+  /* Efecto hover */
+  .delete-button:hover {
+    width: 110px; /* Ajusta según el texto "Eliminar" */
+  }
+  
+  .delete-button:hover .delete-text {
+    opacity: 1;
+    width: auto;
+    margin-left: 8px; /* Espacio entre ícono y texto */
+  }
+
+  
