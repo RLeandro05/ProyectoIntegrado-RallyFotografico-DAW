@@ -146,8 +146,8 @@
                 <form (submit)="uploadPhoto($event)">
                     <div class="mb-3">
                         <h5>Añadir Nueva Foto</h5>
-                        <input type="file" class="form-control" (change)="onFileSelected($event)" [accept]="imageFormat" (change)="onPhotoSelect($event)"
-                            required>
+                        <input type="file" class="form-control" (change)="onFileSelected($event)" [accept]="imageFormat"
+                            (change)="onPhotoSelect($event)" required>
                         <div *ngIf="fileSizeError" class="text-danger">
                             El archivo supera el tamaño máximo permitido de {{ maxFileSize }} MB.
                         </div>
@@ -182,7 +182,24 @@
         </div>
     </div>
 
-    <div *ngIf="userPhotos.length >= maxPhotos && !editingPhotoId" class="text-center mt-3">
-        <p class="text-muted">Has alcanzado el límite de {{ maxPhotos }} fotos en tu perfil.</p>
+    <div *ngIf="userPhotos.length == maxPhotos && !editingPhotoId" class="text-center mt-3">
+        <div *ngIf="userPhotos.length === maxPhotos && !editingPhotoId" class="text-center mt-3">
+            <p class="text-muted">
+                Has alcanzado el límite de {{ maxPhotos }} {{ maxPhotos === 1 ? 'foto' : 'fotos' }} en tu perfil.
+            </p>
+        </div>
+
     </div>
+    <div *ngIf="userPhotos.length > maxPhotos && !editingPhotoId"
+        class="alert alert-warning d-flex align-items-start gap-2 mt-4" role="alert">
+        <i class="bi bi-exclamation-triangle-fill fs-4 text-warning"></i>
+        <div>
+            <h5 class="alert-heading mb-1">¡Atención! Límite de fotos superado</h5>
+            <p class="mb-0">
+                Ahora solo se permiten <strong>{{ maxPhotos }}</strong> fotos. Por favor, elimina las imágenes
+                excedentes para continuar.
+            </p>
+        </div>
+    </div>
+
 </div>

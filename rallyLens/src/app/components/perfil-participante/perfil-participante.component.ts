@@ -51,8 +51,11 @@ export class PerfilParticipanteComponent {
 
       this.imageFormat = "."+(contextRulesParsed.allowedFormats).toLowerCase();
       this.maxFileSize = contextRulesParsed.maxSize;
+      this.maxPhotos = contextRulesParsed.maxPhotos;
       //console.log(this.imageFormat);
       //console.log(this.maxFileSize);
+      //console.log("Fotos :>> ", this.maxPhotos);
+      
       
     }
 
