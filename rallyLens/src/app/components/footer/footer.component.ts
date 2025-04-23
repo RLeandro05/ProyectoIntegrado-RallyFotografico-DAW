@@ -8,4 +8,10 @@ import { Component } from '@angular/core';
 })
 export class FooterComponent {
   anioActual: number = new Date().getFullYear();
+
+  public adminLogueado: any = null;
+
+  ngOnInit() {
+    this.adminLogueado = localStorage.getItem("adminLogueado");
+  }
 }
