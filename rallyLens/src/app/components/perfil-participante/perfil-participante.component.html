@@ -1,4 +1,5 @@
-<form [formGroup]="perfilForm" (ngSubmit)="onSubmit()">
+<!-- Contenedor principal del perfil -->
+<form [formGroup]="perfilForm" (ngSubmit)="onSubmit()" [class.block-interactions]="userPhotos.length > maxPhotos">
     <div class="profile-section bg-light py-5">
         <!-- Modal para la foto ampliada -->
         <div class="profile-modal" [class.show]="showModal" (click)="closeModal()">
@@ -15,11 +16,13 @@
                         <div class="profile-picture-container mb-3">
                             <!-- Imagen de perfil actual o vista previa -->
                             <img [src]="selectedImage || profileImage" alt="Foto de perfil"
-                                class="img-fluid rounded-circle profile-picture" (click)="openModal(profileImage)"
+                                class="img-fluid rounded-circle profile-picture" (click)="!isOverLimit() && openModal(profileImage)"
                                 style="width: 150px; height: 150px; object-fit: cover;">
                         </div>
                         <button type="button" class="btn btn-sm btn-outline-secondary"
-                            style="border-color: #FE7058; color: #FE7058;" (click)="toggleEditMode()">
+                            style="border-color: #FE7058; color: #FE7058;" 
+                            (click)="!isOverLimit() && toggleEditMode()"
+                            [disabled]="isOverLimit()">
                             <i class="bi bi-gear-fill"></i> {{ editMode ? 'Cancelar' : 'Editar perfil' }}
                         </button>
                     </div>
@@ -36,9 +39,9 @@
                                 <!-- Campos para modificar el nombre y apellidos -->
                                 <div *ngIf="editMode">
                                     <input type="text" class="form-control" formControlName="nombre"
-                                        [value]="perfilForm.get('nombre')?.value">
+                                        [value]="perfilForm.get('nombre')?.value" [disabled]="isOverLimit()">
                                     <input type="text" class="form-control mt-2" formControlName="apellidos"
-                                        [value]="perfilForm.get('apellidos')?.value">
+                                        [value]="perfilForm.get('apellidos')?.value" [disabled]="isOverLimit()">
                                 </div>
                             </div>
 
@@ -48,7 +51,7 @@
                                 <p *ngIf="!editMode" class="text-muted mb-0">{{ participanteLogueado.correo }}</p>
 
                                 <!-- Campo para modificar el correo -->
-                                <input *ngIf="editMode" type="email" class="form-control" formControlName="correo">
+                                <input *ngIf="editMode" type="email" class="form-control" formControlName="correo" [disabled]="isOverLimit()">
                             </div>
 
                             <div class="mb-3">
@@ -57,18 +60,18 @@
                                 <p *ngIf="!editMode" class="text-muted mb-0">{{ participanteLogueado.telefono }}</p>
 
                                 <!-- Campo para modificar el teléfono -->
-                                <input *ngIf="editMode" type="tel" class="form-control" formControlName="telefono">
+                                <input *ngIf="editMode" type="tel" class="form-control" formControlName="telefono" [disabled]="isOverLimit()">
                             </div>
 
                             <div *ngIf="editMode" class="mb-3">
                                 <h4 class="mb-1" style="color: #333;">Foto de Perfil</h4>
 
                                 <!-- Campo para modificar la foto de perfil -->
-                                <input type="file" (change)="onFileSelect($event)" class="form-control">
+                                <input type="file" (change)="!isOverLimit() && onFileSelect($event)" class="form-control" [disabled]="isOverLimit()">
                             </div>
 
                             <button *ngIf="editMode" class="btn btn-sm btn-primary"
-                                style="background-color: #FE7058; border: none;" type="submit">
+                                style="background-color: #FE7058; border: none;" type="submit" [disabled]="isOverLimit()">
                                 Actualizar
                             </button>
                         </div>
@@ -80,7 +83,22 @@
 </form>
 
 <!-- Sección de fotografías subidas -->
-<div style="background-color: white;">
+<div style="background-color: white; position: relative;" [class.block-interactions]="userPhotos.length > maxPhotos">
+
+    <!-- Mensaje de advertencia fijo -->
+    <div *ngIf="userPhotos.length > maxPhotos" class="sticky-warning alert alert-warning d-flex align-items-start gap-2">
+        <i class="bi bi-exclamation-triangle-fill fs-4 text-warning"></i>
+        <div>
+            <h5 class="alert-heading mb-1">¡Atención! Límite de fotos superado</h5>
+            <p class="mb-0">
+                El límite ha cambiado. Ahora solo puedes tener <strong>{{ maxPhotos }}</strong> 
+                {{ maxPhotos === 1 ? 'foto' : 'fotos' }}. Elimina las excedentes para continuar usando tu perfil.
+                <br>
+                <strong>No podrás realizar otras acciones hasta solucionar esto.</strong>
+            </p>
+        </div>
+    </div>
+
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 style="margin: 0 auto;">Fotografías Subidas</h2>
     </div>
@@ -94,23 +112,27 @@
                 <img [src]="photo.url || photo.imagen" alt="Foto subida" class="img-fluid rounded"
                     style="height: 200px; width: 100%; object-fit: cover;">
                 <div class="photo-actions mt-2 d-flex justify-content-between">
-                    <button class="btn btn-sm btn-outline-secondary edit-button" (click)="iniciarEdicionFoto(photo)">
+                    <button class="btn btn-sm btn-outline-secondary edit-button" 
+                            (click)="!isOverLimit() && iniciarEdicionFoto(photo)"
+                            [class.disabled]="isOverLimit()">
                         <i class="bi bi-pencil-square"></i>
                         <span class="edit-text fs-5"> Editar</span>
                     </button>
+                    
                     <p *ngIf="photo.estado == 'pendiente'" id="pendiente">
-
-                        <i id="iconoEstado" class="fa fa-hourglass-half" style="margin-right: 6px;">PENDIENTE</i>
+                        <i class="fa fa-hourglass-half" style="margin-right: 6px;">PENDIENTE</i>
                     </p>
                     <p *ngIf="photo.estado == 'aceptada'" id="aceptada">
-
-                        <i id="iconoEstado" class="fa fa-hourglass-half" style="margin-right: 6px;">ACEPTADA</i>
+                        <i class="fa fa-hourglass-half" style="margin-right: 6px;">ACEPTADA</i>
                     </p>
                     <p *ngIf="photo.estado == 'rechazada'" id="rechazada">
-
-                        <i id="iconoEstado" class="fa fa-hourglass-half" style="margin-right: 6px;">RECHAZADA</i>
+                        <i class="fa fa-hourglass-half" style="margin-right: 6px;">RECHAZADA</i>
                     </p>
-                    <button class="btn btn-sm btn-outline-danger delete-button" (click)="borrarFoto(photo.id)">
+                    
+                    <!-- Botón de eliminar siempre habilitado -->
+                    <button class="btn btn-sm btn-outline-danger delete-button" 
+                            (click)="borrarFoto(photo.id)"
+                            [class.enabled-delete]="isOverLimit()">
                         <i class="bi bi-trash3-fill"></i>
                         <span class="delete-text fs-5">Eliminar</span>
                     </button>
@@ -119,11 +141,12 @@
 
             <ng-template #editForm>
                 <div class="photo-upload-form p-3 border rounded" style="min-height: 200px;">
-                    <form (submit)="uploadPhoto($event)">
+                    <form (submit)="!isOverLimit() && uploadPhoto($event)">
                         <div class="mb-3">
                             <h5>Editar Foto</h5>
-                            <input type="file" class="form-control" accept="image/*" (change)="onPhotoSelect($event)"
-                                required>
+                            <input type="file" class="form-control" accept="image/*" 
+                                   (change)="!isOverLimit() && onPhotoSelect($event)"
+                                   [disabled]="isOverLimit()">
                         </div>
                         <div class="mb-3" *ngIf="newPhotoPreview">
                             <p>Vista previa:</p>
@@ -131,17 +154,19 @@
                         </div>
                         <div class="d-flex justify-content-between">
                             <button type="button" class="btn btn-sm btn-outline-secondary"
-                                (click)="cancelPhotoUpload()">Cancelar</button>
+                                (click)="!isOverLimit() && cancelPhotoUpload()" 
+                                [disabled]="isOverLimit()">Cancelar</button>
                             <button type="submit" class="btn btn-sm btn-primary"
-                                style="background-color: #FE7058; border: none;">Actualizar</button>
+                                style="background-color: #FE7058; border: none;"
+                                [disabled]="isOverLimit()">Actualizar</button>
                         </div>
                     </form>
                 </div>
             </ng-template>
         </div>
 
-        <!-- Formulario para nueva foto -->
-        <div class="col-md-4 col-sm-6" *ngIf="showPhotoForm && !editingPhotoId">
+        <!-- Formulario para nueva foto (oculto cuando se supera el límite) -->
+        <div class="col-md-4 col-sm-6" *ngIf="showPhotoForm && !editingPhotoId && !isOverLimit()">
             <div class="photo-upload-form p-3 border rounded" style="min-height: 200px;">
                 <form (submit)="uploadPhoto($event)">
                     <div class="mb-3">
@@ -166,8 +191,8 @@
             </div>
         </div>
 
-        <!-- Botón para añadir foto -->
-        <div class="col-md-4 col-sm-6" *ngIf="!showPhotoForm && userPhotos.length < maxPhotos && !editingPhotoId">
+        <!-- Botón para añadir foto (oculto cuando se supera el límite) -->
+        <div class="col-md-4 col-sm-6" *ngIf="!showPhotoForm && userPhotos.length < maxPhotos && !editingPhotoId && !isOverLimit()">
             <div class="add-photo-container position-relative" style="min-height: 200px;">
                 <button class="btn btn-primary rounded-circle add-photo-btn floating-btn"
                     style="width: 60px; height: 60px; position: absolute; top: 65%; left: 50%; transform: translate(-50%, -50%); background-color: #FE7058; border: none;"
@@ -183,23 +208,8 @@
     </div>
 
     <div *ngIf="userPhotos.length == maxPhotos && !editingPhotoId" class="text-center mt-3">
-        <div *ngIf="userPhotos.length === maxPhotos && !editingPhotoId" class="text-center mt-3">
-            <p class="text-muted">
-                Has alcanzado el límite de {{ maxPhotos }} {{ maxPhotos === 1 ? 'foto' : 'fotos' }} en tu perfil.
-            </p>
-        </div>
-
+        <p class="text-muted">
+            Has alcanzado el límite de {{ maxPhotos }} {{ maxPhotos === 1 ? 'foto' : 'fotos' }} en tu perfil.
+        </p>
     </div>
-    <div *ngIf="userPhotos.length > maxPhotos && !editingPhotoId"
-        class="alert alert-warning d-flex align-items-start gap-2 mt-4" role="alert">
-        <i class="bi bi-exclamation-triangle-fill fs-4 text-warning"></i>
-        <div>
-            <h5 class="alert-heading mb-1">¡Atención! Límite de fotos superado</h5>
-            <p class="mb-0">
-                Ahora solo se {{ maxPhotos === 1 ? 'permite' : 'permiten' }} <strong>{{ maxPhotos }}</strong> {{ maxPhotos === 1 ? 'foto' : 'fotos' }}. Por favor, elimina las imágenes
-                excedentes para continuar.
-            </p>
-        </div>
-    </div>
-
 </div>

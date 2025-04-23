@@ -45,18 +45,18 @@ export class PerfilParticipanteComponent {
 
   ngOnInit() {
     const contestRules = localStorage.getItem("contestRules");
-    
+
     if (contestRules) {
       const contextRulesParsed = JSON.parse(contestRules);
 
-      this.imageFormat = "."+(contextRulesParsed.allowedFormats).toLowerCase();
+      this.imageFormat = "." + (contextRulesParsed.allowedFormats).toLowerCase();
       this.maxFileSize = contextRulesParsed.maxSize;
       this.maxPhotos = contextRulesParsed.maxPhotos;
       //console.log(this.imageFormat);
       //console.log(this.maxFileSize);
       //console.log("Fotos :>> ", this.maxPhotos);
-      
-      
+
+
     }
 
     const participanteLogueado = localStorage.getItem("participanteLogueado");
@@ -86,7 +86,7 @@ export class PerfilParticipanteComponent {
     const file: File = event.target.files[0];
     if (file) { //Si existe el archivo, calcular la cantidad que pesa de MB
       const fileSizeInMB = file.size / (1024 * 1024);
-  
+
       //Si es mayor al permitido en las bases, dar error
       if (fileSizeInMB > this.maxFileSize) {
         this.fileSizeError = true;
@@ -346,5 +346,10 @@ export class PerfilParticipanteComponent {
         }, error => console.error("Error al eliminar la foto de la galería del participante :>> ", error)
       )
     }
+  }
+
+  //Método helper para verificar el límite
+  isOverLimit(): boolean {
+    return this.userPhotos.length > this.maxPhotos;
   }
 }
