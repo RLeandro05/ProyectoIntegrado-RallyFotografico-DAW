@@ -2,7 +2,7 @@
 <form [formGroup]="perfilForm" (ngSubmit)="onSubmit()" [class.block-interactions]="userPhotos.length > maxPhotos">
     <div class="profile-section bg-light py-5">
         <!-- Modal para la foto ampliada -->
-        <div class="profile-modal" [class.show]="showModal" (click)="closeModal()">
+        <div *ngIf="!editMode" class="profile-modal" [class.show]="showModal" (click)="closeModal()">
             <span class="close-modal" (click)="closeModal($event)">&times;</span>
             <img class="modal-content" [src]="modalImageSrc">
         </div>
@@ -16,7 +16,7 @@
                         <div class="profile-picture-container mb-3">
                             <!-- Imagen de perfil actual o vista previa -->
                             <img [src]="selectedImage || profileImage" alt="Foto de perfil"
-                                class="img-fluid rounded-circle profile-picture" (click)="!isOverLimit() && openModal(profileImage)"
+                                class="img-fluid rounded-circle profile-picture" (click)="!isOverLimit() && (!editMode && openModal(profileImage))"
                                 style="width: 150px; height: 150px; object-fit: cover;">
                         </div>
                         <button type="button" class="btn btn-sm btn-outline-secondary"

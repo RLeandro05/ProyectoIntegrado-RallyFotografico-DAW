@@ -195,6 +195,8 @@ export class PerfilParticipanteComponent {
                 localStorage.setItem("participanteLogueado", JSON.stringify(datosActualizados));
                 this.participanteLogueado = datosActualizados; //Sobreescribir datos
                 this.editMode = false;
+
+                this.profileImage = this.participanteLogueado.foto_perfil;
               }
             );
 
