@@ -8,4 +8,8 @@ import { Component } from '@angular/core';
 })
 export class AdminFotografiasComponent {
 
+  ngOnInit() {
+    console.log("Entra en admin-fotografias");
+    
+  }
 }

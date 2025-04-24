@@ -8,4 +8,8 @@ import { Component } from '@angular/core';
 })
 export class AdminParticipantesComponent {
 
+
+  ngOnInit() {
+      console.log("Entra en admin-participantes");
+  }
 }
