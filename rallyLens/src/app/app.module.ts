@@ -14,6 +14,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { PerfilParticipanteComponent } from './components/perfil-participante/perfil-participante.component';
 
 import { FormsModule } from '@angular/forms';
+import { AdminParticipantesComponent } from './components/admin-participantes/admin-participantes.component';
+import { AdminFotografiasComponent } from './components/admin-fotografias/admin-fotografias.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { FormsModule } from '@angular/forms';
     FooterComponent,
     RegisterUserComponent,
     LoginUserComponent,
-    PerfilParticipanteComponent
+    PerfilParticipanteComponent,
+    AdminParticipantesComponent,
+    AdminFotografiasComponent
   ],
   imports: [
     BrowserModule,
