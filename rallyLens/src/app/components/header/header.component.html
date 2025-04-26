@@ -6,7 +6,7 @@
                         class="logo-hover"></a>
             </div>
 
-            <nav class="menu flex-grow-1 d-none d-md-flex justify-content-center" style="font-size: 1em;">
+            <nav class="menu flex-grow-1 d-none d-xxl-flex justify-content-center" style="font-size: 1em;">
                 <ul class="list-unstyled d-flex gap-3 mb-0">
                     <li><a routerLink="/"
                             class="text-white text-decoration-none menu-link border border-danger px-3 py-1 rounded-pill"
@@ -27,7 +27,7 @@
             </nav>
 
             <!-- Dentro del div "me-3 d-none d-md-block" (versión desktop) -->
-            <div class="me-3 d-none d-md-block">
+            <div class="me-3 d-none d-xxl-block">
                 <div *ngIf="isLoged; else showButtons" class="d-flex align-items-center gap-2">
                     <!-- Si el participante inició sesión, mostrar botón de bienvenida y cierre de sesión. 
                      En caso contrario, buscar el ng-template #showButtons para mostrar el registro e inicio -->
@@ -64,7 +64,7 @@
             </div>
 
             <!-- Botón del menú lateral (visible en pantallas pequeñas) -->
-            <button class="btn btn-outline-light d-md-none ms-auto" type="button" (click)="toggleMenu()">
+            <button class="btn btn-outline-light d-xxl-none ms-auto" type="button" (click)="toggleMenu()">
                 ☰
             </button>
         </div>
@@ -74,19 +74,21 @@
     <div class="sidebar bg-dark text-white" [class.open]="isMenuOpen">
         <button class="btn-close-menu btn btn-outline-light" (click)="toggleMenu()">×</button>
         <ul class="list-unstyled p-3">
-            <li class="mb-2"><a routerLink="/" class="text-white text-decoration-none">Inicio</a></li>
-            <li class="mb-2"><a routerLink="/galeria" class="text-white text-decoration-none">Galería</a></li>
-            <li class="mb-2"><a routerLink="/ranking" class="text-white text-decoration-none">Ranking</a></li>
+            <li class="mb-2"><a routerLink="/" class="text-white text-decoration-none" (click)="toggleMenu()">Inicio</a></li>
+            <li class="mb-2"><a routerLink="/galeria" class="text-white text-decoration-none" (click)="toggleMenu()">Galería</a></li>
+            <li class="mb-2"><a routerLink="/ranking" class="text-white text-decoration-none" (click)="toggleMenu()">Ranking</a></li>
+            <li class="mb-2"><a routerLink="/admin-participantes" class="text-white text-decoration-none" (click)="toggleMenu()">Administrar Participantes</a></li>
+            <li class="mb-2"><a routerLink="/admin-fotografias" class="text-white text-decoration-none" (click)="toggleMenu()">Administrar Fotografías</a></li>
             <!-- Si está logueado, mostrar "Ver Perfil" y "Cerrar Sesión" -->
             <div *ngIf="isLoged; else notLogged">
                 <li class="mb-2">
-                    <button class="btn btn-outline-light w-100" style="background-color: #FE7058; color: white;"
+                    <button *ngIf="!adminLogueado" class="btn btn-outline-light w-100" style="background-color: #FE7058; color: white;"
                         routerLink="/perfil-participante" (click)="toggleMenu()"> <!-- Redirige a /perfil -->
                         Ver Perfil
                     </button>
                 </li>
                 <li>
-                    <button class="btn btn-outline-light w-100" style="background-color: #dc3545; color: white;">
+                    <button class="btn btn-outline-light w-100" style="background-color: #dc3545; color: white;" (click)="toggleMenu()">
                         Cerrar Sesión
                     </button>
                 </li>

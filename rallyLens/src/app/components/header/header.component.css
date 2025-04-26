@@ -1,12 +1,12 @@
 /* Estilo para la cabecera fija */
 header {
-    position: fixed; /* Fija la cabecera en la parte superior */
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100%; /* Ocupa todo el ancho de la pantalla */
-    z-index: 1000; /* Asegura que la cabecera esté encima de otros elementos */
-    background-color: #333; /* Color de fondo oscuro */
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para destacar la cabecera */
+    width: 100%;
+    z-index: 1000;
+    background-color: #333;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Estilo del botón del menú */
@@ -19,7 +19,7 @@ header {
 .sidebar {
     position: fixed;
     top: 0;
-    right: -300px; /* Ocultar el menú fuera de la pantalla */
+    right: -300px;
     width: 300px;
     height: 100%;
     background-color: #333;
@@ -48,7 +48,7 @@ header {
 }
 
 .logo-hover:hover {
-    transform: scale(1.1) rotate(-5deg); /* Aumenta tamaño y rota 5 grados */
+    transform: scale(1.1) rotate(-5deg);
     cursor: pointer;
 }
 
@@ -58,21 +58,22 @@ header {
 }
 
 .menu-link:hover {
-    background-color: #FE7058; /* Color temático */
-    color: white !important; /* Texto blanco */
+    background-color: #FE7058;
+    color: white !important;
 }
 
-/* Efecto hover en el botón "Registrarse" */
+/* Efecto hover en los botones especiales */
 .btn-register, .btn-login, .btn-welcome {
     transition: transform 0.3s ease-in-out;
 }
 
 .btn-register:hover, .btn-login:hover, .btn-welcome:hover {
-    animation: bounce 0.5s ease; /* Animación de bote */
+    animation: bounce 0.5s ease;
 }
 
+/* Efecto hover en botón de logout */
 .btn-logout {
-    transition: background-color .3s ease;
+    transition: background-color 0.3s ease;
 }
 
 .btn-logout:hover {
@@ -85,6 +86,6 @@ header {
         transform: scale(1);
     }
     50% {
-        transform: scale(1.2); /* Aumenta tamaño temporalmente */
+        transform: scale(1.2);
     }
 }
