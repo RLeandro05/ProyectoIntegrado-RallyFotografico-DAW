@@ -16,7 +16,7 @@ export class ServiceParticipanteService {
     let cuerpo = {
       servicio: "listarParticipantes"
     };
-    return this.http.post<Participante>(this.url, cuerpo);
+    return this.http.post<Participante[]>(this.url, cuerpo);
   }
 
   registrarParticipante(participante: Participante) {
@@ -59,5 +59,13 @@ export class ServiceParticipanteService {
       id: id
     };
     return this.http.post<Participante>(this.url, cuerpo);
+  }
+
+  eliminarParticipante(idParticipante: number) {
+    let cuerpo = {
+      servicio: "eliminarParticipante",
+      idParticipante: idParticipante
+    };
+    return this.http.post<any>(this.url, cuerpo);
   }
 }
