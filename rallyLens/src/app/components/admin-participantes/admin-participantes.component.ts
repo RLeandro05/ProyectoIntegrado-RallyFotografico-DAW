@@ -62,6 +62,8 @@ export class AdminParticipantesComponent {
               datos => {
                 console.log("Fotos :>> ", datos);
                 console.log("Total de fotos :>> ", datos.length);
+
+                this.numVotos = 0;
                 
                 this.numFotos = datos.length;
         
