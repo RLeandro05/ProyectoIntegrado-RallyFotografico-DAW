@@ -19,7 +19,7 @@ export class HeaderComponent {
   ngOnInit() {
     setTimeout(() => {
       const participanteGuardado = localStorage.getItem("participanteLogueado");
-      
+
       if (participanteGuardado) {
         this.participanteLogueado = JSON.parse(participanteGuardado);
         this.isLoged = true;
@@ -33,7 +33,7 @@ export class HeaderComponent {
           this.isLoged = false;
         }
       }
-    }, 500); // Pequeño retraso para sincronización
+    }, 500); //Pequeño retraso para sincronización
   }
 
   toggleMenu(): void {
@@ -41,15 +41,23 @@ export class HeaderComponent {
   }
 
   logout() {
-    localStorage.removeItem("participanteLogueado");
-    this.participanteLogueado = null;
 
-    localStorage.removeItem("adminLogueado");
-    this.adminLogueado = null;
+    if (localStorage.getItem("participanteLogueado") && localStorage.getItem("adminLogueado")) {
+      localStorage.removeItem("participanteLogueado");
+      this.participanteLogueado = null;
 
-    this.isLoged = false;
-    this.route.navigate(['/']);
+      this.route.navigate(['/admin-participantes']);
+    } else {
+      localStorage.removeItem("participanteLogueado");
+      this.participanteLogueado = null;
 
-    setTimeout(() => alert("Has cerrado sesión exitosamente."), 800);
+      localStorage.removeItem("adminLogueado");
+      this.adminLogueado = null;
+
+      this.isLoged = false;
+      this.route.navigate(['/']);
+
+      setTimeout(() => alert("Has cerrado sesión exitosamente."), 800);
+    }
   }
 }

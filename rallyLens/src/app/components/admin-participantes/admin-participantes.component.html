@@ -80,7 +80,7 @@
                   <td class="align-middle text-primary">{{ participante.correo }}</td>
                   <td class="align-middle text-end">
                     <div class="btn-group" role="group">
-                      <button class="btn btn-sm btn-outline-primary me-2">
+                      <button class="btn btn-sm btn-outline-primary me-2" (click)="verParticipante(participante.id)">
                         <i class="bi bi-eye-fill"></i> Ver
                       </button>
                       <button class="btn btn-sm btn-outline-danger" (click)="eliminarParticipante(participante)">

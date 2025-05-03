@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ServiceParticipanteService } from '../../services/service-participante.service';
 import { ServiceFotoService } from '../../services/service-foto.service';
 import { Participante } from '../../modules/participante';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-participantes',
@@ -20,7 +21,8 @@ export class AdminParticipantesComponent {
 
   constructor(
     private serviceParticipantes: ServiceParticipanteService,
-    private serviceFotos: ServiceFotoService
+    private serviceFotos: ServiceFotoService,
+    private route: Router
   ) { }
 
   ngOnInit() {
@@ -110,6 +112,32 @@ export class AdminParticipantesComponent {
         },
         error => console.error("Error al eliminar al participante :>> ", error)
       );
+    }
+  }
+
+  verParticipante(idParticipante: number) {
+    console.log("Entra en verParticipante :>> ", idParticipante);
+    
+    if(idParticipante) {
+      //console.log("Existe");
+
+      this.serviceParticipantes.obtenerParticipanteID(idParticipante).subscribe(
+        datos => {
+          console.log("Participante para ver en el panel de adinistración :>> ", datos);
+
+          if(datos) {
+            let participanteVisto = JSON.stringify(datos);
+            //console.log(participanteVisto);
+            
+            localStorage.setItem("participanteLogueado", participanteVisto);
+
+            if(localStorage.getItem("participanteLogueado")) {
+              this.route.navigate(['/perfil-participante']);
+            }
+          }
+          
+        }, error => console.error("Error al obtener el participante para ver en el panel de administración :>> ", error)
+      )
     }
   }
 }
