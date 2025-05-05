@@ -55,9 +55,10 @@ export class HeaderComponent {
       this.adminLogueado = null;
 
       this.isLoged = false;
-      this.route.navigate(['/']);
+      //this.route.navigate(['/']);
+      alert("Has cerrado sesión exitosamente.")
 
-      setTimeout(() => alert("Has cerrado sesión exitosamente."), 800);
+      setTimeout(() => window.location.href = "/", 500);
     }
   }
 }
