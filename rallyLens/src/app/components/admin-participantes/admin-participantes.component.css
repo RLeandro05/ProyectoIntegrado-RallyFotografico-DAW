@@ -68,3 +68,23 @@
 .rounded-border {
     border-radius: 10px !important;
 }
+
+.no-avatar {
+    width: 40px;
+    height: 40px;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+  }
+  
+  .no-avatar i {
+    font-size: 1.2rem;
+  }
+  
+  .participant-avatar {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+  }

@@ -19,6 +19,8 @@ export class AdminParticipantesComponent {
   paginaActual: number = 1;
   participantesPorPagina: number = 10;
 
+  terminoBusqueda: string = '';
+
   constructor(
     private serviceParticipantes: ServiceParticipanteService,
     private serviceFotos: ServiceFotoService,
@@ -52,9 +54,39 @@ export class AdminParticipantesComponent {
   }
 
   actualizarParticipantesPagina() {
+    if (this.terminoBusqueda) {
+      this.filtrarParticipantes();
+      return;
+    }
+    
     const inicio = (this.paginaActual - 1) * this.participantesPorPagina;
     const fin = inicio + this.participantesPorPagina;
     this.participantesPagina = this.participantes.slice(inicio, fin);
+  }
+
+  filtrarParticipantes() {
+    if (!this.terminoBusqueda) {
+      this.actualizarParticipantesPagina();
+      return;
+    }
+  
+    const termino = this.terminoBusqueda.toLowerCase();
+    
+    const participantesFiltrados = this.participantes.filter(participante => {
+      //Función para convertir cualquier valor a string y luego a minúsculas
+      const safeToString = (value: any): string => {
+        if (value === null || value === undefined) return '';
+        return String(value).toLowerCase();
+      };
+  
+      return safeToString(participante.nombre).includes(termino) ||
+             safeToString(participante.apellidos).includes(termino) ||
+             safeToString(participante.telefono).includes(termino) ||
+             safeToString(participante.correo).includes(termino) ||
+             safeToString(participante.id).includes(termino);
+    });
+  
+    this.participantesPagina = participantesFiltrados.slice(0, participantesFiltrados.length);
   }
 
   siguientePagina() {
