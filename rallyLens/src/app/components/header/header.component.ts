@@ -42,13 +42,7 @@ export class HeaderComponent {
 
   logout() {
 
-    if (localStorage.getItem("participanteLogueado") && localStorage.getItem("adminLogueado")) {
-      localStorage.removeItem("participanteLogueado");
-      this.participanteLogueado = null;
-
-      this.route.navigate(['/admin-participantes']);
-    } else {
-      localStorage.removeItem("participanteLogueado");
+    localStorage.removeItem("participanteLogueado");
       this.participanteLogueado = null;
 
       localStorage.removeItem("adminLogueado");
@@ -59,6 +53,5 @@ export class HeaderComponent {
       alert("Has cerrado sesión exitosamente.")
 
       setTimeout(() => window.location.href = "/", 500);
-    }
   }
 }
