@@ -9,7 +9,9 @@ import { Component } from '@angular/core';
 export class HomeComponent {
 
   public adminLogueado: any;
+  public participanteLogueado: any;
   public isAdminLoged: boolean = false;
+  public isParticipanteLoged: boolean = false;
   public isEditingRules: boolean = false;
 
   public formatOptions = ['PNG', 'JPG', 'JPEG', 'WEBP', 'SVG'];
@@ -31,6 +33,9 @@ export class HomeComponent {
     
     this.adminLogueado = localStorage.getItem("adminLogueado");
     if (this.adminLogueado) this.isAdminLoged = true;
+
+    this.participanteLogueado = localStorage.getItem("participanteLogueado");
+    if (this.participanteLogueado) this.isParticipanteLoged = true;
 
     //Obtener, si existen, las bases del concurso actuales del localstorage
     const savedRules = localStorage.getItem('contestRules');
