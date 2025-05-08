@@ -68,7 +68,7 @@
                 <th class="fw-bold">ID</th>
                 <th class="fw-bold">Fotografía</th>
                 <th class="fw-bold">Votos</th>
-                <th class="fw-bold">Autor</th>
+                <th class="fw-bold">Autor/a</th>
                 <th class="fw-bold">Estado</th>
                 <th class="fw-bold">Última modificación</th>
                 <th class="fw-bold text-end">Acciones</th>
@@ -107,7 +107,7 @@
                     <button class="btn btn-sm btn-outline-primary me-2" disabled>
                       <i class="bi bi-eye-fill"></i> Ver
                     </button>
-                    <button class="btn btn-sm btn-outline-danger" disabled>
+                    <button class="btn btn-sm btn-outline-danger" (click)="eliminarFoto(foto.id)">
                       <i class="bi bi-trash-fill"></i> Eliminar
                     </button>
                   </div>

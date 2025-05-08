@@ -31,6 +31,10 @@ export class AdminFotografiasComponent {
   ngOnInit() {
     console.log("Entra en admin-fotografias");
 
+    this.listarFotosyParticipantes();
+  }
+
+  listarFotosyParticipantes() {
     this.serviceFotos.listarFotos().subscribe(
       datos => {
         if (datos) {
@@ -89,5 +93,19 @@ export class AdminFotografiasComponent {
   getNombreAutor(idParticipante: number): string {
     const participante = this.participantes.find(p => p.id === idParticipante);
     return participante ? `${participante.nombre} ${participante.apellidos}` : 'Desconocido';
+  }
+
+  eliminarFoto(idFoto: number) {
+    if(confirm("¿Estás seguro de eliminar la foto? Esta acción no se podrá deshacer.")) {
+      this.serviceFotos.borrarFoto(idFoto).subscribe(
+        respuesta => {
+          if(respuesta.fotoBorrada) {
+            alert(respuesta.fotoBorrada);
+
+            this.listarFotosyParticipantes();
+          }
+        }, error => console.error("Error al eliminar la foto en el Panel de Administración :>> ", error)
+      )
+    }
   }
 }
