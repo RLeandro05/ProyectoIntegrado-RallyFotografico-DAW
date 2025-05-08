@@ -35,6 +35,8 @@ export class AdminFotografiasComponent {
       datos => {
         if (datos) {
           this.fotos = datos;
+          console.log("Fotos :>> ", this.fotos);
+          
           this.numVotos = datos.reduce((total, foto) => total + foto.votos, 0);
           this.actualizarFotosPagina();
         }
