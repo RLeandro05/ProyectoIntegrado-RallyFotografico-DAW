@@ -1,0 +1,136 @@
+.admin-hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                url('/assets/imagenPrincipal1.jpeg') no-repeat center center;
+    background-size: cover;
+    padding: 4rem 0;
+    border-bottom: 5px solid #FE7058;
+}
+
+.stat-card {
+    border-radius: 10px;
+    border: none;
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+.stat-card .card-title {
+    color: #FE7058;
+    font-weight: 800;
+}
+
+.photo-thumbnail {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 2px solid #FE7058;
+    border-radius: 10px;
+}
+
+.no-photo {
+    width: 100px;
+    height: 100px;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #777;
+    border-radius: 10px;
+}
+
+.table th {
+    border-top: none;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(254, 112, 88, 0.05);
+}
+
+.btn-outline-primary {
+    border-color: #FE7058;
+    color: #FE7058;
+}
+
+.btn-outline-primary:hover {
+    background-color: #FE7058;
+    color: white;
+}
+
+.btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+.rounded-border {
+    border-radius: 10px !important;
+}
+
+.no-photo i {
+    font-size: 1.5rem;
+}
+
+.badge {
+    font-size: 0.85rem;
+    padding: 0.35em 0.65em;
+}
+
+.bg-warning {
+    background-color: #ffc107 !important;
+    color: #212529 !important;
+}
+
+.bg-success {
+    background-color: #198754 !important;
+}
+
+.bg-danger {
+    background-color: #dc3545 !important;
+}
+
+.text-danger {
+    color: #dc3545 !important;
+}
+
+/* Estilos para el select de estado */
+.form-select {
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-select:focus {
+    border-color: #FE7058;
+    box-shadow: 0 0 0 0.25rem rgba(254, 112, 88, 0.25);
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .photo-thumbnail, .no-photo {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .table th, .table td {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .btn-group {
+        flex-wrap: wrap;
+        gap: 0.25rem;
+    }
+    
+    .btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+    }
+    
+    .form-select {
+        font-size: 0.8rem;
+        padding: 0.25rem 0.5rem;
+    }
+}
