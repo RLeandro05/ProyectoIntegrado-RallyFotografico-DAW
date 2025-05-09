@@ -21,7 +21,7 @@ export class AdminFotografiasComponent {
   paginaActual: number = 1;
   fotosPorPagina: number = 10;
 
-  filtroEstado: string = 'TODAS';
+  filtroEstado: string = 'todas';
 
   showModal = false;
   modalImageSrc = '';
@@ -34,23 +34,40 @@ export class AdminFotografiasComponent {
   ngOnInit() {
     console.log("Entra en admin-fotografias");
 
-    this.listarFotosyParticipantes();
+    this.listarFotos();
+    this.listarParticipantes();
   }
 
-  listarFotosyParticipantes() {
+  listarFotos() {
     this.serviceFotos.listarFotos().subscribe(
       datos => {
         if (datos) {
           this.fotos = datos;
           console.log("Fotos :>> ", this.fotos);
-          
-          this.numVotos = datos.reduce((total, foto) => total + foto.votos, 0);
+
+          this.numVotos = 0;
+          this.fotos.forEach(foto => this.numVotos += foto.votos);
+
+          switch (this.filtroEstado) {
+            case "pendiente":
+              this.fotos = this.fotos.filter(foto => foto.estado === "pendiente");
+              break;
+            case "aceptada":
+              this.fotos = this.fotos.filter(foto => foto.estado === "aceptada");
+              break;
+            case "rechazada":
+              this.fotos = this.fotos.filter(foto => foto.estado === "rechazada");
+              break;
+          }
+
           this.actualizarFotosPagina();
         }
       },
       error => console.error("Error al listar las fotos:", error)
     );
+  }
 
+  listarParticipantes() {
     this.serviceParticipantes.listarParticipantes().subscribe(
       datos => {
         if (datos) {
@@ -68,11 +85,11 @@ export class AdminFotografiasComponent {
     this.fotosPagina = this.fotos.slice(inicio, fin);
   }
 
+  //Función para filtrar por estado las fotografías
   filtrarPorEstado() {
-    // Esta función la implementarás según tus necesidades
     console.log("Filtrando por estado:", this.filtroEstado);
     this.paginaActual = 1;
-    this.actualizarFotosPagina();
+    this.listarFotos();
   }
 
   siguientePagina() {
@@ -99,13 +116,14 @@ export class AdminFotografiasComponent {
   }
 
   eliminarFoto(idFoto: number) {
-    if(confirm("¿Estás seguro de eliminar la foto? Esta acción no se podrá deshacer.")) {
+    if (confirm("¿Estás seguro de eliminar la foto? Esta acción no se podrá deshacer.")) {
       this.serviceFotos.borrarFoto(idFoto).subscribe(
         respuesta => {
-          if(respuesta.fotoBorrada) {
+          if (respuesta.fotoBorrada) {
             alert(respuesta.fotoBorrada);
 
-            this.listarFotosyParticipantes();
+            this.listarFotos();
+            this.listarParticipantes();
           }
         }, error => console.error("Error al eliminar la foto en el Panel de Administración :>> ", error)
       )
@@ -124,5 +142,31 @@ export class AdminFotografiasComponent {
     if (event) event.stopPropagation();
     this.showModal = false;
     document.body.style.overflow = '';
+  }
+
+  /*devolverIconoEstado(estado: string) {
+    return {
+      'bi-hourglass-split': estado === 'pendiente',
+      'bi-check-circle-fill': estado === 'aceptada',
+      'bi-x-circle-fill': estado === 'rechazada'
+    };
+  }
+
+  devolverEstado(estado: string) {
+    return {
+      'estado-pill pendiente': estado === 'pendiente',
+      'estado-pill aceptada': estado === 'aceptada',
+      'estado-pill rechazada': estado === 'rechazada'
+    };
+  }*/
+
+  cambiarEstado(foto: Foto) {
+    //console.log("Entra en cambiarEstado :>> ", foto);
+    
+    this.serviceFotos.cambiarEstado(foto).subscribe(
+      respuesta => {
+        if(respuesta.success) console.log(respuesta.success);
+      }, error => console.error("Error al cambiar el estado de la foto :>> ", error)
+    )
   }
 }

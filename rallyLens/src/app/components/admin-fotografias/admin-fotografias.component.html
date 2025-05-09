@@ -1,7 +1,7 @@
 <!-- Modal para la foto ampliada -->
 <div class="profile-modal" [class.show]="showModal" (click)="closeModal()">
-    <span class="close-modal" (click)="closeModal($event)">&times;</span>
-    <img class="modal-content" [src]="modalImageSrc" (click)="$event.stopPropagation()">
+  <span class="close-modal" (click)="closeModal($event)">&times;</span>
+  <img class="modal-content" [src]="modalImageSrc" (click)="$event.stopPropagation()">
 </div>
 
 <!-- Sección Hero con título de administración -->
@@ -58,7 +58,7 @@
           <h2 class="h4 mb-0 fw-bold">Listado de Fotografías</h2>
           <div>
             <select class="form-select form-select-sm" [(ngModel)]="filtroEstado" (change)="filtrarPorEstado()">
-              <option value="TODAS">Todas</option>
+              <option value="todas">Todas</option>
               <option value="pendiente">Pendientes</option>
               <option value="aceptada">Aceptadas</option>
               <option value="rechazada">Rechazadas</option>
@@ -84,7 +84,8 @@
               <tr *ngFor="let foto of fotosPagina">
                 <td class="align-middle fw-semibold">{{ foto.id }}</td>
                 <td class="align-middle">
-                  <img *ngIf="foto.imagen" [src]="foto.imagen" class="img-thumbnail photo-thumbnail" alt="Fotografía" (click)="openModal(foto.imagen)">
+                  <img *ngIf="foto.imagen" [src]="foto.imagen" class="img-thumbnail photo-thumbnail" alt="Fotografía"
+                    (click)="openModal(foto.imagen)">
                   <div *ngIf="!foto.imagen" class="no-photo">
                     <i class="bi bi-image-fill"></i>
                   </div>
@@ -94,18 +95,15 @@
                 </td>
                 <td class="align-middle">{{ getNombreAutor(foto.id_participante) }}</td>
                 <td class="align-middle">
-                  <span [ngClass]="{
-                      'badge bg-warning text-dark': foto.estado === 'pendiente',
-                      'badge bg-success': foto.estado === 'aceptada',
-                      'badge bg-danger': foto.estado === 'rechazada'
-                    }">
+                  <span class="bi">
                     {{ foto.estado }}
                   </span>
+
                 </td>
                 <td class="align-middle">{{ foto.fec_mod | date:'dd/MM/yyyy HH:mm' }}</td>
                 <td class="align-middle text-end">
                   <div class="btn-group" role="group">
-                    <select class="form-select form-select-sm me-2" [(ngModel)]="foto.estado">
+                    <select class="form-select form-select-sm me-2" [(ngModel)]="foto.estado" (change)="cambiarEstado(foto)">
                       <option value="pendiente">Pendiente</option>
                       <option value="aceptada">Aceptada</option>
                       <option value="rechazada">Rechazada</option>

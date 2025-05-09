@@ -47,7 +47,7 @@ export class AdminParticipantesComponent {
         console.log("Total de fotos :>> ", datos.length);
 
         this.numFotos = datos.length;
-        this.numVotos = datos.reduce((total, foto) => total + foto.votos, 0);
+        datos.forEach(foto => this.numVotos += foto.votos);
       },
       error => console.error("Error al obtener el listado de fotos :>> ", error)
     );
