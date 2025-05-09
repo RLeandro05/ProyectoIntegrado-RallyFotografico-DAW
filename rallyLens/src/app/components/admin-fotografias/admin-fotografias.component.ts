@@ -23,6 +23,9 @@ export class AdminFotografiasComponent {
 
   filtroEstado: string = 'TODAS';
 
+  showModal = false;
+  modalImageSrc = '';
+
   constructor(
     private serviceFotos: ServiceFotoService,
     private serviceParticipantes: ServiceParticipanteService
@@ -107,5 +110,19 @@ export class AdminFotografiasComponent {
         }, error => console.error("Error al eliminar la foto en el Panel de Administración :>> ", error)
       )
     }
+  }
+
+  //Función para abrir el modal de la foto
+  openModal(imageSrc: any) {
+    this.modalImageSrc = imageSrc;
+    this.showModal = true;
+    document.body.style.overflow = 'hidden';
+  }
+
+  //Función para cerrar el modal
+  closeModal(event?: Event) {
+    if (event) event.stopPropagation();
+    this.showModal = false;
+    document.body.style.overflow = '';
   }
 }
