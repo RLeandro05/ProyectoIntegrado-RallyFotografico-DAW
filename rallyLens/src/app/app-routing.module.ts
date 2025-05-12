@@ -6,6 +6,7 @@ import { LoginUserComponent } from './components/login-user/login-user.component
 import { PerfilParticipanteComponent } from './components/perfil-participante/perfil-participante.component';
 import { AdminParticipantesComponent } from './components/admin-participantes/admin-participantes.component';
 import { AdminFotografiasComponent } from './components/admin-fotografias/admin-fotografias.component';
+import { GaleriaComponent } from './components/galeria/galeria.component';
 
 const routes: Routes = [
   {path: "", component: HomeComponent},
@@ -13,7 +14,8 @@ const routes: Routes = [
   {path: "login-user", component: LoginUserComponent},
   {path: "perfil-participante", component: PerfilParticipanteComponent},
   {path: "admin-participantes", component: AdminParticipantesComponent},
-  {path: "admin-fotografias", component: AdminFotografiasComponent}
+  {path: "admin-fotografias", component: AdminFotografiasComponent},
+  {path: "galeria", component: GaleriaComponent}
 ];
 
 @NgModule({

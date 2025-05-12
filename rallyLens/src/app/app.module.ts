@@ -16,6 +16,7 @@ import { PerfilParticipanteComponent } from './components/perfil-participante/pe
 import { FormsModule } from '@angular/forms';
 import { AdminParticipantesComponent } from './components/admin-participantes/admin-participantes.component';
 import { AdminFotografiasComponent } from './components/admin-fotografias/admin-fotografias.component';
+import { GaleriaComponent } from './components/galeria/galeria.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { AdminFotografiasComponent } from './components/admin-fotografias/admin-
     LoginUserComponent,
     PerfilParticipanteComponent,
     AdminParticipantesComponent,
-    AdminFotografiasComponent
+    AdminFotografiasComponent,
+    GaleriaComponent
   ],
   imports: [
     BrowserModule,
