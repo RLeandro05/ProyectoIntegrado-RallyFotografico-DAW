@@ -94,16 +94,29 @@
                   <i class="bi bi-heart-fill text-danger me-1"></i>{{ foto.votos }}
                 </td>
                 <td class="align-middle">{{ getNombreAutor(foto.id_participante) }}</td>
-                <td class="align-middle">
-                  <span class="bi">
-                    {{ foto.estado }}
+                <td *ngIf="foto.estado === 'pendiente'" class="align-middle">
+                  <span class="bi-hourglass-split">
+                    {{ foto.estado.charAt(0).toUpperCase() + foto.estado.slice(1).toLowerCase() }}
+                  </span>
+
+                </td>
+                <td *ngIf="foto.estado === 'aceptada'" class="align-middle">
+                  <span class="bi-check-circle-fill">
+                    {{ foto.estado.charAt(0).toUpperCase() + foto.estado.slice(1).toLowerCase() }}
+                  </span>
+
+                </td>
+                <td *ngIf="foto.estado === 'rechazada'" class="align-middle">
+                  <span class="bi-x-circle-fill">
+                    {{ foto.estado.charAt(0).toUpperCase() + foto.estado.slice(1).toLowerCase() }}
                   </span>
 
                 </td>
                 <td class="align-middle">{{ foto.fec_mod | date:'dd/MM/yyyy HH:mm' }}</td>
                 <td class="align-middle text-end">
                   <div class="btn-group" role="group">
-                    <select class="form-select form-select-sm me-2" [(ngModel)]="foto.estado" (change)="cambiarEstado(foto)">
+                    <select class="form-select form-select-sm me-2" [(ngModel)]="foto.estado"
+                      (change)="cambiarEstado(foto)">
                       <option value="pendiente">Pendiente</option>
                       <option value="aceptada">Aceptada</option>
                       <option value="rechazada">Rechazada</option>

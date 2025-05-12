@@ -33,6 +33,7 @@ export class AdminFotografiasComponent {
 
   ngOnInit() {
     console.log("Entra en admin-fotografias");
+    
 
     this.listarFotos();
     this.listarParticipantes();
@@ -143,22 +144,6 @@ export class AdminFotografiasComponent {
     this.showModal = false;
     document.body.style.overflow = '';
   }
-
-  /*devolverIconoEstado(estado: string) {
-    return {
-      'bi-hourglass-split': estado === 'pendiente',
-      'bi-check-circle-fill': estado === 'aceptada',
-      'bi-x-circle-fill': estado === 'rechazada'
-    };
-  }
-
-  devolverEstado(estado: string) {
-    return {
-      'estado-pill pendiente': estado === 'pendiente',
-      'estado-pill aceptada': estado === 'aceptada',
-      'estado-pill rechazada': estado === 'rechazada'
-    };
-  }*/
 
   cambiarEstado(foto: Foto) {
     //console.log("Entra en cambiarEstado :>> ", foto);
