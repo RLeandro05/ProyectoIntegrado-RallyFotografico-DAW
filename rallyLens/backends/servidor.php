@@ -613,8 +613,10 @@ function sumarVoto($idFoto, $idParticipante)
         if($existeVoto) return ["haVotado" => "El participante ya había votado."];
 
         $stmt = $conn->prepare("UPDATE fotografia SET votos = votos + 1 WHERE id = ?");
-
         $stmt->execute([$idFoto]);
+
+        $stmt = $conn->prepare("INSERT INTO votos (id_participante, id_fotografia) VALUES (?, ?)");
+        $stmt->execute([$idParticipante, $idFoto]);
 
         return ["success" => "Voto realizado correctamente"];
     } catch (PDOException $e) {

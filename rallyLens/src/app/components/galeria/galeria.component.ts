@@ -16,6 +16,8 @@ export class GaleriaComponent {
   fotosAceptadas: Foto[] = [];
   mapaFotosParticipantes = new Map<Foto, Participante>;
 
+  votosRealizados = new Set<number>();
+
   constructor(
     private serviceFotografias: ServiceFotoService, 
     private serviceParticipantes: ServiceParticipanteService
@@ -54,6 +56,8 @@ export class GaleriaComponent {
           const fotografiaActualizadaVotos = this.fotosAceptadas.find(foto => foto.id === idFoto);
           
           if(fotografiaActualizadaVotos) fotografiaActualizadaVotos.votos += 1;
+
+          this.votosRealizados.add(idFoto);
           
         } else console.log(respuesta.haVotado);
       }, error => console.error("Error al realizar el voto :>> ", error)
