@@ -45,17 +45,17 @@ export class GaleriaComponent {
     );
   }
 
-  sumarVoto(idFoto: number) {
+  sumarVoto(idFoto: number, idParticipante: number) {
     console.log("Entra en sumarVoto :>> ", idFoto);
     
-    this.serviceFotografias.sumarVoto(idFoto).subscribe(
+    this.serviceFotografias.sumarVoto(idFoto, idParticipante).subscribe(
       respuesta => {
         if(respuesta.success) {
           const fotografiaActualizadaVotos = this.fotosAceptadas.find(foto => foto.id === idFoto);
           
           if(fotografiaActualizadaVotos) fotografiaActualizadaVotos.votos += 1;
           
-        }
+        } else console.log(respuesta.haVotado);
       }, error => console.error("Error al realizar el voto :>> ", error)
     )
   }

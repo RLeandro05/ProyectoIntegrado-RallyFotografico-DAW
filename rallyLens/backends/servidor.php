@@ -50,6 +50,9 @@ if ($objeto !== null && isset($objeto->servicio)) {
         case "obtenerParticipanteID":
             echo json_encode(obtenerParticipanteID($objeto->id));
             break;
+        case "obtenerFotografiaID":
+            echo json_encode(obtenerFotografiaID($objeto->idFoto));
+            break;
         case "subirFoto":
             echo json_encode(subirFoto($objeto));
             break;
@@ -64,6 +67,22 @@ if ($objeto !== null && isset($objeto->servicio)) {
             break;
         case "loginAdmin":
             echo json_encode(loginAdmin($objeto->admin));
+            break;
+        case "eliminarParticipante":
+            $resultadoFotos = eliminarFotosParticipante($objeto->idParticipante);
+
+            if ($resultadoFotos["success"]) {
+                $resultadoParticipante = eliminarParticipante($objeto->idParticipante);
+                echo json_encode($resultadoParticipante);
+            } else {
+                echo json_encode($resultadoFotos);
+            }
+            break;
+        case "cambiarEstadoFotografia":
+            echo json_encode(cambiarEstadoFotografia($objeto->foto));
+            break;
+        case "sumarVoto":
+            echo json_encode(sumarVoto($objeto->idFoto, $objeto->idParticipante));
             break;
     }
 }
@@ -87,10 +106,10 @@ function listadoFotos()
 {
     global $conn;
     try {
-        $sc = "SELECT id, id_administrador, id_participante, estado, votos, fec_mod FROM fotografia ORDER BY id";
+        $sc = "SELECT id, id_participante, imagen, estado, votos, fec_mod FROM fotografia ORDER BY id";
         $stm = $conn->prepare($sc);
         $stm->execute();
-        return ["success" => true, "data" => $stm->fetchAll(PDO::FETCH_ASSOC)];
+        return $stm->fetchAll(PDO::FETCH_ASSOC);
     } catch (Exception $e) {
         return ["error" => $e->getMessage(), "codigo" => $e->getCode()];
     }
@@ -101,10 +120,10 @@ function listadoParticipantes()
 {
     global $conn;
     try {
-        $sc = "SELECT id, nombre, apellidos, telefono, correo FROM participante ORDER BY id";
+        $sc = "SELECT id, nombre, apellidos, telefono, correo, foto_perfil, password FROM participante ORDER BY id";
         $stm = $conn->prepare($sc);
         $stm->execute();
-        return ["success" => true, "data" => $stm->fetchAll(PDO::FETCH_ASSOC)];
+        return $stm->fetchAll(PDO::FETCH_ASSOC);
     } catch (Exception $e) {
         return ["error" => $e->getMessage(), "codigo" => $e->getCode()];
     }
@@ -471,7 +490,7 @@ function loginAdmin($admin)
     $faltantes = [];
 
     foreach ($camposRequeridos as $campo) {
-        if (!isset($p->$campo) || empty(trim($admin->$campo))) {
+        if (!isset($admin->$campo) || empty(trim($admin->$campo))) {
             $faltantes[] = $campo;
         }
     }
@@ -483,7 +502,7 @@ function loginAdmin($admin)
 
     try {
         //Buscar el admin por correo y obtener la contraseña
-        $stmt = $conn->prepare("SELECT id, nombre, apellidos, telefono, correo, password, foto_perfil FROM administrador WHERE correo = ?");
+        $stmt = $conn->prepare("SELECT id, nombre, apellidos, telefono, correo, password FROM administrador WHERE correo = ?");
 
         $stmt->execute([$admin->correo]);
 
@@ -500,6 +519,126 @@ function loginAdmin($admin)
         } else {
             return false;
         }
+    } catch (PDOException $e) {
+        return ["error" => "Error en la base de datos", "detalle" => $e->getMessage()];
+    }
+}
+
+//Función para eliminar todas las fotos de un participante si se quiere eliminar al participante
+function eliminarFotosParticipante($idParticipante)
+{
+    global $conn;
+
+    //Validar que el id exista
+    if (!isset($idParticipante)) {
+        return ["error" => "Estructura incorrecta", "detalle" => "Falta el objeto 'idParticipante'"];
+    }
+
+    try {
+        //Eliminar todas las fotos a partir del id del participante
+        $stmt = $conn->prepare("DELETE FROM fotografia WHERE id_participante = ?;");
+
+        $stmt->execute([$idParticipante]);
+
+        return ["success" => "Fotos eliminadas del aprticipante correctamente"];
+    } catch (PDOException $e) {
+        return ["error" => "Error en la base de datos", "detalle" => $e->getMessage()];
+    }
+}
+
+//Función para eliminar al participante una vez se vacíen sus fotografías
+function eliminarParticipante($idParticipante)
+{
+    global $conn;
+
+    //Validar que el id exista
+    if (!isset($idParticipante)) {
+        return ["error" => "Estructura incorrecta", "detalle" => "Falta el objeto 'idParticipante'"];
+    }
+
+    try {
+        //Eliminar al participante vacío
+        $stmt = $conn->prepare("DELETE FROM participante WHERE id = ?;");
+
+        $stmt->execute([$idParticipante]);
+
+        return ["success" => "Eliminado tanto participante como fotos"];
+    } catch (PDOException $e) {
+        return ["error" => "Error en la base de datos", "detalle" => $e->getMessage()];
+    }
+}
+
+//Función para cambiar el estado de una fotografía
+function cambiarEstadoFotografia($foto)
+{
+    global $conn;
+
+    //Validar que la foto exista
+    if (!isset($foto)) {
+        return ["error" => "Estructura incorrecta", "detalle" => "Falta el objeto 'foto'"];
+    }
+
+    try {
+        //Eliminar al participante vacío
+        $stmt = $conn->prepare("UPDATE fotografia SET estado = ? WHERE id = ?");
+
+        $stmt->execute([$foto->estado, $foto->id]);
+
+        return ["success" => "Estado de la fotografía cambiada correctamente"];
+    } catch (PDOException $e) {
+        return ["error" => "Error en la base de datos", "detalle" => $e->getMessage()];
+    }
+}
+
+//Función para sumar un voto de una fotografía específica
+function sumarVoto($idFoto, $idParticipante)
+{
+    global $conn;
+
+    //Validar que el id exista
+    if (!isset($idFoto)) {
+        return ["error" => "Estructura incorrecta", "detalle" => "Falta el objeto 'idFoto'"];
+    }
+    if (!isset($idParticipante)) {
+        return ["error" => "Estructura incorrecta", "detalle" => "Falta el objeto 'idParticipante'"];
+    }
+
+    try {
+
+        $stmt = $conn->prepare("SELECT * FROM votos WHERE id_fotografia = ? AND id_participante = ?");
+        $stmt->execute([$idFoto, $idParticipante]);
+
+        $existeVoto = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if($existeVoto) return ["haVotado" => "El participante ya había votado."];
+
+        $stmt = $conn->prepare("UPDATE fotografia SET votos = votos + 1 WHERE id = ?");
+
+        $stmt->execute([$idFoto]);
+
+        return ["success" => "Voto realizado correctamente"];
+    } catch (PDOException $e) {
+        return ["error" => "Error en la base de datos", "detalle" => $e->getMessage()];
+    }
+}
+
+//Función para obtener una fotografía a partir de su id
+function obtenerFotografiaID($idFoto) {
+    global $conn;
+
+    //Validar que el id exista
+    if (!isset($idFoto)) {
+        return ["error" => "Estructura incorrecta", "detalle" => "Falta el objeto 'idFoto'"];
+    }
+
+    try {
+        $stmt = $conn->prepare("SELECT * FROM fotografia WHERE id = ?");
+
+        $stmt->execute([$idFoto]);
+
+        $foto = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $foto;
     } catch (PDOException $e) {
         return ["error" => "Error en la base de datos", "detalle" => $e->getMessage()];
     }

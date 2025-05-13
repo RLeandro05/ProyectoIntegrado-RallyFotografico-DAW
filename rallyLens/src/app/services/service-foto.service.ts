@@ -58,10 +58,11 @@ export class ServiceFotoService {
     return this.http.post<any>(this.url, cuerpo);
   }
 
-  sumarVoto(idFoto: number) {
+  sumarVoto(idFoto: number, idParticipante: number) {
     let cuerpo = {
       servicio: "sumarVoto",
-      idFoto: idFoto
+      idFoto: idFoto,
+      idParticipante: idParticipante
     };
     return this.http.post<any>(this.url, cuerpo);
   }
