@@ -12,5 +12,36 @@ import { environment } from '../../../environments/environment.development';
   styleUrl: './galeria.component.css'
 })
 export class GaleriaComponent {
-  
+
+  fotosAceptadas: Foto[] = [];
+  mapaFotosParticipantes = new Map<Foto, Participante>;
+
+  constructor(
+    private serviceFotografias: ServiceFotoService, 
+    private serviceParticipantes: ServiceParticipanteService
+  ) {}
+
+  ngOnInit() {
+    this.cargarFotos();
+  }
+
+  cargarFotos() {
+    this.serviceFotografias.listarFotos().subscribe(
+      fotos => {
+        if(fotos) {
+          this.fotosAceptadas = fotos.filter(foto => foto.estado === "aceptada");
+          this.fotosAceptadas.forEach(foto => {
+            
+            this.serviceParticipantes.obtenerParticipanteID(foto.id_participante).subscribe(
+              participante => {
+                if (participante) this.mapaFotosParticipantes.set(foto, participante);
+              },
+              error => console.error("Error al obtener participante:", error)
+            );
+          });
+        }
+      }, 
+      error => console.error("Error al listar las fotos :>> ", error)
+    );
+  }
 }

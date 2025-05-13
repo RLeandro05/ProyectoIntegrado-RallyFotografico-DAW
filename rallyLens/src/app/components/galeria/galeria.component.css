@@ -1,0 +1,80 @@
+.gallery-container {
+    background: url('/assets/imagenPrincipal1.jpeg') no-repeat center center;
+    background-size: cover;
+    background-attachment: fixed;
+    position: relative;
+    min-height: 100vh;
+}
+
+.gallery-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.85);
+    z-index: 1;
+}
+
+.gallery-container .container {
+    position: relative;
+    z-index: 2;
+}
+
+.card {
+    transition: all 0.3s ease;
+    border: none !important;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(254, 112, 88, 0.3) !important;
+}
+
+.card-img-top {
+    transition: transform 0.5s ease;
+}
+
+.card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+.btn-outline-danger {
+    border-color: #FE7058;
+    color: #FE7058;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-danger:hover {
+    background-color: #FE7058;
+    color: white;
+}
+
+.bi-heart-fill {
+    color: #FE7058;
+}
+
+.object-fit-cover {
+    object-fit: cover;
+}
+
+/* Estilo principal del contenedor hero */
+.admin-hero {
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+              url('/assets/imagenPrincipal1.jpeg') no-repeat center center;
+  background-size: cover;
+  padding: 4rem 0;
+  border-bottom: 5px solid #FE7058;
+}
+
+/* Estilos inline del <h1> */
+h1 {
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Estilos inline del <p> */
+p {
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  font-weight: 600;
+}

@@ -1,0 +1,62 @@
+<div class="hero-section admin-hero">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 text-center py-5">
+                    <h1 class="display-4 fw-bold text-white" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
+                        Galería de Fotografías
+                    </h1>
+                    <p class="lead text-white mb-4" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.5); font-weight: 600;">
+                        Descubre el arte de la Naturaleza Urbana
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="gallery-container py-5">
+    <div class="container">
+        <div class="row g-4">
+            <!-- Tarjeta para cada foto aceptada -->
+            <div class="col-md-6 col-lg-4" *ngFor="let foto of fotosAceptadas">
+                <div class="card h-100 shadow-sm border-0 rounded-3 overflow-hidden">
+                    <!-- Imagen principal -->
+                    <div class="card-img-top overflow-hidden" style="height: 250px;">
+                        <img [src]="foto.imagen" class="img-fluid w-100 h-100 object-fit-cover"
+                            alt="Fotografía de {{mapaFotosParticipantes.get(foto)?.nombre}} {{mapaFotosParticipantes.get(foto)?.apellidos}}">
+                    </div>
+
+                    <div class="card-body bg-light">
+                        <!-- Información del autor -->
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="me-3">
+                                <img *ngIf="mapaFotosParticipantes.get(foto)?.foto_perfil"
+                                    [src]="mapaFotosParticipantes.get(foto)?.foto_perfil" class="rounded-circle"
+                                    style="width: 50px; height: 50px; object-fit: cover;" alt="Foto de perfil">
+                                <img *ngIf="!mapaFotosParticipantes.get(foto)?.foto_perfil"
+                                    src="/assets/perfilDefecto.png" class="rounded-circle"
+                                    style="width: 50px; height: 50px; object-fit: cover;"
+                                    alt="Foto de perfil por defecto">
+                            </div>
+                            <div>
+                                <h5 class="mb-0 fw-bold">
+                                    {{mapaFotosParticipantes.get(foto)?.nombre}}
+                                    {{mapaFotosParticipantes.get(foto)?.apellidos}}
+                                </h5>
+                                <small class="text-muted">
+                                    {{foto.fec_mod | date:'dd/MM/yyyy'}}
+                                </small>
+                            </div>
+                        </div>
+
+                        <!-- Votos y botón de like -->
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-bold">
+                                {{foto.votos}} votos
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
