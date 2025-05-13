@@ -78,3 +78,26 @@ p {
   text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
   font-weight: 600;
 }
+
+.vote-icon {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FE7058;
+    font-size: 1.2rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease; /* Transición suave para todos los cambios */
+}
+
+.vote-icon:hover {
+    transform: scale(1.1); /* Aumenta tamaño un 10% */
+    background-color: rgba(255, 255, 255, 0.9); /* Fondo más sólido al hover */
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada */
+}

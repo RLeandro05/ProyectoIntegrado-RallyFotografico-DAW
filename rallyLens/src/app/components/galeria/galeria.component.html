@@ -1,17 +1,17 @@
 <div class="hero-section admin-hero">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-12 text-center py-5">
-                    <h1 class="display-4 fw-bold text-white" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
-                        Galería de Fotografías
-                    </h1>
-                    <p class="lead text-white mb-4" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.5); font-weight: 600;">
-                        Descubre el arte de la Naturaleza Urbana
-                    </p>
-                </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 text-center py-5">
+                <h1 class="display-4 fw-bold text-white" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
+                    Galería de Fotografías
+                </h1>
+                <p class="lead text-white mb-4" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.5); font-weight: 600;">
+                    Descubre el arte de la Naturaleza Urbana
+                </p>
             </div>
         </div>
     </div>
+</div>
 
 <div class="gallery-container py-5">
     <div class="container">
@@ -23,6 +23,11 @@
                     <div class="card-img-top overflow-hidden" style="height: 250px;">
                         <img [src]="foto.imagen" class="img-fluid w-100 h-100 object-fit-cover"
                             alt="Fotografía de {{mapaFotosParticipantes.get(foto)?.nombre}} {{mapaFotosParticipantes.get(foto)?.apellidos}}">
+
+                        <!-- Icono de corazón con efecto hover -->
+                        <div class="vote-icon">
+                            <i class="bi bi-heart"></i>
+                        </div>
                     </div>
 
                     <div class="card-body bg-light">
