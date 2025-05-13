@@ -57,4 +57,20 @@ export class ServiceFotoService {
     };
     return this.http.post<any>(this.url, cuerpo);
   }
+
+  sumarVoto(idFoto: number) {
+    let cuerpo = {
+      servicio: "sumarVoto",
+      idFoto: idFoto
+    };
+    return this.http.post<any>(this.url, cuerpo);
+  }
+
+  obtenerFotografiaID(idFoto: number) {
+    let cuerpo = {
+      servicio: "obtenerFotografiaID",
+      idFoto: idFoto
+    };
+    return this.http.post<Foto>(this.url, cuerpo);
+  }
 }

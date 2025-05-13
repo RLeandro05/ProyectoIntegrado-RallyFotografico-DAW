@@ -25,7 +25,7 @@
                             alt="Fotografía de {{mapaFotosParticipantes.get(foto)?.nombre}} {{mapaFotosParticipantes.get(foto)?.apellidos}}">
 
                         <!-- Icono de corazón con efecto hover -->
-                        <div class="vote-icon">
+                        <div class="vote-icon" (click)="sumarVoto(foto.id)">
                             <i class="bi bi-heart"></i>
                         </div>
                     </div>

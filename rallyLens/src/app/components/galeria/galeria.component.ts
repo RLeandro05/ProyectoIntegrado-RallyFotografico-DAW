@@ -44,4 +44,19 @@ export class GaleriaComponent {
       error => console.error("Error al listar las fotos :>> ", error)
     );
   }
+
+  sumarVoto(idFoto: number) {
+    console.log("Entra en sumarVoto :>> ", idFoto);
+    
+    this.serviceFotografias.sumarVoto(idFoto).subscribe(
+      respuesta => {
+        if(respuesta.success) {
+          const fotografiaActualizadaVotos = this.fotosAceptadas.find(foto => foto.id === idFoto);
+          
+          if(fotografiaActualizadaVotos) fotografiaActualizadaVotos.votos += 1;
+          
+        }
+      }, error => console.error("Error al realizar el voto :>> ", error)
+    )
+  }
 }
