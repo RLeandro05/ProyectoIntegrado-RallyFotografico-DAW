@@ -50,16 +50,22 @@ export class GaleriaComponent {
   sumarVoto(idFoto: number, idParticipante: number) {
     console.log("Entra en sumarVoto :>> ", idFoto);
     
-    this.serviceFotografias.sumarVoto(idFoto, idParticipante).subscribe(
+    this.serviceFotografias.alternarVoto(idFoto, idParticipante).subscribe(
       respuesta => {
-        if(respuesta.success) {
+        if(respuesta.votoRealizado) {
           const fotografiaActualizadaVotos = this.fotosAceptadas.find(foto => foto.id === idFoto);
           
           if(fotografiaActualizadaVotos) fotografiaActualizadaVotos.votos += 1;
 
           this.votosRealizados.add(idFoto);
           
-        } else console.log(respuesta.haVotado);
+        } else {
+          const fotografiaActualizadaVotos = this.fotosAceptadas.find(foto => foto.id === idFoto);
+
+          if(fotografiaActualizadaVotos) fotografiaActualizadaVotos.votos -= 1;
+
+          this.votosRealizados.delete(idFoto);
+        }
       }, error => console.error("Error al realizar el voto :>> ", error)
     )
   }

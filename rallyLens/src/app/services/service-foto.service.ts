@@ -58,9 +58,9 @@ export class ServiceFotoService {
     return this.http.post<any>(this.url, cuerpo);
   }
 
-  sumarVoto(idFoto: number, idParticipante: number) {
+  alternarVoto(idFoto: number, idParticipante: number) {
     let cuerpo = {
-      servicio: "sumarVoto",
+      servicio: "alternarVoto",
       idFoto: idFoto,
       idParticipante: idParticipante
     };
