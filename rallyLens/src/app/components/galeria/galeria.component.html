@@ -25,7 +25,7 @@
                             alt="Fotografía de {{mapaFotosParticipantes.get(foto)?.nombre}} {{mapaFotosParticipantes.get(foto)?.apellidos}}">
 
                         <!-- Icono de corazón con efecto hover -->
-                        <button type="button" class="vote-icon" (click)="sumarVoto(foto.id, mapaFotosParticipantes.get(foto)?.id || 0)" [disabled]="!participanteLogueado">
+                        <button type="button" class="vote-icon" (click)="alternarVoto(foto.id, participanteLogueado.id, mapaFotosParticipantes.get(foto)?.id || 0)" [disabled]="!participanteLogueado">
                             <i class="bi" [ngClass]="{
                                 'bi-heart': !votosRealizados.has(foto.id),
                                 'bi-heart-fill text-danger': votosRealizados.has(foto.id)

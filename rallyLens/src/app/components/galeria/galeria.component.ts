@@ -59,7 +59,7 @@ export class GaleriaComponent {
             );
           });
 
-          this.obtenerVotosParticipante(this.participanteLogueado.id);
+          if(this.participanteLogueado) this.obtenerVotosParticipante(this.participanteLogueado.id);
           this.actualizarFotosPagina();
         }
       },
@@ -106,10 +106,10 @@ export class GaleriaComponent {
 
 
 
-  sumarVoto(idFoto: number, idParticipante: number) {
+  alternarVoto(idFoto: number, idParticipante: number, idParticipanteVotado: number) {
     console.log("Entra en sumarVoto :>> ", idFoto);
 
-    this.serviceFotografias.alternarVoto(idFoto, idParticipante).subscribe(
+    this.serviceFotografias.alternarVoto(idFoto, idParticipante, idParticipanteVotado).subscribe(
       respuesta => {
         if (respuesta.votoRealizado) {
           const fotografiaActualizadaVotos = this.fotosAceptadas.find(foto => foto.id === idFoto);
