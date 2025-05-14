@@ -4,6 +4,7 @@ import { Participante } from '../../modules/participante';
 import { ServiceFotoService } from '../../services/service-foto.service';
 import { ServiceParticipanteService } from '../../services/service-participante.service';
 import { Router } from '@angular/router';
+import { ServiceVotoService } from '../../services/service-voto.service';
 
 @Component({
   selector: 'app-galeria',
@@ -20,7 +21,7 @@ export class GaleriaComponent {
 
   fotosPagina: Foto[] = [];
   paginaActual: number = 1;
-  fotosPorPagina: number = 10; // Puedes ajustar el número según el diseño de la galería
+  fotosPorPagina: number = 10;
 
   participanteLogueado: any = null;
 
@@ -28,6 +29,7 @@ export class GaleriaComponent {
   constructor(
     private serviceFotografias: ServiceFotoService,
     private serviceParticipantes: ServiceParticipanteService,
+    private serviceVotos: ServiceVotoService,
     private route: Router
   ) { }
 
@@ -57,11 +59,25 @@ export class GaleriaComponent {
             );
           });
 
+          this.obtenerVotosParticipante(this.participanteLogueado.id);
           this.actualizarFotosPagina();
         }
       },
       error => console.error("Error al listar las fotos :>> ", error)
     );
+  }
+
+  obtenerVotosParticipante(idParticipante: number) {
+    this.serviceVotos.obtenerVotosParticipante(idParticipante).subscribe(
+      votos => {
+        if (votos) {
+          votos.forEach(voto => {
+            this.votosRealizados.add(voto.id_fotografia);
+          });
+        };
+        
+      }, error => console.error("Error al obtener todos los votos del participante :>> ", error)
+    )
   }
 
   actualizarFotosPagina() {
