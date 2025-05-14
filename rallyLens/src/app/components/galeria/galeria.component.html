@@ -17,7 +17,7 @@
     <div class="container">
         <div class="row g-4">
             <!-- Tarjeta para cada foto aceptada -->
-            <div class="col-md-6 col-lg-4" *ngFor="let foto of fotosAceptadas">
+            <div class="col-md-6 col-lg-4" *ngFor="let foto of fotosPagina">
                 <div class="card h-100 shadow-sm border-0 rounded-3 overflow-hidden">
                     <!-- Imagen principal -->
                     <div class="card-img-top overflow-hidden" style="height: 250px;">
@@ -66,5 +66,20 @@
                 </div>
             </div>
         </div>
+        <div class="d-flex justify-content-between align-items-center mt-4">
+        <div class="text-muted small fw-bold">
+            Página {{ paginaActual }} de {{ totalPaginas() }}<br>
+            Mostrando {{ fotosPagina.length }} de {{ fotosAceptadas.length }} fotografías
+        </div>
+        <div>
+            <button class="btn btn-sm btn-outline-dark me-2" (click)="anteriorPagina()" [disabled]="paginaActual === 1">
+                <i class="bi bi-arrow-left"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-dark" (click)="siguientePagina()"
+                [disabled]="paginaActual === totalPaginas()">
+                <i class="bi bi-arrow-right"></i>
+            </button>
+        </div>
+    </div>
     </div>
 </div>
