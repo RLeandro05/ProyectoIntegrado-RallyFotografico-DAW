@@ -3,7 +3,6 @@ import { Foto } from '../../modules/foto';
 import { Participante } from '../../modules/participante';
 import { ServiceFotoService } from '../../services/service-foto.service';
 import { ServiceParticipanteService } from '../../services/service-participante.service';
-import { environment } from '../../../environments/environment.development';
 
 @Component({
   selector: 'app-galeria',
@@ -22,6 +21,8 @@ export class GaleriaComponent {
   paginaActual: number = 1;
   fotosPorPagina: number = 10; // Puedes ajustar el número según el diseño de la galería
 
+  participanteLogueado: any = null;
+
 
   constructor(
     private serviceFotografias: ServiceFotoService,
@@ -30,6 +31,12 @@ export class GaleriaComponent {
 
   ngOnInit() {
     this.cargarFotos();
+
+    const participanteGuardado = localStorage.getItem("participanteLogueado");
+
+    if (participanteGuardado) {
+      this.participanteLogueado = JSON.parse(participanteGuardado);
+    }
   }
 
   cargarFotos() {
