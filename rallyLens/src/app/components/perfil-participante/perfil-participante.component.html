@@ -144,7 +144,7 @@
                     <form (submit)="!isOverLimit() && uploadPhoto($event)">
                         <div class="mb-3">
                             <h5>Editar Foto</h5>
-                            <input type="file" class="form-control" accept="image/*" 
+                            <input type="file" class="form-control" [accept]="imageFormat" 
                                    (change)="!isOverLimit() && onPhotoSelect($event)"
                                    [disabled]="isOverLimit()">
                         </div>
