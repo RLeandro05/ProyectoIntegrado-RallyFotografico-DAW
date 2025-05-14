@@ -3,6 +3,7 @@ import { Foto } from '../../modules/foto';
 import { Participante } from '../../modules/participante';
 import { ServiceFotoService } from '../../services/service-foto.service';
 import { ServiceParticipanteService } from '../../services/service-participante.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-galeria',
@@ -26,7 +27,8 @@ export class GaleriaComponent {
 
   constructor(
     private serviceFotografias: ServiceFotoService,
-    private serviceParticipantes: ServiceParticipanteService
+    private serviceParticipantes: ServiceParticipanteService,
+    private route: Router
   ) { }
 
   ngOnInit() {
@@ -109,5 +111,21 @@ export class GaleriaComponent {
         }
       }, error => console.error("Error al realizar el voto :>> ", error)
     )
+  }
+
+  alertarRegistroLogueo(numero: number) {
+    if (numero == 1) {
+      if (!localStorage.getItem("adminLogueado")) {
+        this.route.navigate(['/register-user']);
+      } else {
+        alert("Cierra sesión como admin y regístrate como participante.");
+      }
+    } else {
+      if (!localStorage.getItem("adminLogueado")) {
+        this.route.navigate(['/login-user']);
+      } else {
+        alert("Cierra sesión como admin e inicia sesión como participante.");
+      }
+    }
   }
 }

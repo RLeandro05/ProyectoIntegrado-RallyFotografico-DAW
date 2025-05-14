@@ -25,12 +25,12 @@
                             alt="Fotografía de {{mapaFotosParticipantes.get(foto)?.nombre}} {{mapaFotosParticipantes.get(foto)?.apellidos}}">
 
                         <!-- Icono de corazón con efecto hover -->
-                        <div class="vote-icon" (click)="sumarVoto(foto.id, mapaFotosParticipantes.get(foto)?.id || 0)">
+                        <button type="button" class="vote-icon" (click)="sumarVoto(foto.id, mapaFotosParticipantes.get(foto)?.id || 0)" [disabled]="!participanteLogueado">
                             <i class="bi" [ngClass]="{
                                 'bi-heart': !votosRealizados.has(foto.id),
                                 'bi-heart-fill text-danger': votosRealizados.has(foto.id)
                             }"></i>
-                        </div>
+                        </button>
                     </div>
 
                     <div class="card-body bg-light">
@@ -93,8 +93,8 @@
                 <div>
                     <strong>Para poder votar, debes registrarte o iniciar sesión como participante.</strong>
                 </div>
-                <a routerLink="/register-user" class="btn btn-outline-primary btn-sm ms-4 me-2">Registrarse</a>
-                <a routerLink="/login-user" class="btn btn-primary btn-sm me-2">Iniciar sesión</a>
+                <a (click)="alertarRegistroLogueo(1)" class="btn btn-outline-primary btn-sm ms-4 me-2">Registrarse</a>
+                <a (click)="alertarRegistroLogueo(2)" class="btn btn-primary btn-sm me-2">Iniciar sesión</a>
             </div>
 
             <!-- Botón de cerrar -->
