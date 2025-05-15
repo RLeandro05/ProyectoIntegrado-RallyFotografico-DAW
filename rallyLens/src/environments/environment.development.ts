@@ -1,3 +1,4 @@
 export const environment = {
-    API_URL: "http://localhost/serviciosweb/rallylens/servidor.php",
+    production: true,
+    API_URL: "https://backendrallylens/html/servidor.php",
 };
