@@ -81,8 +81,11 @@ if ($objeto !== null && isset($objeto->servicio)) {
         case "cambiarEstadoFotografia":
             echo json_encode(cambiarEstadoFotografia($objeto->foto));
             break;
-        case "sumarVoto":
-            echo json_encode(sumarVoto($objeto->idFoto, $objeto->idParticipante));
+        case "alternarVoto":
+            echo json_encode(alternarVoto($objeto->idFoto, $objeto->idParticipante, $objeto->idParticipanteVotado));
+            break;
+        case "obtenerVotosParticipante":
+            echo json_encode(obtenerVotosParticipante($objeto->idParticipante));
             break;
     }
 }
@@ -591,7 +594,7 @@ function cambiarEstadoFotografia($foto)
 }
 
 //Función para sumar un voto de una fotografía específica
-function sumarVoto($idFoto, $idParticipante)
+function alternarVoto($idFoto, $idParticipante, $idParticipanteVotado)
 {
     global $conn;
 
@@ -602,30 +605,42 @@ function sumarVoto($idFoto, $idParticipante)
     if (!isset($idParticipante)) {
         return ["error" => "Estructura incorrecta", "detalle" => "Falta el objeto 'idParticipante'"];
     }
+    if (!isset($idParticipanteVotado)) {
+        return ["error" => "Estructura incorrecta", "detalle" => "Falta el objeto 'idParticipanteVotado'"];
+    }
 
     try {
 
-        $stmt = $conn->prepare("SELECT * FROM votos WHERE id_fotografia = ? AND id_participante = ?");
-        $stmt->execute([$idFoto, $idParticipante]);
+        $stmt = $conn->prepare("SELECT * FROM votos WHERE id_fotografia = ? AND id_participante = ? AND id_participanteVotado = ?");
+        $stmt->execute([$idFoto, $idParticipante, $idParticipanteVotado]);
 
         $existeVoto = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if($existeVoto) return ["haVotado" => "El participante ya había votado."];
+        if ($existeVoto) {
+            $stmt = $conn->prepare("UPDATE fotografia SET votos = votos - 1 WHERE id = ?");
+            $stmt->execute([$idFoto]);
+
+            $stmt = $conn->prepare("DELETE FROM votos WHERE id_fotografia = ? AND id_participante = ? AND id_participanteVotado = ?");
+            $stmt->execute([$idFoto, $idParticipante, $idParticipanteVotado]);
+
+            return ["votoRetirado" => "Voto retirado correctamente"];
+        }
 
         $stmt = $conn->prepare("UPDATE fotografia SET votos = votos + 1 WHERE id = ?");
         $stmt->execute([$idFoto]);
 
-        $stmt = $conn->prepare("INSERT INTO votos (id_participante, id_fotografia) VALUES (?, ?)");
-        $stmt->execute([$idParticipante, $idFoto]);
+        $stmt = $conn->prepare("INSERT INTO votos (id_participante, id_participanteVotado, id_fotografia) VALUES (?, ?, ?)");
+        $stmt->execute([$idParticipante, $idParticipanteVotado, $idFoto]);
 
-        return ["success" => "Voto realizado correctamente"];
+        return ["votoRealizado" => "Voto realizado correctamente"];
     } catch (PDOException $e) {
         return ["error" => "Error en la base de datos", "detalle" => $e->getMessage()];
     }
 }
 
 //Función para obtener una fotografía a partir de su id
-function obtenerFotografiaID($idFoto) {
+function obtenerFotografiaID($idFoto)
+{
     global $conn;
 
     //Validar que el id exista
@@ -641,6 +656,29 @@ function obtenerFotografiaID($idFoto) {
         $foto = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $foto;
+    } catch (PDOException $e) {
+        return ["error" => "Error en la base de datos", "detalle" => $e->getMessage()];
+    }
+}
+
+//Función para obtener los votos de un participante específico
+function obtenerVotosParticipante($idParticipante)
+{
+    global $conn;
+
+    //Validar que el id exista
+    if (!isset($idParticipante)) {
+        return ["error" => "Estructura incorrecta", "detalle" => "Falta el objeto 'idParticipante'"];
+    }
+
+    try {
+        $stmt = $conn->prepare("SELECT * FROM votos WHERE id_participante = ?");
+
+        $stmt->execute([$idParticipante]);
+
+        $votos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $votos;
     } catch (PDOException $e) {
         return ["error" => "Error en la base de datos", "detalle" => $e->getMessage()];
     }
