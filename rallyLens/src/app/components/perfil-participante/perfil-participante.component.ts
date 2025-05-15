@@ -356,6 +356,7 @@ export class PerfilParticipanteComponent {
   isOverLimit(): boolean {
     return this.userPhotos.length > this.maxPhotos;
   }
+  
 
   //Función para que, al salir del componente, si el admin está logueado, simplemente quite el participante
   ngOnDestroy() {
