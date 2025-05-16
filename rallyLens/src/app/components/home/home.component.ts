@@ -12,6 +12,7 @@ export class HomeComponent {
   public isAdminLoged: boolean = false;
   public isEditingRules: boolean = false;
 
+  public formatOptions: string[] = ['PNG', 'JPG', 'JPEG', 'WEBP', 'TIFF'];
 
   //Valores por defecto para las bases del concurso por primera vez
   public contestRules = {
