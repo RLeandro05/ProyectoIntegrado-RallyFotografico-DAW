@@ -197,6 +197,8 @@ export class PerfilParticipanteComponent {
                 this.editMode = false;
 
                 this.profileImage = this.participanteLogueado.foto_perfil;
+
+                this.route.navigate(['/perfil-participante']);
               }
             );
 
