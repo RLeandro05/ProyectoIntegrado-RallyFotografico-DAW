@@ -12,12 +12,10 @@ export class HomeComponent {
   public isAdminLoged: boolean = false;
   public isEditingRules: boolean = false;
 
-  public formatOptions = ['PNG', 'JPG', 'JPEG', 'WEBP', 'SVG'];
-
 
   //Valores por defecto para las bases del concurso por primera vez
   public contestRules = {
-    allowedFormats: 'PNG, JPG, JPEG',
+    allowedFormats: 'PNG',
     maxSize: 20,
     maxPhotos: 3,
     maxVotes: 3
@@ -27,7 +25,6 @@ export class HomeComponent {
   public originalRules: any;
 
   ngOnInit() {
-    console.log(this.formatOptions);
     
     this.adminLogueado = localStorage.getItem("adminLogueado");
     if (this.adminLogueado) this.isAdminLoged = true;
@@ -36,6 +33,8 @@ export class HomeComponent {
     const savedRules = localStorage.getItem('contestRules');
     if (savedRules) {
       this.contestRules = JSON.parse(savedRules);
+    } else {
+      localStorage.setItem("contestRules", JSON.stringify(this.contestRules));
     }
   }
 
