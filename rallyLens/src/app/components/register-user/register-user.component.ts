@@ -43,6 +43,8 @@ export class RegisterUserComponent {
           if (!datos) {
             alert("El correo introducido ya está registrado. Ingrese uno válido.");
           } else {
+            console.log("DATOS :>> ", datos);
+            
             alert("Se ha registrado correctamente.");
             this.route.navigate(['/login-user']);
           }
