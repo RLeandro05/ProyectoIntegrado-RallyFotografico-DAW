@@ -198,7 +198,7 @@ export class PerfilParticipanteComponent {
 
                 this.profileImage = this.participanteLogueado.foto_perfil;
 
-                this.route.navigate(['/perfil-participante']);
+                window.location.href = "/perfil-participante";
               }
             );
 
