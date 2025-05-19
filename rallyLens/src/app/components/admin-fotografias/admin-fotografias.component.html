@@ -1,7 +1,7 @@
 <!-- Modal para la foto ampliada -->
 <div class="profile-modal" [class.show]="showModal" (click)="closeModal()">
   <span class="close-modal" (click)="closeModal($event)">&times;</span>
-  <img class="modal-content" [src]="modalImageSrc" (click)="$event.stopPropagation()">
+  <img class="modal-content" loading="lazy" [src]="modalImageSrc" (click)="$event.stopPropagation()">
 </div>
 
 <!-- Sección Hero con título de administración -->
@@ -93,7 +93,7 @@
               <tr *ngFor="let foto of fotosPagina">
                 <td class="align-middle fw-semibold">{{ foto.id }}</td>
                 <td class="align-middle">
-                  <img *ngIf="foto.imagen" [src]="foto.imagen" class="img-thumbnail photo-thumbnail" alt="Fotografía"
+                  <img *ngIf="foto.imagen" [src]="foto.imagen" loading="lazy" class="img-thumbnail photo-thumbnail" alt="Fotografía"
                     (click)="openModal(foto.imagen)">
                   <div *ngIf="!foto.imagen" class="no-photo">
                     <i class="bi bi-image-fill"></i>

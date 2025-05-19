@@ -79,7 +79,7 @@
               <tr *ngFor="let participante of participantesPagina">
                 <td class="align-middle fw-semibold">{{ participante.id }}</td>
                 <td class="align-middle">
-                  <img *ngIf="participante.foto_perfil" [src]="participante.foto_perfil"
+                  <img *ngIf="participante.foto_perfil" loading="lazy" [src]="participante.foto_perfil"
                     class="rounded-circle participant-avatar" alt="Foto de perfil">
                   <div *ngIf="!participante.foto_perfil" class="no-avatar rounded-circle">
                     <i class="bi bi-person-fill"></i>

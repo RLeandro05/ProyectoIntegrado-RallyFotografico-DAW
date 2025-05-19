@@ -26,7 +26,7 @@
                     <div class="card h-100 shadow-sm border-0 rounded-3 overflow-hidden">
                         <!-- Imagen principal -->
                         <div class="card-img-top overflow-hidden" style="height: 250px;">
-                            <img [src]="foto.imagen" class="img-fluid w-100 h-100 object-fit-cover"
+                            <img [src]="foto.imagen" loading="lazy" class="img-fluid w-100 h-100 object-fit-cover"
                                 alt="Fotografía de {{mapaFotosParticipantes.get(foto)?.nombre}} {{mapaFotosParticipantes.get(foto)?.apellidos}}">
 
                             <!-- Icono de corazón con efecto hover -->

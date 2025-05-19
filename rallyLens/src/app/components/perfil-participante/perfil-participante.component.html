@@ -4,7 +4,7 @@
         <!-- Modal para la foto ampliada -->
         <div *ngIf="!editMode" class="profile-modal" [class.show]="showModal" (click)="closeModal()">
             <span class="close-modal" (click)="closeModal($event)">&times;</span>
-            <img class="modal-content" [src]="modalImageSrc">
+            <img class="modal-content" loading="lazy" [src]="modalImageSrc">
         </div>
 
         <div class="container">
@@ -15,7 +15,7 @@
                     <div class="col-md-4 text-center">
                         <div class="profile-picture-container mb-3">
                             <!-- Imagen de perfil actual o vista previa -->
-                            <img [src]="selectedImage || profileImage" alt="Foto de perfil"
+                            <img [src]="selectedImage || profileImage" loading="lazy" alt="Foto de perfil"
                                 class="img-fluid rounded-circle profile-picture" (click)="!isOverLimit() && (!editMode && openModal(profileImage))"
                                 style="width: 150px; height: 150px; object-fit: cover;">
                         </div>
@@ -109,7 +109,7 @@
         <!-- Fotos existentes -->
         <div class="col-md-4 col-sm-6" *ngFor="let photo of userPhotos; let i = index">
             <div class="photo-card position-relative" *ngIf="editingPhotoId !== photo.id; else editForm">
-                <img [src]="photo.url || photo.imagen" alt="Foto subida" class="img-fluid rounded"
+                <img [src]="photo.url || photo.imagen" loading="lazy" alt="Foto subida" class="img-fluid rounded"
                     style="height: 200px; width: 100%; object-fit: cover;">
                 <div class="photo-actions mt-2 d-flex justify-content-between">
                     <button class="btn btn-sm btn-outline-secondary edit-button" 
@@ -150,7 +150,7 @@
                         </div>
                         <div class="mb-3" *ngIf="newPhotoPreview">
                             <p>Vista previa:</p>
-                            <img [src]="newPhotoPreview" class="img-fluid rounded" style="max-height: 150px;">
+                            <img [src]="newPhotoPreview" loading="lazy" class="img-fluid rounded" style="max-height: 150px;">
                         </div>
                         <div class="d-flex justify-content-between">
                             <button type="button" class="btn btn-sm btn-outline-secondary"
@@ -179,7 +179,7 @@
                     </div>
                     <div class="mb-3" *ngIf="newPhotoPreview">
                         <p>Vista previa:</p>
-                        <img [src]="newPhotoPreview" class="img-fluid rounded" style="max-height: 150px;">
+                        <img [src]="newPhotoPreview" loading="lazy" class="img-fluid rounded" style="max-height: 150px;">
                     </div>
                     <div class="d-flex justify-content-between">
                         <button type="button" class="btn btn-sm btn-outline-secondary"
