@@ -44,10 +44,10 @@
                             <!-- Información del autor -->
                             <div class="d-flex align-items-center mb-3">
                                 <div class="me-3">
-                                    <img *ngIf="mapaFotosParticipantes.get(foto)?.foto_perfil"
+                                    <img loading="lazy" *ngIf="mapaFotosParticipantes.get(foto)?.foto_perfil"
                                         [src]="mapaFotosParticipantes.get(foto)?.foto_perfil" class="rounded-circle"
                                         style="width: 50px; height: 50px; object-fit: cover;" alt="Foto de perfil">
-                                    <img *ngIf="!mapaFotosParticipantes.get(foto)?.foto_perfil"
+                                    <img loading="lazy" *ngIf="!mapaFotosParticipantes.get(foto)?.foto_perfil"
                                         src="/assets/perfilDefecto.png" class="rounded-circle"
                                         style="width: 50px; height: 50px; object-fit: cover;"
                                         alt="Foto de perfil por defecto">
