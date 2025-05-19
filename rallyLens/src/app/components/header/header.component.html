@@ -77,8 +77,8 @@
             <li class="mb-2"><a routerLink="/" class="text-white text-decoration-none" (click)="toggleMenu()">Inicio</a></li>
             <li class="mb-2"><a routerLink="/galeria" class="text-white text-decoration-none" (click)="toggleMenu()">Galería</a></li>
             <li class="mb-2"><a routerLink="/ranking" class="text-white text-decoration-none" (click)="toggleMenu()">Ranking</a></li>
-            <li class="mb-2"><a routerLink="/admin-participantes" class="text-white text-decoration-none" (click)="toggleMenu()">Administrar Participantes</a></li>
-            <li class="mb-2"><a routerLink="/admin-fotografias" class="text-white text-decoration-none" (click)="toggleMenu()">Administrar Fotografías</a></li>
+            <li *ngIf="adminLogueado" class="mb-2"><a routerLink="/admin-participantes" class="text-white text-decoration-none" (click)="toggleMenu()">Administrar Participantes</a></li>
+            <li *ngIf="adminLogueado" class="mb-2"><a routerLink="/admin-fotografias" class="text-white text-decoration-none" (click)="toggleMenu()">Administrar Fotografías</a></li>
             <!-- Si está logueado, mostrar "Ver Perfil" y "Cerrar Sesión" -->
             <div *ngIf="isLoged; else notLogged">
                 <li class="mb-2">
