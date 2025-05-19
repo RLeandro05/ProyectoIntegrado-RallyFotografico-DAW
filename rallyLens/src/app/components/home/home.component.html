@@ -93,7 +93,7 @@
                         </li>
                         <li>
                             <strong>📏 Tamaño máximo:</strong> 
-                            <span *ngIf="!isEditingRules">{{contestRules.maxSize}} MB por imagen.</span>
+                            <span *ngIf="!isEditingRules">{{contestRules.maxSize}} <em *ngIf="isEditingRules">MB por imagen.</em></span>
                             <span *ngIf="isEditingRules">
                                 <input type="number" [(ngModel)]="contestRules.maxSize" class="form-control editable-field" style="width: 80px;"> MB por imagen
                             </span>
@@ -103,7 +103,7 @@
                             <strong>📷 Número de fotos:</strong> 
                             <span *ngIf="!isEditingRules">Hasta {{contestRules.maxPhotos}} imágenes por participante.</span>
                             <span *ngIf="isEditingRules">
-                                Hasta <input type="number" [(ngModel)]="contestRules.maxPhotos" class="form-control editable-field" style="width: 65px;"> imágenes por participante
+                                <em *ngIf="isEditingRules">Hasta</em> <input type="number" [(ngModel)]="contestRules.maxPhotos" class="form-control editable-field" style="width: 65px;"> <em *ngIf="isEditingRules">imágenes por participante</em>
                             </span>
                         </li>
                         <li><strong>🔍 Revisión previa:</strong> Todas las fotos serán revisadas.</li>
