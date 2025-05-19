@@ -12,6 +12,8 @@ import { ServiceParticipanteService } from '../../services/service-participante.
 })
 export class AdminFotografiasComponent {
 
+  cargando: boolean = true;
+
   fotos: Foto[] = [];
   fotosPagina: Foto[] = [];
   participantes: Participante[] = [];
@@ -69,12 +71,14 @@ export class AdminFotografiasComponent {
   }
 
   listarParticipantes() {
+    this.cargando = true;
     this.serviceParticipantes.listarParticipantes().subscribe(
       datos => {
         if (datos) {
           this.participantes = datos;
           this.numParticipantes = datos.length;
         }
+        this.cargando = false;
       },
       error => console.error("Error al listar participantes:", error)
     );

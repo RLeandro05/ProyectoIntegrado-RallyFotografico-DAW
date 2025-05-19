@@ -80,7 +80,12 @@
                 <th class="fw-bold text-end">Acciones</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody *ngIf="cargando" class="d-flex justify-content-center align-items-center" style="height: 300px;">
+              <div>
+                <img src="https://i.gifer.com/ZZ5H.gif" alt="Cargando..." style="height: 80px;" />
+              </div>
+            </tbody>
+            <tbody *ngIf="!cargando">
               <tr *ngFor="let foto of fotosPagina">
                 <td class="align-middle fw-semibold">{{ foto.id }}</td>
                 <td class="align-middle">
