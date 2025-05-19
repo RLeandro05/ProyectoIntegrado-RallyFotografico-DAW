@@ -80,10 +80,16 @@
                 <th class="fw-bold text-end">Acciones</th>
               </tr>
             </thead>
-            <div *ngIf="cargando" class="d-flex justify-content-center align-items-center" style="height: 300px;">
-              <img src="https://i.gifer.com/ZZ5H.gif" alt="Cargando..." style="height: 80px;" />
-            </div>
-            <tbody *ngIf="!cargando">
+            <tbody>
+              <tr *ngIf="cargando">
+                <td colspan="7" class="text-center py-5">
+                  <div class="d-flex flex-column justify-content-center align-items-center">
+                    <img src="https://i.gifer.com/ZZ5H.gif" alt="Cargando..." style="height: 80px;" />
+                    <span class="mt-3 fw-semibold text-muted">Cargando fotografías...</span>
+                  </div>
+                </td>
+              </tr>
+
               <tr *ngFor="let foto of fotosPagina">
                 <td class="align-middle fw-semibold">{{ foto.id }}</td>
                 <td class="align-middle">
@@ -130,7 +136,7 @@
                   </div>
                 </td>
               </tr>
-              <tr *ngIf="fotos.length === 0">
+              <tr *ngIf="!cargando && fotos.length === 0">
                 <td colspan="7" class="text-center py-4 text-muted fw-bold">
                   No hay fotografías registradas
                 </td>
