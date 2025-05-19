@@ -63,12 +63,20 @@ header {
 }
 
 /* Efecto hover en los botones especiales */
-.btn-register, .btn-login, .btn-welcome {
+.btn-register, .btn-login {
     transition: transform 0.3s ease-in-out;
 }
 
-.btn-register:hover, .btn-login:hover, .btn-welcome:hover {
+.btn-register:hover, .btn-login:hover {
     animation: bounce 0.5s ease;
+}
+
+.btn-welcome {
+    transition: color 0.3s ease-in-out;
+}
+
+.btn-welcome:hover {
+    color: #ff5b3e;
 }
 
 /* Efecto hover en botón de logout */
