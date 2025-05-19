@@ -15,7 +15,8 @@ const routes: Routes = [
   {path: "perfil-participante", component: PerfilParticipanteComponent},
   {path: "admin-participantes", component: AdminParticipantesComponent},
   {path: "admin-fotografias", component: AdminFotografiasComponent},
-  {path: "galeria", component: GaleriaComponent}
+  {path: "galeria", component: GaleriaComponent},
+  { path: '**', redirectTo: '/', pathMatch: 'full' }
 ];
 
 @NgModule({
