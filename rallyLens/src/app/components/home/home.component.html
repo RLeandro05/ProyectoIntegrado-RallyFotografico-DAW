@@ -92,10 +92,10 @@
                               
                         </li>
                         <li>
-                            <strong>📏 Tamaño máximo:</strong> 
-                            <span *ngIf="!isEditingRules">{{contestRules.maxSize}} <em *ngIf="isEditingRules">MB por imagen.</em></span>
+                            <strong>📏 Tamaño máximos <span *ngIf="isEditingRules">(MB)</span>:</strong> 
+                            <span *ngIf="!isEditingRules">{{contestRules.maxSize}} MB por imagen.</span>
                             <span *ngIf="isEditingRules">
-                                <input type="number" [(ngModel)]="contestRules.maxSize" class="form-control editable-field" style="width: 80px;"> MB por imagen
+                                <input type="number" [(ngModel)]="contestRules.maxSize" class="form-control editable-field" style="width: 80px;">
                             </span>
                         </li>
                         <li><strong>📅 Fecha límite:</strong> 30 de junio de 2025</li>
@@ -103,7 +103,7 @@
                             <strong>📷 Número de fotos:</strong> 
                             <span *ngIf="!isEditingRules">Hasta {{contestRules.maxPhotos}} imágenes por participante.</span>
                             <span *ngIf="isEditingRules">
-                                <em *ngIf="isEditingRules">Hasta</em> <input type="number" [(ngModel)]="contestRules.maxPhotos" class="form-control editable-field" style="width: 65px;"> <em *ngIf="isEditingRules">imágenes por participante</em>
+                                <input type="number" [(ngModel)]="contestRules.maxPhotos" class="form-control editable-field" style="width: 65px;">
                             </span>
                         </li>
                         <li><strong>🔍 Revisión previa:</strong> Todas las fotos serán revisadas.</li>
