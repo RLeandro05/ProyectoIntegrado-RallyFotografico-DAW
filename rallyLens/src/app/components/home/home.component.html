@@ -92,7 +92,7 @@
                               
                         </li>
                         <li>
-                            <strong>📏 Tamaño máximos <span *ngIf="isEditingRules">(MB)</span>:</strong> 
+                            <strong>📏 Tamaño máximo <span *ngIf="isEditingRules">(MB)</span>:</strong> 
                             <span *ngIf="!isEditingRules">{{contestRules.maxSize}} MB por imagen.</span>
                             <span *ngIf="isEditingRules">
                                 <input type="number" [(ngModel)]="contestRules.maxSize" class="form-control editable-field" style="width: 80px;">
