@@ -14,6 +14,8 @@ import { ServiceVotoService } from '../../services/service-voto.service';
 })
 export class GaleriaComponent {
 
+  cargando: boolean = true; 
+
   fotosAceptadas: Foto[] = [];
   mapaFotosParticipantes = new Map<Foto, Participante>;
 
@@ -44,6 +46,7 @@ export class GaleriaComponent {
   }
 
   cargarFotos() {
+    this.cargando = true;
     this.serviceFotografias.listarFotos().subscribe(
       fotos => {
         if (fotos) {
@@ -62,6 +65,8 @@ export class GaleriaComponent {
           if(this.participanteLogueado) this.obtenerVotosParticipante(this.participanteLogueado.id);
           this.actualizarFotosPagina();
         }
+
+        this.cargando = false;
       },
       error => console.error("Error al listar las fotos :>> ", error)
     );

@@ -13,96 +13,105 @@
     </div>
 </div>
 
-<div class="gallery-container py-5">
-    <div class="container">
-        <div class="row g-4">
-            <!-- Tarjeta para cada foto aceptada -->
-            <div class="col-md-6 col-lg-4" *ngFor="let foto of fotosPagina">
-                <div class="card h-100 shadow-sm border-0 rounded-3 overflow-hidden">
-                    <!-- Imagen principal -->
-                    <div class="card-img-top overflow-hidden" style="height: 250px;">
-                        <img [src]="foto.imagen" class="img-fluid w-100 h-100 object-fit-cover"
-                            alt="Fotografía de {{mapaFotosParticipantes.get(foto)?.nombre}} {{mapaFotosParticipantes.get(foto)?.apellidos}}">
+<div *ngIf="cargando" class="d-flex justify-content-center align-items-center" style="height: 300px;">
+    <img src="/assets/Loading_icon.gif" alt="Cargando..." />
+</div>
 
-                        <!-- Icono de corazón con efecto hover -->
-                        <button type="button" class="vote-icon" (click)="alternarVoto(foto.id, participanteLogueado.id, mapaFotosParticipantes.get(foto)?.id || 0)" [disabled]="!participanteLogueado">
-                            <i class="bi" [ngClass]="{
+<div *ngIf="!cargando">
+    <div class="gallery-container py-5">
+        <div class="container">
+            <div class="row g-4">
+                <!-- Tarjeta para cada foto aceptada -->
+                <div class="col-md-6 col-lg-4" *ngFor="let foto of fotosPagina">
+                    <div class="card h-100 shadow-sm border-0 rounded-3 overflow-hidden">
+                        <!-- Imagen principal -->
+                        <div class="card-img-top overflow-hidden" style="height: 250px;">
+                            <img [src]="foto.imagen" class="img-fluid w-100 h-100 object-fit-cover"
+                                alt="Fotografía de {{mapaFotosParticipantes.get(foto)?.nombre}} {{mapaFotosParticipantes.get(foto)?.apellidos}}">
+
+                            <!-- Icono de corazón con efecto hover -->
+                            <button type="button" class="vote-icon"
+                                (click)="alternarVoto(foto.id, participanteLogueado.id, mapaFotosParticipantes.get(foto)?.id || 0)"
+                                [disabled]="!participanteLogueado">
+                                <i class="bi" [ngClass]="{
                                 'bi-heart': !votosRealizados.has(foto.id),
                                 'bi-heart-fill text-danger': votosRealizados.has(foto.id)
                             }"></i>
-                        </button>
-                    </div>
-
-                    <div class="card-body bg-light">
-                        <!-- Información del autor -->
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="me-3">
-                                <img *ngIf="mapaFotosParticipantes.get(foto)?.foto_perfil"
-                                    [src]="mapaFotosParticipantes.get(foto)?.foto_perfil" class="rounded-circle"
-                                    style="width: 50px; height: 50px; object-fit: cover;" alt="Foto de perfil">
-                                <img *ngIf="!mapaFotosParticipantes.get(foto)?.foto_perfil"
-                                    src="/assets/perfilDefecto.png" class="rounded-circle"
-                                    style="width: 50px; height: 50px; object-fit: cover;"
-                                    alt="Foto de perfil por defecto">
-                            </div>
-                            <div>
-                                <h5 class="mb-0 fw-bold">
-                                    {{mapaFotosParticipantes.get(foto)?.nombre}}
-                                    {{mapaFotosParticipantes.get(foto)?.apellidos}}
-                                </h5>
-                                <small class="text-muted">
-                                    {{foto.fec_mod | date:'dd/MM/yyyy'}}
-                                </small>
-                            </div>
+                            </button>
                         </div>
 
-                        <!-- Votos y botón de like -->
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="fw-bold">
-                                {{foto.votos}} votos
-                            </span>
+                        <div class="card-body bg-light">
+                            <!-- Información del autor -->
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="me-3">
+                                    <img *ngIf="mapaFotosParticipantes.get(foto)?.foto_perfil"
+                                        [src]="mapaFotosParticipantes.get(foto)?.foto_perfil" class="rounded-circle"
+                                        style="width: 50px; height: 50px; object-fit: cover;" alt="Foto de perfil">
+                                    <img *ngIf="!mapaFotosParticipantes.get(foto)?.foto_perfil"
+                                        src="/assets/perfilDefecto.png" class="rounded-circle"
+                                        style="width: 50px; height: 50px; object-fit: cover;"
+                                        alt="Foto de perfil por defecto">
+                                </div>
+                                <div>
+                                    <h5 class="mb-0 fw-bold">
+                                        {{mapaFotosParticipantes.get(foto)?.nombre}}
+                                        {{mapaFotosParticipantes.get(foto)?.apellidos}}
+                                    </h5>
+                                    <small class="text-muted">
+                                        {{foto.fec_mod | date:'dd/MM/yyyy'}}
+                                    </small>
+                                </div>
+                            </div>
+
+                            <!-- Votos y botón de like -->
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="fw-bold">
+                                    {{foto.votos}} votos
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="d-flex justify-content-between align-items-center mt-4">
-            <div class="text-muted small fw-bold">
-                Página {{ paginaActual }} de {{ totalPaginas() }}<br>
-                Mostrando {{ fotosPagina.length }} de {{ fotosAceptadas.length }} fotografías
-            </div>
-            <div>
-                <button class="btn btn-sm btn-outline-dark me-2" (click)="anteriorPagina()"
-                    [disabled]="paginaActual === 1">
-                    <i class="bi bi-arrow-left"></i>
-                </button>
-                <button class="btn btn-sm btn-outline-dark" (click)="siguientePagina()"
-                    [disabled]="paginaActual === totalPaginas()">
-                    <i class="bi bi-arrow-right"></i>
-                </button>
-            </div>
-        </div>
-        <div *ngIf="!participanteLogueado"
-            class="alert alert-warning alert-dismissible fade show d-flex align-items-center justify-content-between p-3 rounded-3 shadow-sm"
-            role="alert"
-            style="position: fixed; bottom: 60px; right: 20px; z-index: 1050; max-width: 785px; width: 100%;">
-
-            <!-- Contenido principal: icono, texto y botones -->
-            <div class="d-flex align-items-center flex-grow-1 me-3">
-                <i class="bi bi-exclamation-triangle-fill me-3 fs-4 text-warning"></i>
+            <div class="d-flex justify-content-between align-items-center mt-4">
+                <div class="text-muted small fw-bold">
+                    Página {{ paginaActual }} de {{ totalPaginas() }}<br>
+                    Mostrando {{ fotosPagina.length }} de {{ fotosAceptadas.length }} fotografías
+                </div>
                 <div>
-                    <strong>Para poder votar, debes registrarte o iniciar sesión como participante.</strong>
+                    <button class="btn btn-sm btn-outline-dark me-2" (click)="anteriorPagina()"
+                        [disabled]="paginaActual === 1">
+                        <i class="bi bi-arrow-left"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-dark" (click)="siguientePagina()"
+                        [disabled]="paginaActual === totalPaginas()">
+                        <i class="bi bi-arrow-right"></i>
+                    </button>
                 </div>
-                <a (click)="alertarRegistroLogueo(1)" class="btn btn-outline-primary btn-sm ms-4 me-2">Registrarse</a>
-                <a (click)="alertarRegistroLogueo(2)" class="btn btn-primary btn-sm me-2">Entrar</a>
+            </div>
+            <div *ngIf="!participanteLogueado"
+                class="alert alert-warning alert-dismissible fade show d-flex align-items-center justify-content-between p-3 rounded-3 shadow-sm"
+                role="alert"
+                style="position: fixed; bottom: 60px; right: 20px; z-index: 1050; max-width: 785px; width: 100%;">
+
+                <!-- Contenido principal: icono, texto y botones -->
+                <div class="d-flex align-items-center flex-grow-1 me-3">
+                    <i class="bi bi-exclamation-triangle-fill me-3 fs-4 text-warning"></i>
+                    <div>
+                        <strong>Para poder votar, debes registrarte o iniciar sesión como participante.</strong>
+                    </div>
+                    <a (click)="alertarRegistroLogueo(1)"
+                        class="btn btn-outline-primary btn-sm ms-4 me-2">Registrarse</a>
+                    <a (click)="alertarRegistroLogueo(2)" class="btn btn-primary btn-sm me-2">Entrar</a>
+                </div>
+
+                <!-- Botón de cerrar -->
+                <div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                </div>
             </div>
 
-            <!-- Botón de cerrar -->
-            <div>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-            </div>
+
         </div>
-
-
     </div>
 </div>
