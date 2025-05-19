@@ -72,11 +72,11 @@ header {
 }
 
 .btn-welcome {
-    transition: color 0.3s ease-in-out;
+    transition: background-color 0.3s ease-in-out;
 }
 
 .btn-welcome:hover {
-    color: #ff0000;
+    background-color: #ff0000;
 }
 
 /* Efecto hover en botón de logout */
