@@ -154,7 +154,7 @@
 
 .modal-content {
     display: block;
-    width: 550px;
+    width: 1000px;
     height: 550px;
     margin: auto;
     position: absolute;
@@ -162,7 +162,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     border: 5px solid #FE7058;
-    border-radius: 50%;
+    border-radius: 10px;
     animation: zoomIn 0.3s ease;
     object-fit: cover;
     box-shadow: 0 0 20px rgba(254, 112, 88, 0.6);
