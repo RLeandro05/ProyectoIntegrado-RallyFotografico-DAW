@@ -44,6 +44,10 @@ export class GaleriaComponent {
       this.participanteLogueado = JSON.parse(participanteGuardado);
     }
   }
+  onImageLoad() {
+  console.log("Imagen Cargada");
+}
+
 
   cargarFotos() {
     this.cargando = true;
