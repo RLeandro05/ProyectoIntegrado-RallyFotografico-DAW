@@ -15,11 +15,11 @@
 
 
 <div>
-    <div class="gallery-container py-5">
-        <div *ngIf="cargando" class="d-flex justify-content-center align-items-center" style="height: 300px;">
+    <div *ngIf="cargando" class="d-flex justify-content-center align-items-center" style="height: 300px;">
             <img src="https://i.gifer.com/ZZ5H.gif" alt="Cargando..." style="height: 80px;" />
         </div>
-        <div *ngIf="!cargando" class="container">
+    <div *ngIf="!cargando" class="gallery-container py-5">
+        <div class="container">
             <div class="row g-4">
                 <!-- Tarjeta para cada foto aceptada -->
                 <div class="col-md-6 col-lg-4" *ngFor="let foto of fotosPagina">
