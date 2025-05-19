@@ -14,7 +14,7 @@ import { ServiceVotoService } from '../../services/service-voto.service';
 })
 export class GaleriaComponent {
 
-  cargando: boolean = true; 
+  cargando: boolean = true;
 
   fotosAceptadas: Foto[] = [];
   mapaFotosParticipantes = new Map<Foto, Participante>;
@@ -51,6 +51,11 @@ export class GaleriaComponent {
       fotos => {
         if (fotos) {
           this.fotosAceptadas = fotos.filter(foto => foto.estado === "aceptada");
+          this.actualizarFotosPagina(); // <- justo después del filtrado
+
+          console.log('Total fotos recibidas:', fotos.length);
+          console.log('Fotos aceptadas:', this.fotosAceptadas.length);
+
 
           // Cargar participantes
           this.fotosAceptadas.forEach(foto => {
@@ -62,7 +67,7 @@ export class GaleriaComponent {
             );
           });
 
-          if(this.participanteLogueado) this.obtenerVotosParticipante(this.participanteLogueado.id);
+          if (this.participanteLogueado) this.obtenerVotosParticipante(this.participanteLogueado.id);
           this.actualizarFotosPagina();
         }
 
@@ -80,7 +85,7 @@ export class GaleriaComponent {
             this.votosRealizados.add(voto.id_fotografia);
           });
         };
-        
+
       }, error => console.error("Error al obtener todos los votos del participante :>> ", error)
     )
   }
