@@ -19,7 +19,6 @@ export class HomeComponent {
     allowedFormats: 'PNG',
     maxSize: 20,
     maxPhotos: 3,
-    maxVotes: 3
   };
 
   //Variable auxiliar para que, en caso de cancelar los cambios, mantener los originales

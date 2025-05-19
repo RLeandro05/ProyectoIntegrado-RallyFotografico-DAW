@@ -109,9 +109,9 @@
                         <li><strong>🔍 Revisión previa:</strong> Todas las fotos serán revisadas.</li>
                         <li>
                             <strong>🏆 Votaciones:</strong> 
-                            <span *ngIf="!isEditingRules">Se podrán votar hasta {{contestRules.maxVotes}} imágenes diferentes</span>
+                            <span *ngIf="!isEditingRules">Se podrá votar una vez por foto.</span>
                             <span *ngIf="isEditingRules">
-                                Se podrán votar hasta <input type="number" [(ngModel)]="contestRules.maxVotes" class="form-control editable-field"> imágenes diferentes
+                                Se podrá votar una vez por foto.
                             </span>
                         </li>
                         <li><strong>📊 Ranking en vivo:</strong> Se actualizará diariamente.</li>
