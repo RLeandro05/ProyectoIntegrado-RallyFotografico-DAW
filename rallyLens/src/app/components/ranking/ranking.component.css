@@ -496,3 +496,23 @@
         height: 250px;
     }
 }
+
+/* Estilo principal del contenedor hero */
+.admin-hero {
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+              url('/assets/imagenPrincipal1.jpeg') no-repeat center center;
+  background-size: cover;
+  padding: 4rem 0;
+  border-bottom: 5px solid #FE7058;
+}
+
+/* Estilos inline del <h1> */
+h1 {
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Estilos inline del <p> */
+p {
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  font-weight: 600;
+}
