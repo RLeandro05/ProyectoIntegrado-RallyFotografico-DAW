@@ -7,6 +7,7 @@ import { PerfilParticipanteComponent } from './components/perfil-participante/pe
 import { AdminParticipantesComponent } from './components/admin-participantes/admin-participantes.component';
 import { AdminFotografiasComponent } from './components/admin-fotografias/admin-fotografias.component';
 import { GaleriaComponent } from './components/galeria/galeria.component';
+import { RankingComponent } from './components/ranking/ranking.component';
 
 const routes: Routes = [
   {path: "", component: HomeComponent},
@@ -16,6 +17,7 @@ const routes: Routes = [
   {path: "admin-participantes", component: AdminParticipantesComponent},
   {path: "admin-fotografias", component: AdminFotografiasComponent},
   {path: "galeria", component: GaleriaComponent},
+  {path: "ranking", component: RankingComponent},
   { path: '**', redirectTo: '/', pathMatch: 'full' }
 ];
 
