@@ -1,0 +1,310 @@
+/* Estilos para la sección hero del ranking */
+.hero-section-ranking {
+    margin-top: 80px;
+    height: 400px;
+    background: url('/assets/imagenPrincipal1.jpeg') no-repeat center center;
+    background-size: cover;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}
+
+.hero-section-ranking::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.hero-overlay {
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: 800;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin-bottom: 1rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Estilos para la sección de rankings */
+.rankings-section {
+    background-color: #f8f9fa;
+    position: relative;
+}
+
+.rankings-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.85);
+    z-index: 1;
+}
+
+.rankings-section .container {
+    position: relative;
+    z-index: 2;
+}
+
+.ranking-card {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.ranking-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    color: #333;
+    text-shadow: 1px 1px 1px darkgray;
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+}
+
+.ranking-title i {
+    color: #FE7058;
+}
+
+.ranking-description {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 2rem;
+    font-weight: 500;
+}
+
+/* Estilos para las tarjetas de participantes */
+.participant-card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    height: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border: 3px solid transparent;
+}
+
+.participant-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(254, 112, 88, 0.3);
+}
+
+.first-place {
+    border-color: gold;
+}
+
+.second-place {
+    border-color: silver;
+}
+
+.third-place {
+    border-color: #cd7f32; /* bronze */
+}
+
+.medal {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.participant-photo-container {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #FE7058;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.participant-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.participant-name {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+}
+
+.votes-count {
+    background: #FE7058;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    display: inline-block;
+    font-weight: 600;
+}
+
+/* Estilos para las tarjetas de fotos */
+.photo-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    height: 100%;
+}
+
+.photo-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(254, 112, 88, 0.3);
+}
+
+.photo-container {
+    position: relative;
+    height: 250px;
+    overflow: hidden;
+}
+
+.photo-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.photo-card:hover .photo-image {
+    transform: scale(1.05);
+}
+
+.photo-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #FE7058;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.photo-info {
+    padding: 20px;
+}
+
+.author-info {
+    display: flex;
+    align-items: center;
+}
+
+.author-photo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #FE7058;
+    margin-right: 15px;
+}
+
+.author-details {
+    flex: 1;
+}
+
+.author-name {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+}
+
+.photo-votes {
+    color: #FE7058;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* Responsive design */
+@media (max-width: 992px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .ranking-title {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-section-ranking {
+        height: 300px;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .participant-photo-container {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .photo-container {
+        height: 200px;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-section-ranking {
+        height: 250px;
+        margin-top: 70px;
+    }
+    
+    .hero-title {
+        font-size: 1.8rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .ranking-card {
+        padding: 20px 15px;
+    }
+    
+    .ranking-title {
+        font-size: 1.5rem;
+    }
+    
+    .participant-card {
+        margin-bottom: 20px;
+    }
+}
