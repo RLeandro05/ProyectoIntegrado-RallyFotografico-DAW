@@ -17,6 +17,7 @@ import { FormsModule } from '@angular/forms';
 import { AdminParticipantesComponent } from './components/admin-participantes/admin-participantes.component';
 import { AdminFotografiasComponent } from './components/admin-fotografias/admin-fotografias.component';
 import { GaleriaComponent } from './components/galeria/galeria.component';
+import { RankingComponent } from './components/ranking/ranking.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { GaleriaComponent } from './components/galeria/galeria.component';
     PerfilParticipanteComponent,
     AdminParticipantesComponent,
     AdminFotografiasComponent,
-    GaleriaComponent
+    GaleriaComponent,
+    RankingComponent
   ],
   imports: [
     BrowserModule,
