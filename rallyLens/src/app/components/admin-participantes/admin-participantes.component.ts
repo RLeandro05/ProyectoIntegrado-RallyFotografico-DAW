@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
   styleUrl: './admin-participantes.component.css'
 })
 export class AdminParticipantesComponent {
+  cargando: boolean = true;
+
   participantes: Participante[] = [];
   participantesPagina: Participante[] = [];
   numFotos: number = 0;
@@ -30,6 +32,11 @@ export class AdminParticipantesComponent {
   ngOnInit() {
     console.log("Entra en admin-participantes");
 
+    this.cargarParticipantes();
+  }
+
+  cargarParticipantes() {
+    this.cargando = true;
     this.serviceParticipantes.listarParticipantes().subscribe(
       datos => {
         if (datos) {
@@ -37,10 +44,14 @@ export class AdminParticipantesComponent {
           this.actualizarParticipantesPagina();
         }
         console.log("datos :>> ", datos);
+
+        this.cargarFotos();
       },
       error => console.error("Error al listar los participantes :>> ", error)
     );
+  }
 
+  cargarFotos() {
     this.serviceFotos.listarFotos().subscribe(
       datos => {
         console.log("Fotos :>> ", datos);
@@ -48,6 +59,8 @@ export class AdminParticipantesComponent {
 
         this.numFotos = datos.length;
         datos.forEach(foto => this.numVotos += foto.votos);
+
+        this.cargando = false;
       },
       error => console.error("Error al obtener el listado de fotos :>> ", error)
     );
@@ -58,7 +71,7 @@ export class AdminParticipantesComponent {
       this.filtrarParticipantes();
       return;
     }
-    
+
     const inicio = (this.paginaActual - 1) * this.participantesPorPagina;
     const fin = inicio + this.participantesPorPagina;
     this.participantesPagina = this.participantes.slice(inicio, fin);
@@ -69,23 +82,23 @@ export class AdminParticipantesComponent {
       this.actualizarParticipantesPagina();
       return;
     }
-  
+
     const termino = this.terminoBusqueda.toLowerCase();
-    
+
     const participantesFiltrados = this.participantes.filter(participante => {
       //Función para convertir cualquier valor a string y luego a minúsculas
       const safeToString = (value: any): string => {
         if (value === null || value === undefined) return '';
         return String(value).toLowerCase();
       };
-  
+
       return safeToString(participante.nombre).includes(termino) ||
-             safeToString(participante.apellidos).includes(termino) ||
-             safeToString(participante.telefono).includes(termino) ||
-             safeToString(participante.correo).includes(termino) ||
-             safeToString(participante.id).includes(termino);
+        safeToString(participante.apellidos).includes(termino) ||
+        safeToString(participante.telefono).includes(termino) ||
+        safeToString(participante.correo).includes(termino) ||
+        safeToString(participante.id).includes(termino);
     });
-  
+
     this.participantesPagina = participantesFiltrados.slice(0, participantesFiltrados.length);
   }
 
@@ -135,7 +148,7 @@ export class AdminParticipantesComponent {
                 this.numFotos = datos.length;
 
                 this.numVotos = 0;
-                
+
                 datos.forEach(foto => this.numVotos += foto.votos);
               },
               error => console.error("Error al obtener el listado de fotos :>> ", error)
@@ -149,25 +162,25 @@ export class AdminParticipantesComponent {
 
   verParticipante(idParticipante: number) {
     console.log("Entra en verParticipante :>> ", idParticipante);
-    
-    if(idParticipante) {
+
+    if (idParticipante) {
       //console.log("Existe");
 
       this.serviceParticipantes.obtenerParticipanteID(idParticipante).subscribe(
         datos => {
           console.log("Participante para ver en el panel de adinistración :>> ", datos);
 
-          if(datos) {
+          if (datos) {
             let participanteVisto = JSON.stringify(datos);
             //console.log(participanteVisto);
-            
+
             localStorage.setItem("participanteLogueado", participanteVisto);
 
-            if(localStorage.getItem("participanteLogueado")) {
+            if (localStorage.getItem("participanteLogueado")) {
               this.route.navigate(['/perfil-participante']);
             }
           }
-          
+
         }, error => console.error("Error al obtener el participante para ver en el panel de administración :>> ", error)
       )
     }
