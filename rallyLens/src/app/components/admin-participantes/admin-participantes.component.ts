@@ -46,6 +46,8 @@ export class AdminParticipantesComponent {
         console.log("datos :>> ", datos);
 
         this.cargarFotos();
+
+        this.cargando = false;
       },
       error => console.error("Error al listar los participantes :>> ", error)
     );
@@ -59,8 +61,6 @@ export class AdminParticipantesComponent {
 
         this.numFotos = datos.length;
         datos.forEach(foto => this.numVotos += foto.votos);
-
-        this.cargando = false;
       },
       error => console.error("Error al obtener el listado de fotos :>> ", error)
     );
