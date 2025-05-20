@@ -2,43 +2,26 @@
 <div class="hero-section-ranking">
     <div class="hero-overlay">
         <h1 class="hero-title">Ranking del Rally Fotográfico</h1>
-        <p class="hero-subtitle">Descubre a los participantes y fotografías más votadas</p>
+        <p class="hero-subtitle">Los mejores fotógrafos y sus obras más votadas</p>
     </div>
 </div>
 
 <!-- Sección de Rankings -->
-<section class="rankings-section bg-light py-5">
+<section class="rankings-section py-5">
     <div class="container">
-        <!-- Ranking de Participantes -->
+        <!-- Podio de Participantes -->
         <div class="ranking-card mb-5">
             <h2 class="ranking-title text-center mb-4">
-                <i class="fas fa-trophy me-2"></i> Top Participantes
+                <i class="fas fa-trophy me-2"></i> Podio de Fotógrafos
                 <i class="fas fa-trophy ms-2"></i>
             </h2>
-            <p class="ranking-description text-center mb-4">Los tres participantes con más votos en total</p>
+            <p class="ranking-description text-center mb-5">Los tres participantes con más votos en total</p>
             
-            <div class="row justify-content-center">
-                <!-- Primer lugar -->
-                <div class="col-md-4" *ngIf="topParticipants[0]">
-                    <div class="participant-card first-place">
-                        <div class="medal">🥇</div>
-                        <div class="participant-photo-container">
-                            <img [src]="getParticipantPhoto(topParticipants[0].id)" 
-                                 alt="Foto de perfil" 
-                                 class="participant-photo">
-                        </div>
-                        <h3 class="participant-name">{{topParticipants[0].nombre}} {{topParticipants[0].apellidos}}</h3>
-                        <div class="votes-count">
-                            <i class="fas fa-heart me-1"></i>
-                            {{getTotalVotes(topParticipants[0].id)}} votos
-                        </div>
-                    </div>
-                </div>
-                
+            <div class="podium-container">
                 <!-- Segundo lugar -->
-                <div class="col-md-4" *ngIf="topParticipants[1]">
-                    <div class="participant-card second-place">
-                        <div class="medal">🥈</div>
+                <div class="podium-item silver" *ngIf="topParticipants[1]">
+                    <div class="podium-rank">2</div>
+                    <div class="podium-content">
                         <div class="participant-photo-container">
                             <img [src]="getParticipantPhoto(topParticipants[1].id)" 
                                  alt="Foto de perfil" 
@@ -52,10 +35,27 @@
                     </div>
                 </div>
                 
+                <!-- Primer lugar -->
+                <div class="podium-item gold" *ngIf="topParticipants[0]">
+                    <div class="podium-rank">1</div>
+                    <div class="podium-content">
+                        <div class="participant-photo-container">
+                            <img [src]="getParticipantPhoto(topParticipants[0].id)" 
+                                 alt="Foto de perfil" 
+                                 class="participant-photo">
+                        </div>
+                        <h3 class="participant-name">{{topParticipants[0].nombre}} {{topParticipants[0].apellidos}}</h3>
+                        <div class="votes-count">
+                            <i class="fas fa-heart me-1"></i>
+                            {{getTotalVotes(topParticipants[0].id)}} votos
+                        </div>
+                    </div>
+                </div>
+                
                 <!-- Tercer lugar -->
-                <div class="col-md-4" *ngIf="topParticipants[2]">
-                    <div class="participant-card third-place">
-                        <div class="medal">🥉</div>
+                <div class="podium-item bronze" *ngIf="topParticipants[2]">
+                    <div class="podium-rank">3</div>
+                    <div class="podium-content">
                         <div class="participant-photo-container">
                             <img [src]="getParticipantPhoto(topParticipants[2].id)" 
                                  alt="Foto de perfil" 
@@ -71,35 +71,33 @@
             </div>
         </div>
         
-        <!-- Ranking de Fotos -->
+        <!-- Galería de Fotos Top -->
         <div class="ranking-card">
             <h2 class="ranking-title text-center mb-4">
-                <i class="fas fa-camera me-2"></i> Top Fotografías
+                <i class="fas fa-camera me-2"></i> Galería de Honor
                 <i class="fas fa-camera ms-2"></i>
             </h2>
-            <p class="ranking-description text-center mb-4">Las tres fotografías más votadas del concurso</p>
+            <p class="ranking-description text-center mb-5">Las fotografías más votadas del concurso</p>
             
-            <div class="row">
+            <div class="gallery-grid">
                 <!-- Primera foto -->
-                <div class="col-md-4 mb-4" *ngIf="topPhotos[0]">
-                    <div class="photo-card">
-                        <div class="photo-container">
-                            <img [src]="getPhotoUrl(topPhotos[0].id)" 
-                                 alt="Fotografía" 
-                                 class="photo-image">
-                            <div class="photo-badge">1º</div>
-                        </div>
-                        <div class="photo-info">
-                            <div class="author-info">
-                                <img [src]="getParticipantPhoto(topPhotos[0].id_participante)" 
-                                     alt="Autor" 
-                                     class="author-photo">
-                                <div class="author-details">
-                                    <h4 class="author-name">{{getParticipantName(topPhotos[0].id_participante)}}</h4>
-                                    <div class="photo-votes">
-                                        <i class="fas fa-heart me-1"></i>
-                                        {{topPhotos[0].votos}} votos
-                                    </div>
+                <div class="gallery-item first-place" *ngIf="topPhotos[0]">
+                    <div class="photo-container">
+                        <img [src]="getPhotoUrl(topPhotos[0].id)" 
+                             alt="Fotografía" 
+                             class="photo-image">
+                        <div class="photo-badge">🥇</div>
+                    </div>
+                    <div class="photo-info">
+                        <div class="author-info">
+                            <img [src]="getParticipantPhoto(topPhotos[0].id_participante)" 
+                                 alt="Autor" 
+                                 class="author-photo">
+                            <div class="author-details">
+                                <h4 class="author-name">{{getParticipantName(topPhotos[0].id_participante)}}</h4>
+                                <div class="photo-votes">
+                                    <i class="fas fa-heart me-1"></i>
+                                    {{topPhotos[0].votos}} votos
                                 </div>
                             </div>
                         </div>
@@ -107,25 +105,23 @@
                 </div>
                 
                 <!-- Segunda foto -->
-                <div class="col-md-4 mb-4" *ngIf="topPhotos[1]">
-                    <div class="photo-card">
-                        <div class="photo-container">
-                            <img [src]="getPhotoUrl(topPhotos[1].id)" 
-                                 alt="Fotografía" 
-                                 class="photo-image">
-                            <div class="photo-badge">2º</div>
-                        </div>
-                        <div class="photo-info">
-                            <div class="author-info">
-                                <img [src]="getParticipantPhoto(topPhotos[1].id_participante)" 
-                                     alt="Autor" 
-                                     class="author-photo">
-                                <div class="author-details">
-                                    <h4 class="author-name">{{getParticipantName(topPhotos[1].id_participante)}}</h4>
-                                    <div class="photo-votes">
-                                        <i class="fas fa-heart me-1"></i>
-                                        {{topPhotos[1].votos}} votos
-                                    </div>
+                <div class="gallery-item second-place" *ngIf="topPhotos[1]">
+                    <div class="photo-container">
+                        <img [src]="getPhotoUrl(topPhotos[1].id)" 
+                             alt="Fotografía" 
+                             class="photo-image">
+                        <div class="photo-badge">🥈</div>
+                    </div>
+                    <div class="photo-info">
+                        <div class="author-info">
+                            <img [src]="getParticipantPhoto(topPhotos[1].id_participante)" 
+                                 alt="Autor" 
+                                 class="author-photo">
+                            <div class="author-details">
+                                <h4 class="author-name">{{getParticipantName(topPhotos[1].id_participante)}}</h4>
+                                <div class="photo-votes">
+                                    <i class="fas fa-heart me-1"></i>
+                                    {{topPhotos[1].votos}} votos
                                 </div>
                             </div>
                         </div>
@@ -133,25 +129,23 @@
                 </div>
                 
                 <!-- Tercera foto -->
-                <div class="col-md-4 mb-4" *ngIf="topPhotos[2]">
-                    <div class="photo-card">
-                        <div class="photo-container">
-                            <img [src]="getPhotoUrl(topPhotos[2].id)" 
-                                 alt="Fotografía" 
-                                 class="photo-image">
-                            <div class="photo-badge">3º</div>
-                        </div>
-                        <div class="photo-info">
-                            <div class="author-info">
-                                <img [src]="getParticipantPhoto(topPhotos[2].id_participante)" 
-                                     alt="Autor" 
-                                     class="author-photo">
-                                <div class="author-details">
-                                    <h4 class="author-name">{{getParticipantName(topPhotos[2].id_participante)}}</h4>
-                                    <div class="photo-votes">
-                                        <i class="fas fa-heart me-1"></i>
-                                        {{topPhotos[2].votos}} votos
-                                    </div>
+                <div class="gallery-item third-place" *ngIf="topPhotos[2]">
+                    <div class="photo-container">
+                        <img [src]="getPhotoUrl(topPhotos[2].id)" 
+                             alt="Fotografía" 
+                             class="photo-image">
+                        <div class="photo-badge">🥉</div>
+                    </div>
+                    <div class="photo-info">
+                        <div class="author-info">
+                            <img [src]="getParticipantPhoto(topPhotos[2].id_participante)" 
+                                 alt="Autor" 
+                                 class="author-photo">
+                            <div class="author-details">
+                                <h4 class="author-name">{{getParticipantName(topPhotos[2].id_participante)}}</h4>
+                                <div class="photo-votes">
+                                    <i class="fas fa-heart me-1"></i>
+                                    {{topPhotos[2].votos}} votos
                                 </div>
                             </div>
                         </div>
