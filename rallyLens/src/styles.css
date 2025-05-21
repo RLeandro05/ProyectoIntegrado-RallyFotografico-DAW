@@ -3,5 +3,5 @@ app-home {
 }
 
 body {
-    background-color: #202428;
+    background: url('/assets/imagenPrincipal1.jpeg') no-repeat center center;
 }
