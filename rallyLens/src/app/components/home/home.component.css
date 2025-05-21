@@ -54,7 +54,13 @@
 }
 
 /* Unificación de fondos entre secciones */
+.theme-description, .rules-section {
+    margin-top: 40px;
 
+    background-size: cover;
+    background-attachment: fixed; /* Hace que el fondo se mantenga fijo */
+    position: relative;
+}
 
 .theme-description::before, .rules-section::before {
     content: "";
