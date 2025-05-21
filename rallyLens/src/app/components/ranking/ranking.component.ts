@@ -11,79 +11,78 @@ import { ServiceFotoService } from '../../services/service-foto.service';
   styleUrl: './ranking.component.css'
 })
 export class RankingComponent {
-  topParticipants: Participante[] = [];
-  topPhotos: Foto[] = [];
-  allParticipants: Participante[] = [];
-  allPhotos: Foto[] = [];
+  topParticipantes: Participante[] = [];
+  topFotos: Foto[] = [];
+  
+  participantes: Participante[] = [];
+  fotos: Foto[] = [];
 
   constructor(
-    private participantService: ServiceParticipanteService,
-    private photoService: ServiceFotoService
+    private serviceParticipante: ServiceParticipanteService,
+    private serviceFoto: ServiceFotoService
   ) { }
 
-  ngOnInit(): void {
-    this.loadParticipants();
-    this.loadPhotos();
+  ngOnInit() {
+    this.cargarParticipantes();
+    this.cargarFotos();
   }
 
-  loadParticipants(): void {
-    this.participantService.listarParticipantes().subscribe({
-      next: (participants: Participante[]) => {
-        this.allParticipants = participants;
-        this.calculateTopParticipants();
-      },
-      error: (err) => console.error('Error loading participants:', err)
-    });
+  cargarParticipantes() {
+    this.serviceParticipante.listarParticipantes().subscribe(
+      datos => {
+        this.participantes = datos;
+        this.calcularTopParticipantes();
+      }, error => console.error("Error al cargar los participantes :>> ", error)
+    )
   }
 
-  loadPhotos(): void {
-    this.photoService.listarFotos().subscribe({
+  cargarFotos() {
+    this.serviceFoto.listarFotos().subscribe({
       next: (photos: Foto[]) => {
-        this.allPhotos = photos;
-        this.calculateTopPhotos();
+        this.fotos = photos;
+        this.calcularTopFotos();
       },
       error: (err) => console.error('Error loading photos:', err)
     });
   }
 
-  calculateTopParticipants(): void {
-    // Ordenar participantes por votos totales
-    const participantsWithVotes = this.allParticipants.map(participant => ({
-      ...participant,
-      totalVotes: this.getTotalVotes(participant.id)
+  calcularTopParticipantes() {
+    //Ordenar participantes por votos totales
+    const participantesConVotos = this.participantes.map(participante => ({
+      ...participante,
+      votosTotales: this.obtenerVotosTotalesParticipante(participante.id)
     }));
 
-    // Ordenar de mayor a menor votos y tomar los primeros 3
-    this.topParticipants = [...participantsWithVotes]
-      .sort((a, b) => b.totalVotes - a.totalVotes)
+    //Ordenar de mayor a menor votos y tomar los primeros 3
+    this.topParticipantes = [...participantesConVotos]
+      .sort((a, b) => b.votosTotales - a.votosTotales)
       .slice(0, 3);
   }
 
-  calculateTopPhotos(): void {
-    // Ordenar fotos por votos y tomar las 3 más votadas
-    this.topPhotos = [...this.allPhotos]
+  calcularTopFotos() {
+    //Ordenar fotos por votos y tomar las 3 más votadas
+    this.topFotos = [...this.fotos]
       .sort((a, b) => b.votos - a.votos)
       .slice(0, 3);
   }
 
-  getTotalVotes(participantId: number): number {
-    // Sumar todos los votos de las fotos de un participante
-    return this.allPhotos
-      .filter(photo => photo.id_participante === participantId)
-      .reduce((sum, photo) => sum + photo.votos, 0);
+  obtenerVotosTotalesParticipante(idParticipante: number) {
+    //Sumar todos los votos de las fotos de un participante
+    return this.fotos
+      .filter(foto => foto.id_participante === idParticipante)
+      .reduce((sum, foto) => sum + foto.votos, 0);
   }
 
-  getParticipantPhoto(participantId: number): string {
-    const participant = this.allParticipants.find(p => p.id === participantId);
-    if (participant && participant.foto_perfil) {
-      // Asumiendo que la foto de perfil es un Blob y necesitas convertirlo a URL
-      return URL.createObjectURL(participant.foto_perfil);
+  obtenerParticipanteFoto(idParticipante: number) {
+    const participante = this.participantes.find(p => p.id === idParticipante);
+    if (participante && participante.foto_perfil) {
+      return participante.foto_perfil;
     }
-    return '/assets/default-profile.png'; // Imagen por defecto
+    return '/assets/perfilDefecto.png'; //Imagen por defecto
   }
 
-  getPhotoUrl(photoId: number): string {
-    const photo = this.allPhotos.find(p => p.id === photoId);
+  /*getPhotoUrl(photoId: number) {
+    const photo = this.fotos.find(p => p.id === photoId);
     if (photo && photo.imagen) {
       if (photo.imagen instanceof Blob) {
         return URL.createObjectURL(photo.imagen);
@@ -92,11 +91,11 @@ export class RankingComponent {
       }
     }
     return '/assets/default-photo.jpg'; // Imagen por defecto
-  }
+  }*/
 
 
-  getParticipantName(participantId: number): string {
-    const participant = this.allParticipants.find(p => p.id === participantId);
-    return participant ? `${participant.nombre} ${participant.apellidos}` : 'Autor desconocido';
+  obtenerNombreParticipante(idParticipante: number) {
+    const participante = this.participantes.find(p => p.id === idParticipante);
+    return participante ? `${participante.nombre} ${participante.apellidos}` : 'Autor desconocido';
   }
 }
