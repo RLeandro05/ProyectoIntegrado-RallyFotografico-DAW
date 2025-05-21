@@ -24,26 +24,29 @@ export class RankingComponent {
 
   ngOnInit() {
     this.cargarParticipantes();
-    this.cargarFotos();
   }
 
   cargarParticipantes() {
     this.serviceParticipante.listarParticipantes().subscribe(
       datos => {
-        this.participantes = datos;
-        this.calcularTopParticipantes();
+        if(datos) {
+          this.participantes = datos;
+          this.cargarFotos();
+        }
       }, error => console.error("Error al cargar los participantes :>> ", error)
     )
   }
 
   cargarFotos() {
-    this.serviceFoto.listarFotos().subscribe({
-      next: (photos: Foto[]) => {
-        this.fotos = photos;
-        this.calcularTopFotos();
-      },
-      error: (err) => console.error('Error loading photos:', err)
-    });
+    this.serviceFoto.listarFotos().subscribe(
+      datos => {
+        if(datos) {
+          this.fotos = datos;
+          this.calcularTopParticipantes();
+          this.calcularTopFotos();
+        }
+      }, error => console.error("Error al cargar las fotos :>>", error)
+    )
   }
 
   calcularTopParticipantes() {
