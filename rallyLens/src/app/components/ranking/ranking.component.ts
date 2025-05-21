@@ -73,7 +73,7 @@ export class RankingComponent {
   obtenerVotosTotalesParticipante(idParticipante: number) {
     //Sumar todos los votos de las fotos de un participante
     return this.fotos
-      .filter(foto => foto.id_participante === idParticipante)
+      .filter(foto => foto.id_participante === idParticipante && foto.estado === "aceptada")
       .reduce((sum, foto) => sum + foto.votos, 0);
   }
 
