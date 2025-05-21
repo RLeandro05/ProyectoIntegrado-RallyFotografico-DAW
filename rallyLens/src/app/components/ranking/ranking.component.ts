@@ -69,6 +69,7 @@ export class RankingComponent {
   calcularTopFotos() {
     //Ordenar fotos por votos y tomar las 3 más votadas
     this.topFotos = [...this.fotos]
+      .filter(foto => foto.estado === "aceptada")
       .sort((a, b) => b.votos - a.votos)
       .slice(0, 3);
 
