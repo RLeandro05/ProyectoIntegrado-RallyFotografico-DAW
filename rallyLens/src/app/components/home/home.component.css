@@ -361,3 +361,8 @@
         margin-top: 40px;
     }
 }
+
+.carousel-inner img {
+  object-fit: cover;
+  height: 100%;
+}
