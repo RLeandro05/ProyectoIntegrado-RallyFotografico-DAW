@@ -71,6 +71,9 @@ export class RankingComponent {
     this.topFotos = [...this.fotos]
       .sort((a, b) => b.votos - a.votos)
       .slice(0, 3);
+
+      console.log("topFotos :>> ", this.topFotos);
+      
   }
 
   obtenerVotosTotalesParticipante(idParticipante: number) {
