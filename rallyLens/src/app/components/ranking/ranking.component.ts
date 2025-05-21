@@ -53,12 +53,13 @@ export class RankingComponent {
       votosTotales: this.obtenerVotosTotalesParticipante(participante.id)
     }));
 
+    console.log("participantesConVotos :>> ", participantesConVotos);
+    
+
     //Ordenar de mayor a menor votos y tomar los primeros 3
     this.topParticipantes = [...participantesConVotos]
       .sort((a, b) => b.votosTotales - a.votosTotales)
       .slice(0, 3);
-
-      console.log("topParticipantes :>> ", this.topParticipantes);
       
   }
 
