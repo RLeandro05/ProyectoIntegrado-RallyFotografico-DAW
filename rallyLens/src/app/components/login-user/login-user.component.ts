@@ -24,13 +24,13 @@ export class LoginUserComponent {
   constructor(private fb: FormBuilder, private serviceParticipante: ServiceParticipanteService, private serviceAdmin: ServiceAdminService ,private route: Router) {
     //Formulario para login de participante
     this.loginForm = this.fb.group({
-      correo: ['', [Validators.required, Validators.email]],
+      correo: ['', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
 
     //Formulario para login de admin
     this.adminLoginForm = this.fb.group({
-      correo: ['', [Validators.required, Validators.email]],
+      correo: ['', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }

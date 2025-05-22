@@ -12,14 +12,14 @@ import { Router } from '@angular/router';
 })
 export class RegisterUserComponent {
   registerForm: FormGroup;
-  participante: Participante = <Participante> {};
+  participante: Participante = <Participante>{};
 
   constructor(private fb: FormBuilder, private serviceParticipante: ServiceParticipanteService, private route: Router) {
     this.registerForm = this.fb.group({
-      nombre: ['', Validators.required],
-      apellidos: ['', Validators.required],
+      nombre: ['', [Validators.required, Validators.pattern("^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\\s]+$")]],
+      apellidos: ['', [Validators.required, Validators.pattern("^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\\s]+$")]],
       telefono: ['', [Validators.required, Validators.pattern('^[0-9]{9,15}$')]],
-      correo: ['', [Validators.required, Validators.email]],
+      correo: ['', [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
@@ -27,7 +27,7 @@ export class RegisterUserComponent {
   onSubmit() {
     if (this.registerForm.valid) {
       console.log('Formulario válido, datos enviados:', this.registerForm.value);
-      
+
       this.participante = {
         id: -1,
         nombre: this.registerForm.value.nombre,
@@ -44,7 +44,7 @@ export class RegisterUserComponent {
             alert("El correo introducido ya está registrado. Ingrese uno válido.");
           } else {
             console.log("DATOS :>> ", datos);
-            
+
             alert("Se ha registrado correctamente.");
             this.route.navigate(['/login-user']);
           }
@@ -57,5 +57,5 @@ export class RegisterUserComponent {
       console.log('Formulario inválido, revisa los campos.');
     }
   }
-  
+
 }

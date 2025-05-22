@@ -17,10 +17,23 @@
                             <label for="correo" class="form-label"><b>Correo Electrónico</b></label>
                             <input id="correo" formControlName="correo" type="email" class="form-control rounded-3"
                                 placeholder="Ej: ejemplo@dominio.com" required />
-                            <div *ngIf="(isAdminLoginVisible ? adminLoginForm : loginForm).get('correo')?.invalid && (isAdminLoginVisible ? adminLoginForm : loginForm).get('correo')?.touched"
+                            <div *ngIf="(isAdminLoginVisible ? adminLoginForm : loginForm).get('correo')?.invalid 
+            && (isAdminLoginVisible ? adminLoginForm : loginForm).get('correo')?.touched"
                                 class="text-danger small mt-1">
-                                Ingrese un correo válido
+                                <ng-container
+                                    *ngIf="(isAdminLoginVisible ? adminLoginForm : loginForm).get('correo')?.errors?.['required']">
+                                    El correo es obligatorio
+                                </ng-container>
+                                <ng-container
+                                    *ngIf="(isAdminLoginVisible ? adminLoginForm : loginForm).get('correo')?.errors?.['email']">
+                                    Formato de correo inválido
+                                </ng-container>
+                                <ng-container
+                                    *ngIf="(isAdminLoginVisible ? adminLoginForm : loginForm).get('correo')?.errors?.['pattern']">
+                                    El correo contiene caracteres no permitidos
+                                </ng-container>
                             </div>
+
                         </div>
 
                         <div class="mb-4">
