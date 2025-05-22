@@ -26,7 +26,7 @@
 
             <div class="podium-container">
                 <!-- Segundo lugar -->
-                <div class="podium-item silver" *ngIf="topParticipantes[1]">
+                <div class="podium-item silver" *ngIf="topParticipantes[1] || cargando">
                     <div class="podium-rank">2</div>
                     <div *ngIf="cargando" class="d-flex justify-content-center align-items-center"
                         style="height: 300px;">
@@ -47,7 +47,7 @@
                 </div>
 
                 <!-- Primer lugar -->
-                <div class="podium-item gold" *ngIf="topParticipantes[0]">
+                <div class="podium-item gold" *ngIf="topParticipantes[0] || cargando">
                     <div class="podium-rank">1</div>
                     <div *ngIf="cargando" class="d-flex justify-content-center align-items-center"
                         style="height: 300px;">
@@ -68,7 +68,7 @@
                 </div>
 
                 <!-- Tercer lugar -->
-                <div class="podium-item bronze" *ngIf="topParticipantes[2]">
+                <div class="podium-item bronze" *ngIf="topParticipantes[2] || cargando">
                     <div class="podium-rank">3</div>
                     <div *ngIf="cargando" class="d-flex justify-content-center align-items-center"
                         style="height: 300px;">
