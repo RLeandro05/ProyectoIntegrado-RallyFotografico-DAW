@@ -25,12 +25,13 @@
             <p class="ranking-description text-center mb-5">Los tres participantes con más votos en total</p>
 
             <div class="podium-container">
-                <div *ngIf="cargando" class="d-flex justify-content-center align-items-center" style="height: 300px;">
-                    <img src="https://i.gifer.com/ZZ5H.gif" alt="Cargando..." style="height: 80px;" />
-                </div>
                 <!-- Segundo lugar -->
                 <div class="podium-item silver" *ngIf="topParticipantes[1]">
                     <div class="podium-rank">2</div>
+                    <div *ngIf="cargando" class="d-flex justify-content-center align-items-center"
+                        style="height: 300px;">
+                        <img src="https://i.gifer.com/ZZ5H.gif" alt="Cargando..." style="height: 80px;" />
+                    </div>
                     <div class="podium-content">
                         <div class="participant-photo-container">
                             <img [src]="obtenerParticipanteFoto(topParticipantes[1].id)" alt="Foto de perfil"
@@ -48,6 +49,10 @@
                 <!-- Primer lugar -->
                 <div class="podium-item gold" *ngIf="topParticipantes[0]">
                     <div class="podium-rank">1</div>
+                    <div *ngIf="cargando" class="d-flex justify-content-center align-items-center"
+                        style="height: 300px;">
+                        <img src="https://i.gifer.com/ZZ5H.gif" alt="Cargando..." style="height: 80px;" />
+                    </div>
                     <div class="podium-content">
                         <div class="participant-photo-container">
                             <img [src]="obtenerParticipanteFoto(topParticipantes[0].id)" alt="Foto de perfil"
@@ -65,6 +70,10 @@
                 <!-- Tercer lugar -->
                 <div class="podium-item bronze" *ngIf="topParticipantes[2]">
                     <div class="podium-rank">3</div>
+                    <div *ngIf="cargando" class="d-flex justify-content-center align-items-center"
+                        style="height: 300px;">
+                        <img src="https://i.gifer.com/ZZ5H.gif" alt="Cargando..." style="height: 80px;" />
+                    </div>
                     <div class="podium-content">
                         <div class="participant-photo-container">
                             <img [src]="obtenerParticipanteFoto(topParticipantes[2].id)" alt="Foto de perfil"
