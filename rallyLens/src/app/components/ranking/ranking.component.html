@@ -28,16 +28,17 @@
                 <!-- Segundo lugar -->
                 <div class="podium-item silver" *ngIf="topParticipantes[1] || cargando">
                     <div class="podium-rank">2</div>
-                    <div *ngIf="cargando" class="d-flex justify-content-center align-items-center"
-                        style="height: 300px;">
-                        <img src="https://i.gifer.com/ZZ5H.gif" alt="Cargando..." style="height: 80px;" />
-                    </div>
                     <div class="podium-content">
+                        <div *ngIf="cargando" class="d-flex justify-content-center align-items-center"
+                            style="height: 300px;">
+                            <img src="https://i.gifer.com/ZZ5H.gif" alt="Cargando..." style="height: 80px;" />
+                        </div>
                         <div class="participant-photo-container" *ngIf="!cargando">
                             <img [src]="obtenerParticipanteFoto(topParticipantes[1].id)" alt="Foto de perfil"
                                 class="participant-photo" loading="lazy">
                         </div>
-                        <h3 class="participant-name" *ngIf="!cargando">{{topParticipantes[1].nombre}} {{topParticipantes[1].apellidos}}
+                        <h3 class="participant-name" *ngIf="!cargando">{{topParticipantes[1].nombre}}
+                            {{topParticipantes[1].apellidos}}
                         </h3>
                         <div class="votes-count" *ngIf="!cargando">
                             <i class="fas fa-heart me-1"></i>
@@ -49,16 +50,17 @@
                 <!-- Primer lugar -->
                 <div class="podium-item gold" *ngIf="topParticipantes[0] || cargando">
                     <div class="podium-rank">1</div>
-                    <div *ngIf="cargando" class="d-flex justify-content-center align-items-center"
-                        style="height: 300px;">
-                        <img src="https://i.gifer.com/ZZ5H.gif" alt="Cargando..." style="height: 80px;" />
-                    </div>
                     <div class="podium-content">
+                        <div *ngIf="cargando" class="d-flex justify-content-center align-items-center"
+                            style="height: 300px;">
+                            <img src="https://i.gifer.com/ZZ5H.gif" alt="Cargando..." style="height: 80px;" />
+                        </div>
                         <div class="participant-photo-container" *ngIf="!cargando">
                             <img [src]="obtenerParticipanteFoto(topParticipantes[0].id)" alt="Foto de perfil"
                                 class="participant-photo" loading="lazy">
                         </div>
-                        <h3 class="participant-name" *ngIf="!cargando">{{topParticipantes[0].nombre}} {{topParticipantes[0].apellidos}}
+                        <h3 class="participant-name" *ngIf="!cargando">{{topParticipantes[0].nombre}}
+                            {{topParticipantes[0].apellidos}}
                         </h3>
                         <div class="votes-count" *ngIf="!cargando">
                             <i class="fas fa-heart me-1"></i>
@@ -70,16 +72,17 @@
                 <!-- Tercer lugar -->
                 <div class="podium-item bronze" *ngIf="topParticipantes[2] || cargando">
                     <div class="podium-rank">3</div>
-                    <div *ngIf="cargando" class="d-flex justify-content-center align-items-center"
-                        style="height: 300px;">
-                        <img src="https://i.gifer.com/ZZ5H.gif" alt="Cargando..." style="height: 80px;" />
-                    </div>
                     <div class="podium-content">
+                        <div *ngIf="cargando" class="d-flex justify-content-center align-items-center"
+                            style="height: 300px;">
+                            <img src="https://i.gifer.com/ZZ5H.gif" alt="Cargando..." style="height: 80px;" />
+                        </div>
                         <div class="participant-photo-container" *ngIf="!cargando">
                             <img [src]="obtenerParticipanteFoto(topParticipantes[2].id)" alt="Foto de perfil"
                                 class="participant-photo" loading="lazy">
                         </div>
-                        <h3 class="participant-name" *ngIf="!cargando">{{topParticipantes[2].nombre}} {{topParticipantes[2].apellidos}}
+                        <h3 class="participant-name" *ngIf="!cargando">{{topParticipantes[2].nombre}}
+                            {{topParticipantes[2].apellidos}}
                         </h3>
                         <div class="votes-count" *ngIf="!cargando">
                             <i class="fas fa-heart me-1"></i>
