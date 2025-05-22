@@ -36,8 +36,6 @@ export class AdminFotografiasComponent {
   ngOnInit() {
     console.log("Entra en admin-fotografias");
     
-
-    this.listarFotos();
     this.listarParticipantes();
   }
 
@@ -64,6 +62,7 @@ export class AdminFotografiasComponent {
           }
 
           this.actualizarFotosPagina();
+          this.cargando = false;
         }
       },
       error => console.error("Error al listar las fotos:", error)
@@ -77,8 +76,9 @@ export class AdminFotografiasComponent {
         if (datos) {
           this.participantes = datos;
           this.numParticipantes = datos.length;
+
+          this.listarFotos();
         }
-        this.cargando = false;
       },
       error => console.error("Error al listar participantes:", error)
     );
