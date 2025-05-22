@@ -11,6 +11,8 @@ import { ServiceFotoService } from '../../services/service-foto.service';
   styleUrl: './ranking.component.css'
 })
 export class RankingComponent {
+  cargando: boolean = true;
+
   topParticipantes: Participante[] = [];
   topFotos: Foto[] = [];
   
@@ -27,6 +29,7 @@ export class RankingComponent {
   }
 
   cargarParticipantes() {
+    this.cargando = true;
     this.serviceParticipante.listarParticipantes().subscribe(
       datos => {
         if(datos) {
@@ -75,6 +78,7 @@ export class RankingComponent {
 
       console.log("topFotos :>> ", this.topFotos);
       
+      this.cargando = false;
   }
 
   obtenerVotosTotalesParticipante(idParticipante: number) {
