@@ -50,4 +50,4 @@ La documentación deberá contener, como mínimo, los siguientes puntos:
 Además, deberá entregarse en formato PDF.
 
 Toda la documentación del proyecto se encontrará en el archivo "Documentación.pdf" del proyecto.
-El manual de instalación se encontrará en el archivo "ManualInstalación.md" del proyecto.
+El manual de instalación se encontrará en el archivo "README.md" del proyecto.
