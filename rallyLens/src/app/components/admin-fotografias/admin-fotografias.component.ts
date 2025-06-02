@@ -42,6 +42,7 @@ export class AdminFotografiasComponent {
   }
 
   listarFotos() {
+    this.cargando = true;
     this.serviceFotos.listarFotos().subscribe(
       datos => {
         if (datos) {
@@ -72,7 +73,6 @@ export class AdminFotografiasComponent {
   }
 
   listarParticipantes() {
-    this.cargando = true;
     this.serviceParticipantes.listarParticipantes().subscribe(
       datos => {
         if (datos) {
