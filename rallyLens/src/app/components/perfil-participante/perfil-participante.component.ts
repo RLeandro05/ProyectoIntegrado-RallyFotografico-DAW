@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ServiceParticipanteService } from '../../services/service-participante.service';
 import { Foto } from '../../modules/foto';
 import { ServiceFotoService } from '../../services/service-foto.service';
+import { ServiceVotoService } from '../../services/service-voto.service';
 
 @Component({
   selector: 'app-perfil-participante',
@@ -36,11 +37,14 @@ export class PerfilParticipanteComponent {
   maxFileSize: number = 0;
   fileSizeError: boolean = false;
 
+  cargando: boolean = true;
+
   constructor(
     private route: Router,
     private fb: FormBuilder,
     private serviceParticipante: ServiceParticipanteService,
-    private serviceFoto: ServiceFotoService
+    private serviceFoto: ServiceFotoService,
+    private serviceVotos: ServiceVotoService
   ) { }
 
   ngOnInit() {
@@ -77,7 +81,7 @@ export class PerfilParticipanteComponent {
         this.profileImage = this.participanteLogueado.foto_perfil;
       }
 
-      this.loadUserPhotos();
+      this.cargarFotos();
     }
   }
 
@@ -99,10 +103,12 @@ export class PerfilParticipanteComponent {
   }
 
   //Función para listar todas las fotos subidas por el participante
-  loadUserPhotos() {
+  cargarFotos() {
     this.serviceFoto.listarFotosParticipante(this.participanteLogueado.id).subscribe(
       datos => {
         this.userPhotos = datos;
+
+        this.cargando = false;
 
         console.log("Listado de fotos del participante :>> ", this.userPhotos);
       },
@@ -265,7 +271,7 @@ export class PerfilParticipanteComponent {
       this.serviceFoto.editarFoto(this.foto).subscribe(
         response => {
           if (response) {
-            this.loadUserPhotos();
+            this.cargarFotos();
             this.resetPhotoForm();
             alert('Foto editada correctamente');
           } else {
@@ -291,7 +297,7 @@ export class PerfilParticipanteComponent {
       this.serviceFoto.subirFoto(this.foto).subscribe(
         response => {
           if (response) {
-            this.loadUserPhotos();
+            this.cargarFotos();
             this.resetPhotoForm();
             alert('Foto subida correctamente');
           } else {
@@ -326,28 +332,37 @@ export class PerfilParticipanteComponent {
     console.log("idFoto :>> ", idFoto);
 
     if (confirm("¿Estás seguro de que quieres eliminar la foto? Perderá todos sus votos en el registro.")) {
-      this.serviceFoto.borrarFoto(idFoto).subscribe(
-        resultado => {
-          if (resultado["fotoBorrada"]) {
-            console.log("resultado :>> ", resultado);
+      this.serviceVotos.borrarVotosIDs(idFoto, 0).subscribe(
+        respuesta => {
+          if (respuesta) {
+            console.log(respuesta);
 
-            alert(resultado["fotoBorrada"]);
+            this.serviceFoto.borrarFoto(idFoto).subscribe(
+              resultado => {
+                if (resultado["fotoBorrada"]) {
+                  console.log("resultado :>> ", resultado);
 
-            //Si se ha borrado correctamente, volver a listar la lista de fotos actualizada
-            this.serviceFoto.listarFotosParticipante(this.participanteLogueado.id).subscribe(
-              datos => {
-                this.userPhotos = datos;
+                  alert(resultado["fotoBorrada"]);
 
-                console.log("Listado de fotos del participante :>> ", this.userPhotos);
-              },
-              error => {
-                console.error('Error al cargar fotos:', error);
-                this.userPhotos = [];
-              }
+                  this.cargarFotos();
+
+                  /*this.serviceFoto.listarFotosParticipante(this.participanteLogueado.id).subscribe(
+                    datos => {
+                      this.userPhotos = datos;
+
+                      console.log("Listado de fotos del participante :>> ", this.userPhotos);
+                    },
+                    error => {
+                      console.error('Error al cargar fotos:', error);
+                      this.userPhotos = [];
+                    }
+                  )*/
+                }
+
+              }, error => console.error("Error al eliminar la foto de la galería del participante :>> ", error)
             )
           }
-
-        }, error => console.error("Error al eliminar la foto de la galería del participante :>> ", error)
+        }, error => console.error("Error al eliminar la foto en el perfil :>>", error)
       )
     }
   }
@@ -356,11 +371,11 @@ export class PerfilParticipanteComponent {
   isOverLimit(): boolean {
     return this.userPhotos.length > this.maxPhotos;
   }
-  
+
 
   //Función para que, al salir del componente, si el admin está logueado, simplemente quite el participante
   ngOnDestroy() {
-    if(localStorage.getItem("adminLogueado")) {
+    if (localStorage.getItem("adminLogueado")) {
       localStorage.removeItem('participanteLogueado');
     }
   }
