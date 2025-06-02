@@ -136,6 +136,7 @@ export class AdminParticipantesComponent {
                   alert("El participante ha sido eliminado de la base de datos incluídas sus fotos correctamente.");
 
                   this.participantes = [];
+                  this.participantesPagina = [];
                   this.cargando = true;
 
                   this.cargarParticipantes();
