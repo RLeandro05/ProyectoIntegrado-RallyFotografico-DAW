@@ -43,6 +43,9 @@ export class AdminFotografiasComponent {
 
   listarFotos() {
     this.cargando = true;
+    this.fotos = [];
+    this.fotosPagina = [];
+    
     this.serviceFotos.listarFotos().subscribe(
       datos => {
         if (datos) {
