@@ -134,7 +134,11 @@ export class AdminFotografiasComponent {
                 if (respuesta.fotoBorrada) {
                   alert(respuesta.fotoBorrada);
 
-                  this.listarFotos();
+                  this.fotos = [];
+                  this.fotosPagina = [];
+                  this.cargando = true;
+
+                  //this.listarFotos();
                   this.listarParticipantes();
                 }
               }, error => console.error("Error al eliminar la foto en el Panel de Administración :>> ", error)
