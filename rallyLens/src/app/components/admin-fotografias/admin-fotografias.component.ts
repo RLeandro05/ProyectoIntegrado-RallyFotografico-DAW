@@ -3,6 +3,7 @@ import { Foto } from '../../modules/foto';
 import { Participante } from '../../modules/participante';
 import { ServiceFotoService } from '../../services/service-foto.service';
 import { ServiceParticipanteService } from '../../services/service-participante.service';
+import { ServiceVotoService } from '../../services/service-voto.service';
 
 @Component({
   selector: 'app-admin-fotografias',
@@ -30,12 +31,13 @@ export class AdminFotografiasComponent {
 
   constructor(
     private serviceFotos: ServiceFotoService,
-    private serviceParticipantes: ServiceParticipanteService
+    private serviceParticipantes: ServiceParticipanteService,
+    private serviceVotos: ServiceVotoService
   ) { }
 
   ngOnInit() {
     console.log("Entra en admin-fotografias");
-    
+
     this.listarParticipantes();
   }
 
@@ -122,15 +124,23 @@ export class AdminFotografiasComponent {
 
   eliminarFoto(idFoto: number) {
     if (confirm("¿Estás seguro de eliminar la foto? Esta acción no se podrá deshacer.")) {
-      this.serviceFotos.borrarFoto(idFoto).subscribe(
+      this.serviceVotos.borrarVotosIDs(idFoto, 0).subscribe(
         respuesta => {
-          if (respuesta.fotoBorrada) {
-            alert(respuesta.fotoBorrada);
+          if (respuesta) {
+            console.log(respuesta);
 
-            this.listarFotos();
-            this.listarParticipantes();
+            this.serviceFotos.borrarFoto(idFoto).subscribe(
+              respuesta => {
+                if (respuesta.fotoBorrada) {
+                  alert(respuesta.fotoBorrada);
+
+                  this.listarFotos();
+                  this.listarParticipantes();
+                }
+              }, error => console.error("Error al eliminar la foto en el Panel de Administración :>> ", error)
+            )
           }
-        }, error => console.error("Error al eliminar la foto en el Panel de Administración :>> ", error)
+        }, error => console.error("Error al borrar los votos de la foto en Administración :>>", error)
       )
     }
   }
@@ -151,10 +161,10 @@ export class AdminFotografiasComponent {
 
   cambiarEstado(foto: Foto) {
     //console.log("Entra en cambiarEstado :>> ", foto);
-    
+
     this.serviceFotos.cambiarEstado(foto).subscribe(
       respuesta => {
-        if(respuesta.success) console.log(respuesta.success);
+        if (respuesta.success) console.log(respuesta.success);
       }, error => console.error("Error al cambiar el estado de la foto :>> ", error)
     )
   }

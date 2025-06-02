@@ -3,6 +3,7 @@ import { ServiceParticipanteService } from '../../services/service-participante.
 import { ServiceFotoService } from '../../services/service-foto.service';
 import { Participante } from '../../modules/participante';
 import { Router } from '@angular/router';
+import { ServiceVotoService } from '../../services/service-voto.service';
 
 @Component({
   selector: 'app-admin-participantes',
@@ -26,6 +27,7 @@ export class AdminParticipantesComponent {
   constructor(
     private serviceParticipantes: ServiceParticipanteService,
     private serviceFotos: ServiceFotoService,
+    private serviceVotos: ServiceVotoService,
     private route: Router
   ) { }
 
@@ -121,42 +123,54 @@ export class AdminParticipantesComponent {
   }
 
   eliminarParticipante(participante: Participante) {
-    console.log("Entra en eliminarParticipante :>> ", participante);
-
+    //console.log("Entra en eliminarParticipante :>> ", participante);
     if (confirm("¿Estás seguro de que quieres eliminar a " + participante.nombre + " " + participante.apellidos + "? No se podrá deshacer.")) {
-      this.serviceParticipantes.eliminarParticipante(participante.id).subscribe(
+      this.serviceVotos.borrarVotosIDs(0, participante.id).subscribe(
         respuesta => {
-          if (respuesta.success) {
-            alert("El participante ha sido eliminado de la base de datos incluídas sus fotos correctamente.");
+          if (respuesta) {
+            console.log(respuesta);
 
-            this.serviceParticipantes.listarParticipantes().subscribe(
-              datos => {
-                if (datos) {
-                  this.participantes = datos;
-                  if (this.paginaActual > this.totalPaginas()) this.paginaActual = this.totalPaginas();
-                  this.actualizarParticipantesPagina();
+            this.serviceParticipantes.eliminarParticipante(participante.id).subscribe(
+              respuesta => {
+                if (respuesta.success) {
+                  alert("El participante ha sido eliminado de la base de datos incluídas sus fotos correctamente.");
+
+                  this.participantes = [];
+                  this.cargando = true;
+
+                  this.cargarParticipantes();
+
+                  /*this.serviceParticipantes.listarParticipantes().subscribe(
+                    datos => {
+                      if (datos) {
+                        this.participantes = datos;
+                        if (this.paginaActual > this.totalPaginas()) this.paginaActual = this.totalPaginas();
+                        this.actualizarParticipantesPagina();
+                      }
+                    },
+                    error => console.error("Error al listar los participantes :>> ", error)
+                  );*/
+
+                  this.serviceFotos.listarFotos().subscribe(
+                    datos => {
+                      console.log("Fotos :>> ", datos);
+                      console.log("Total de fotos :>> ", datos.length);
+
+                      this.numFotos = datos.length;
+
+                      this.numVotos = 0;
+
+                      datos.forEach(foto => this.numVotos += foto.votos);
+                    },
+                    error => console.error("Error al obtener el listado de fotos :>> ", error)
+                  );
                 }
               },
-              error => console.error("Error al listar los participantes :>> ", error)
-            );
-
-            this.serviceFotos.listarFotos().subscribe(
-              datos => {
-                console.log("Fotos :>> ", datos);
-                console.log("Total de fotos :>> ", datos.length);
-
-                this.numFotos = datos.length;
-
-                this.numVotos = 0;
-
-                datos.forEach(foto => this.numVotos += foto.votos);
-              },
-              error => console.error("Error al obtener el listado de fotos :>> ", error)
+              error => console.error("Error al eliminar al participante :>> ", error)
             );
           }
-        },
-        error => console.error("Error al eliminar al participante :>> ", error)
-      );
+        }, error => console.error("Error al eliminar los votos del participante en Administración :>>", error)
+      )
     }
   }
 

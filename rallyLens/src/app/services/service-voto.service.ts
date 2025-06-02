@@ -18,4 +18,13 @@ export class ServiceVotoService {
     };
     return this.http.post<Voto[]>(this.url, cuerpo);
   }
+
+  borrarVotosIDs(idFoto: number, idParticipante: number) {
+    let cuerpo = {
+      servicio: "borrarVotosIDs",
+      idFoto: idFoto,
+      idParticipante: idParticipante
+    };
+    return this.http.post<any>(this.url, cuerpo);
+  }
 }
