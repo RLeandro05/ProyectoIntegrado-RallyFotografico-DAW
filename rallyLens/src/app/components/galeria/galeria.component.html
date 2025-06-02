@@ -15,10 +15,9 @@
 
 
 <div>
-    <div *ngIf="cargando" class="d-flex flex-column justify-content-center align-items-center">
-            <img src="https://i.gifer.com/ZZ5H.gif" alt="Cargando..." style="height: 80px;" />
-            <span class="mt-3 fw-semibold text-muted">Cargando fotografías...</span>
-        </div>
+    <div *ngIf="cargando" class="d-flex justify-content-center align-items-center" style="height: 300px;">
+        <img src="https://i.gifer.com/ZZ5H.gif" alt="Cargando..." style="height: 80px;" />
+    </div>
     <div *ngIf="!cargando" class="gallery-container py-5">
         <div class="container">
             <div class="row g-4">
