@@ -27,4 +27,5 @@ export class ServiceVotoService {
     };
     return this.http.post<any>(this.url, cuerpo);
   }
+  
 }
