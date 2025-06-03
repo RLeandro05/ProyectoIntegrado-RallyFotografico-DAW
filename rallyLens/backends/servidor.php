@@ -1,25 +1,16 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Credentials: true");
-header("Access-Control-Allow-Methods: GET,HEAD,OPTIONS,POST,PUT");
-header("Access-Control-Allow-Headers: Access-Control-Allow-Headers, Origin, X-Requested-With, Content-Type, Accept, Authorization");
-header("Content-Type: application/json; charset=utf-8");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT");
+header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization");
 
-// Configuración de errores (solo para desarrollo)
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-// Conexión a la base de datos
-$conn = conectar2("rallyfotografico", "root", "");
-
-// Manejo de preflight request (CORS)
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
 }
 
-// Obtener y decodificar los datos de entrada
+$conn = conectar2("qamu724", "qamu724.backendrallylens.com", "qamu724", "XL3andr0_x");
+
 $datos = file_get_contents('php://input');
 $objeto = json_decode($datos);
 
@@ -86,6 +77,9 @@ if ($objeto !== null && isset($objeto->servicio)) {
             break;
         case "obtenerVotosParticipante":
             echo json_encode(obtenerVotosParticipante($objeto->idParticipante));
+            break;
+        case "borrarVotosIDs":
+            echo json_encode(borrarVotosIDs($objeto->idFoto, $objeto->idParticipante));
             break;
     }
 }
@@ -170,18 +164,20 @@ function registrarParticipante($objeto)
         }
 
         //Insertar nuevo participante
-        $sql = "INSERT INTO participante (nombre, apellidos, telefono, correo, password) 
-                VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO participante (nombre, apellidos, telefono, correo, password, foto_perfil) 
+                VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
 
         $telefono = isset($p->telefono) ? $p->telefono : null;
+        $foto_perfil = isset($p->foto_perfil) ? $p->foto_perfil : null;
 
         $stmt->execute([
             htmlspecialchars(strip_tags($p->nombre)),
             htmlspecialchars(strip_tags($p->apellidos)),
             htmlspecialchars(strip_tags($telefono)),
             $p->correo,
-            password_hash($p->password, PASSWORD_BCRYPT)
+            password_hash($p->password, PASSWORD_BCRYPT),
+            $foto_perfil
         ]);
 
         return true;
@@ -684,8 +680,44 @@ function obtenerVotosParticipante($idParticipante)
     }
 }
 
+function borrarVotosIDs($idFoto = 0, $idParticipante = 0)
+{
+    global $conn;
+
+    if ($idFoto === 0 && $idParticipante === 0) {
+        return ["error" => "Estructura incorrecta", "detalle" => "Falta idFoto o idParticipante"];
+    }
+
+    try {
+        $mensajes = [];
+
+        if ($idFoto != 0) {
+            $stmt = $conn->prepare("DELETE FROM votos WHERE id_fotografia = ?");
+            $stmt->execute([$idFoto]);
+            $mensajes[] = "Votos asociados a la foto borrados";
+        }
+
+        if ($idParticipante != 0) {
+            // Borrar votos emitidos por el participante
+            $stmt1 = $conn->prepare("DELETE FROM votos WHERE id_participante = ?");
+            $stmt1->execute([$idParticipante]);
+
+            // Borrar votos recibidos por el participante
+            $stmt2 = $conn->prepare("DELETE FROM votos WHERE id_participanteVotado = ?");
+            $stmt2->execute([$idParticipante]);
+
+            $mensajes[] = "Votos del participante borrados (emitidos y recibidos)";
+        }
+
+        return ["votosBorrados" => $mensajes];
+
+    } catch (PDOException $e) {
+        return ["error" => "Error en la base de datos", "detalle" => $e->getMessage()];
+    }
+}
+
 //Función para conectar a la base de datos
-function conectar2($bd, $usuario, $clave)
+function conectar2($bd, $hostname, $usuario, $clave)
 {
     try {
         $opciones = [
@@ -694,7 +726,7 @@ function conectar2($bd, $usuario, $clave)
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
         ];
 
-        $dsn = 'mysql:host=localhost;dbname=' . $bd . ';charset=utf8';
+        $dsn = 'mysql:host=' . $hostname . ';dbname=' . $bd . ';charset=utf8';
         $conexion = new PDO($dsn, $usuario, $clave, $opciones);
 
         return $conexion;
