@@ -23,7 +23,6 @@
     font-weight: 600;
 }
 
-/* Botón Editar Perfil (bajo la foto) */
 .profile-picture-container+.btn-outline-secondary {
     border-color: #FE7058;
     color: #FE7058;
@@ -36,7 +35,6 @@
     border-color: #FE7058;
 }
 
-/* Estilos para la sección de fotos subidas */
 .photo-actions .btn-outline-secondary {
     border-color: #6c757d;
     color: #6c757d;
@@ -65,13 +63,11 @@
     background-color: #f8f9fa;
     height: 100%;
     box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
-    /* Más notoriedad en el box-shadow */
 }
 
 .photo-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
-    /* Aumentar la sombra al hacer hover */
 }
 
 .add-photo-container {
@@ -89,10 +85,8 @@
     transform: scale(1.1) translate(-50%, -50%);
     box-shadow: 0 6px 12px rgba(254, 112, 88, 0.4);
     animation: none;
-    /* Detiene la animación al hacer hover */
 }
 
-/* Animación de levitación */
 @keyframes floating {
     0% {
         transform: translate(-50%, -50%) translateY(0px);
@@ -111,7 +105,6 @@
     animation: floating 3s ease-in-out infinite;
 }
 
-/* Estilos para el modal de la foto */
 .profile-modal {
     display: none;
     position: fixed;
@@ -174,7 +167,6 @@
     color: #FE7058;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .profile-container .row {
         flex-direction: column;
@@ -187,7 +179,6 @@
 
     .add-photo-container {
         background-color: white;
-        /* Fondo blanco */
         border-radius: 8px;
         transition: all 0.3s ease;
     }
@@ -205,13 +196,11 @@
         font-size: 30px;
     }
 
-    /* Ajustes para la galería de fotos en móviles */
     .photo-card {
         transition: transform 0.3s ease;
         padding: 10px;
         border-radius: 8px;
         background-color: white;
-        /* Fondo blanco */
         height: 100%;
     }
 
@@ -222,13 +211,11 @@
     }
 }
 
-/* Centrado del título */
 h2 {
     color: #333;
     text-align: center;
 }
 
-/* Alineación centrada de las imágenes */
 .photo-card img {
     display: block;
     margin-left: auto;
@@ -299,29 +286,28 @@ h2 {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden; /* Oculta el texto inicialmente */
+    overflow: hidden;
     white-space: nowrap;
-    transition: all 0.3s ease; /* Transición suave */
-    width: 32px; /* Ancho inicial (solo para el ícono) */
+    transition: all 0.3s ease;
+    width: 32px;
     transform: scale(2em);
   }
   
   .edit-button .edit-text {
-    opacity: 0; /* Texto invisible al inicio */
+    opacity: 0;
     width: 0;
     margin-left: 0;
     transition: all 0.3s ease;
   }
   
-  /* Efecto al pasar el cursor (hover) */
   .edit-button:hover {
-    width: 100px; /* Ancho final (incluye texto) */
+    width: 100px;
   }
   
   .edit-button:hover .edit-text {
-    opacity: 1; /* Texto visible */
+    opacity: 1;
     width: auto;
-    margin-left: 8px; /* Espacio entre ícono y texto */
+    margin-left: 8px;
   }
 
   .delete-button {
@@ -331,7 +317,7 @@ h2 {
     overflow: hidden;
     white-space: nowrap;
     transition: all 0.3s ease;
-    width: 32px; /* Ancho inicial (solo el ícono) */
+    width: 32px;
   }
   
   .delete-button .delete-text {
@@ -341,18 +327,16 @@ h2 {
     transition: all 0.3s ease;
   }
   
-  /* Efecto hover */
   .delete-button:hover {
-    width: 110px; /* Ajusta según el texto "Eliminar" */
+    width: 110px;
   }
   
   .delete-button:hover .delete-text {
     opacity: 1;
     width: auto;
-    margin-left: 8px; /* Espacio entre ícono y texto */
+    margin-left: 8px;
   }
 
-  /* Estados de las fotos (sin animación) */
 #pendiente {
     position: relative;
     top: 6px;
@@ -392,7 +376,6 @@ h2 {
     border-left: 4px solid #c82333;
 }
 
-/* Destaca el botón de eliminar cuando está en modo "sobre límite" */
 .enabled-delete {
     position: relative;
     z-index: 1001;

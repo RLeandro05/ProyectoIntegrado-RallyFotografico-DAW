@@ -1,37 +1,32 @@
-/* Estilo global del footer */
 footer {
     font-family: 'Open Sans', sans-serif;
 }
 
-/* Títulos de las columnas */
 footer h5 {
     font-family: 'Poppins', sans-serif;
-    color: #FE7058; /* Color temático */
+    color: #FE7058;
     font-weight: bold;
 }
 
-/* Enlaces útiles */
 footer a {
     color: white;
     transition: color 0.3s ease-in-out;
 }
 
 footer a:hover {
-    color: #FE7058; /* Cambiar al color temático al pasar el mouse */
+    color: #FE7058;
 }
 
-/* Iconos de redes sociales */
 .social-icons i {
     font-size: 1.2rem;
     transition: transform 0.3s ease-in-out;
 }
 
 .social-icons i:hover {
-    transform: scale(1.2); /* Efecto de escala al pasar el mouse */
+    transform: scale(1.2);
 }
 
-/* Texto del copyright */
 footer p {
     font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.8); /* Color más suave para el texto */
+    color: rgba(255, 255, 255, 0.8);
 }

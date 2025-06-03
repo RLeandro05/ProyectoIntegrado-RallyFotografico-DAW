@@ -26,7 +26,6 @@
                 </ul>
             </nav>
 
-            <!-- Dentro del div "me-3 d-none d-md-block" (versión desktop) -->
             <div class="me-3 d-none d-xxl-block">
                 <div *ngIf="isLoged; else showButtons" class="d-flex align-items-center gap-2">
                     <!-- Si el participante inició sesión, mostrar botón de bienvenida y cierre de sesión. 
@@ -83,7 +82,7 @@
             <div *ngIf="isLoged; else notLogged">
                 <li class="mb-2">
                     <button *ngIf="!adminLogueado" class="btn btn-outline-light w-100" style="background-color: #FE7058; color: white;"
-                        routerLink="/perfil-participante" (click)="toggleMenu()"> <!-- Redirige a /perfil -->
+                        routerLink="/perfil-participante" (click)="toggleMenu()">
                         Ver Perfil
                     </button>
                 </li>
