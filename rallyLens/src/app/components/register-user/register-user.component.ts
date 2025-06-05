@@ -41,7 +41,7 @@ export class RegisterUserComponent {
       this.serviceParticipante.registrarParticipante(this.participante).subscribe(
         datos => {
           if (!datos) {
-            alert("El correo introducido ya está registrado. Ingrese uno válido.");
+            alert(datos);
           } else {
             console.log("DATOS :>> ", datos);
 
