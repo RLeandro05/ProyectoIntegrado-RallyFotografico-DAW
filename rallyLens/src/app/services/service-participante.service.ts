@@ -25,7 +25,7 @@ export class ServiceParticipanteService {
     };
     console.log("Cuerpo :>> ", cuerpo);
 
-    return this.http.post<Participante>(this.url, cuerpo);
+    return this.http.post<any>(this.url, cuerpo);
   }
 
   loguearParticipante(participante: Participante) {
