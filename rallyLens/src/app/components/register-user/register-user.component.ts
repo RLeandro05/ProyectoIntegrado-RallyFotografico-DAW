@@ -40,8 +40,8 @@ export class RegisterUserComponent {
 
       this.serviceParticipante.registrarParticipante(this.participante).subscribe(
         datos => {
-          if (datos["correoExiste"] || datos["telefonoExiste"]) {
-            alert(datos["correoExiste"] || datos["telefonoExiste"]);
+          if (datos["correoExiste"] || datos["telefonoExiste"] || datos["telefonoInvalido"]) {
+            alert(datos["correoExiste"] || datos["telefonoExiste"] || datos["telefonoInvalido"]);
           } else {
             console.log("DATOS :>> ", datos);
 
