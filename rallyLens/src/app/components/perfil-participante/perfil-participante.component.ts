@@ -214,7 +214,7 @@ export class PerfilParticipanteComponent {
           else {
             const mensaje =
               respuesta.faltaParticipante || respuesta.noEncuentra ||
-              respuesta.correoExiste || respuesta.noCambia || respuesta["telefonoInvalido"] || null;
+              respuesta.correoExiste || respuesta.telefonoExiste || respuesta.telefonoInvalido || respuesta.noCambia || null;
 
             mensaje ? alert(mensaje) : console.log(respuesta.error);
           }
